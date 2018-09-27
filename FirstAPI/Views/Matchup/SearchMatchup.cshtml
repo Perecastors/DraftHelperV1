@@ -1,0 +1,406 @@
+﻿@model IEnumerable<FirstAPI.Models.MatchupInfos>
+
+@{
+    ViewBag.Title = "Search Matchup";
+    SelectList listChamp = FirstAPI.WebHelperTools.SelectListHelper.getAllChampions();
+}
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+        <fieldset class="panel panel-default" style="padding-bottom:10px;">
+            <legend>Search Parameters Matchup</legend>
+            <div class="col-md-3 form-horizontal">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label align-middle"><strong>Ally Top</strong></label>
+                    </div>
+                    @if (ViewBag.Role != 1)
+                    {
+                        <div class="col-md-8">
+                            @Html.DropDownList("AllyTop", listChamp, new { @id = "AllyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="col-md-8 text-center">
+                                <label class="control-label text-center"><strong> You are the Top </strong></label>
+                            </div>
+                        </text>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"><strong>Ally jungle</strong></label>
+                    </div>
+                    @if (ViewBag.Role != 2)
+                    {
+                        <div class="col-md-8">
+                            @Html.DropDownList("AllyJungle", listChamp, new { @id = "AllyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="col-md-8 text-center">
+                                <label class="control-label text-center"><strong> You are the Jungler </strong></label>
+                            </div>
+                        </text>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"><strong>Ally Mid</strong></label>
+                    </div>
+                    @if (ViewBag.Role != 3)
+                    {
+                        <div class="col-md-8">
+                            @Html.DropDownList("AllyMid", listChamp, new { @id = "AllyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="col-md-8 text-center">
+                                <label class="control-label text-center"><strong> You are the Mid </strong></label>
+                            </div>
+                        </text>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"><strong>Ally Adc </strong></label>
+                    </div>
+                    @if (ViewBag.Role != 4)
+                    {
+                        <div class="col-md-8">
+                            @Html.DropDownList("AllyAdc", listChamp, new { @id = "AllyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="col-md-8 text-center">
+                                <label class="control-label"><strong> You are the Adc </strong></label>
+                            </div>
+                        </text>
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"><strong>Ally Support</strong></label>
+                    </div>
+                    @if (ViewBag.Role != 5)
+                    {
+                        <div class="col-md-8">
+                            @Html.DropDownList("AllySupoort", listChamp, new { @id = "AllySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    }
+                    else
+                    {
+                        <text>
+                            <div class="col-md-8 text-center">
+                                <label class="control-label"><strong>You are the Support</strong></label>
+                            </div>
+                        </text>
+                    }
+                </div>
+                <br/>
+                <input type="button" value="Create New Matchup" onclick="javascript: createNewMatchup();" />
+                <br />
+            </div>
+            <div class="col-md-3 form-horizontal">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label"><strong>Ennemy Top</strong></label>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label"><strong>Ennemy Jungle</strong></label>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label"><strong>Ennemy Mid</strong></label>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label"><strong>Ennemy Adc</strong></label>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="control-label"><strong>Ennemy Support</strong></label>
+                    </div>
+                    <div class="col-md-7">
+                        @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+            
+        </fieldset>
+    </div>
+</div>
+<style>
+    img {
+        max-width: 36px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        max-width: 1400px;
+    }
+
+    .select2-selection--single {
+        height: 34px !important;
+    }
+
+    .select2-results__group {
+        text-align: center;
+    }
+
+    .select2-results__options--nested {
+        font-size: 12px;
+        width: 140px;
+    }
+
+        .select2-results__options--nested:last-child {
+            width: 136px;
+        }
+
+
+    /*..row{
+            border:1px solid black;
+        }
+        span{
+            border:1px solid black;
+        }*/
+</style>
+<div class="row" style="margin-bottom: 10px">
+    <div class="col-md-3 text-center">
+        Ally Team
+    </div>
+    <div class="col-md-3 text-center">
+        Ennemy Team
+    </div>
+    <div class="col-md-6 text-center">
+        Best Answers 
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <span class="col-md-2" style="margin-left:4px">
+            Top
+        </span>
+        <span class="col-md-2" style="margin-left:-6px">
+            Jungle
+        </span>
+        <span class="col-md-2 " style="margin-left: 9px;">
+            Mid
+        </span>
+        <span class="col-md-2 " style="margin-left: -2px;">
+            Adc
+        </span>
+        <span class="col-md-2 " style="margin-left: -11px;">
+            Support
+        </span>
+    </div>
+    <div class="col-md-3">
+        <span class="col-md-2" style="margin-left:5px">
+            Top
+        </span>
+        <span class="col-md-2" style="margin-left:-9px">
+            Jungle
+        </span>
+        <span class="col-md-2" style="margin-left: 11px;">
+            Mid
+        </span>
+        <span class="col-md-2" style="margin-left: -1px;">
+            Adc
+        </span>
+        <span class="col-md-2" style="margin-left: -10px;">
+            Support
+        </span>
+    </div>
+    <div class="col-md-5 text-center">
+        @*<div class="col-md-2 text-center">
+                Picks
+            </div>
+            <div class="col-md-2 text-center">
+                Comments
+            </div>*@
+    </div>
+</div>
+<hr />
+<div id="searchResults">
+</div>
+<div id="searchResults2">
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+            var $state = $('<span><img style="height:20px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            return $state;
+        }
+
+        $(".ddChamp").select2({
+            placeholder: "Choose...",
+            allowClear: true,
+            templateResult: formatState,
+            templateSelection: formatState,
+            minimumResultsForSearch: 1,
+        });
+
+        $('.ddChamp').on('select2:select', function (e) {
+            updateSearch();
+        });
+
+        $('.ddChamp').on('select2:clear', function (e) {
+            updateSearch();
+        });
+
+        //search at the end of process
+        updateSearch();
+    })
+
+    function deleteMatchup(matchupId, matchupResponseId) {
+        console.log(matchupId);
+        console.log(matchupResponseId);
+        var r = confirm("Are your sure to delete ?");
+        if (r == true) {
+            $.ajax({
+                type: "POST",
+                url: '@(Url.Action("DeleteMatchup",null, new { controller = "Matchup" }, Request.Url.Scheme))',
+                data: JSON.stringify({ matchupId: matchupId, matchupResponseId: matchupResponseId }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (e) { window.location.reload() },
+                dataType: 'json'
+            });
+        }
+    }
+
+    function editMatchup(matchupId) {
+        var url = '@Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme)?matchupId=' + matchupId
+       // console.log(url);
+        window.open(url);
+    }
+
+    function createNewMatchup() {
+        //recup value des dropdown
+        var allyTop = $("#AllyTop").val();
+        var allyJungle = $("#AllyJungle").val();
+        var allyMid = $("#AllyMid").val();
+        var allyAdc = $("#AllyAdc").val();
+        var allySupport = $("#AllySupport").val();
+
+        var ennemyTop = $("#EnnemyTop").val();
+        var ennemyJungle = $("#EnnemyJungle").val();
+        var ennemyMid = $("#EnnemyMid").val();
+        var ennemyAdc = $("#EnnemyAdc").val();
+        var ennemySupport = $("#EnnemySupport").val();
+
+        //Creation object to post
+        var objA = new Object();
+        objA.playerId = '@(ViewBag.PlayerId)';
+        objA.allyTop = allyTop;
+        objA.allyJungle = allyJungle;
+        objA.allyMid = allyMid;
+        objA.allyAdc = allyAdc;
+        objA.allySupport = allySupport;
+        objA.ennemyTop = ennemyTop;
+        objA.ennemyJungle = ennemyJungle;
+        objA.ennemyMid = ennemyMid;
+        objA.ennemyAdc = ennemyAdc;
+        objA.ennemySupport = ennemySupport;
+        objA.answers = new Array();
+        var objs = JSON.stringify(objA);
+
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("CreateNewMatchup",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+            data: objs,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            //$('#searchResults').html(data.responseText);
+            var matchupId = data.responseJSON
+            if (data.responseJSON !== undefined) {
+                var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
+                window.open(url, "_self");
+            }
+        })
+    }
+
+    function updateSearch() {
+
+        //recup value des dropdown
+        var allyTop = $("#AllyTop").val();
+        var allyJungle = $("#AllyJungle").val();
+        var allyMid = $("#AllyMid").val();
+        var allyAdc = $("#AllyAdc").val();
+        var allySupport = $("#AllySupport").val();
+
+        var ennemyTop = $("#EnnemyTop").val();
+        var ennemyJungle = $("#EnnemyJungle").val();
+        var ennemyMid = $("#EnnemyMid").val();
+        var ennemyAdc = $("#EnnemyAdc").val();
+        var ennemySupport = $("#EnnemySupport").val();
+
+        //Creation object to post
+        var objA = new Object();
+        objA.playerId = '@(ViewBag.PlayerId)';
+        objA.allyTop = allyTop;
+        objA.allyJungle = allyJungle;
+        objA.allyMid = allyMid;
+        objA.allyAdc = allyAdc;
+        objA.allySupport = allySupport;
+        objA.ennemyTop = ennemyTop;
+        objA.ennemyJungle = ennemyJungle;
+        objA.ennemyMid = ennemyMid;
+        objA.ennemyAdc = ennemyAdc;
+        objA.ennemySupport = ennemySupport;
+        objA.answers = new Array();
+
+        var objs = JSON.stringify(objA);
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+            data:  objs,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            $('#searchResults2').html(data.responseText);
+        })
+    }
+
+</script>

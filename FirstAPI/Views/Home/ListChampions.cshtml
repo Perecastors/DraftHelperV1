@@ -1,0 +1,40 @@
+﻿@model IEnumerable<FirstAPI.DbContext.Champion>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ChampionId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChampionName)
+        </th>
+        <th>
+            Icons
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChampionId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChampionName)
+        </td>
+        <td>
+            @{
+                string imgsrc = "http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/" + item.ChampionName + ".png";
+             }
+            <img style="height:48px" src=@(imgsrc) />
+            </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ChampionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ChampionId }) |
+            @Html.ActionLink("Delete", "DeleteChampion", new { controller="Home", id=item.ChampionId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<FirstAPI.DbContext.Champion>
+
+@{
+    ViewBag.Title = "My Champion Pool";
+    int i = 0;
+
+}
+
+<br/>
+<br />
+<p>
+    @Html.Partial("AddChampion", new FirstAPI.DbContext.Champion())
+</p>
+<br />
+<br />
+<br />
+<table class="table">
+    <tr>
+        <td width="200px">
+            My Champion's List :
+        </td>
+        <td>
+            @foreach (var item in Model)
+            {
+                i++;
+                <text>
+            <span class="containerTest">
+                <a href="@Url.Action("DeleteChampion","ChampionPool",new {championId=item.ChampionId,playerId = ViewBag.PlayerId },null)"><img class="deleteChampIcon" src="~/Content/erase.png" /></a>
+                <img style="height:48px" src="http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion/@(item.ChampionName).png" />
+            </span>
+                </text>
+                if (i % 7 == 0)
+                {
+                  @Html.Raw("</td><tr><td></td><td>")
+                }
+            }
+        </td>
+    </tr>
+
+</table>
+<style>
+    .containerTest{
+        position:relative;
+        margin-right:5px;
+        margin-bottom:10px;
+    }
+
+    .deleteChampIcon{
+        height: 16px;
+        position: absolute;
+        top: -20px;
+        left: 40px;
+    }
+
+    .table tbody > tr > td, .table tfoot > tr > td{
+        border-top:none;
+    }
+</style>

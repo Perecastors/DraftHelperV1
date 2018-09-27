@@ -1,0 +1,451 @@
+﻿@model FirstAPI.Models.MatchupInfos
+
+@{
+    SelectList listChamp = FirstAPI.WebHelperTools.SelectListHelper.getAllChampions();
+}
+<p></p>
+<div class="row" style="width:95%;margin-left:56px">
+    <div class="row">
+        <div id="draftArea">
+            <div class="col-md-3">
+                <div id="ally1" class="selectChamp">
+                    <strong>Ally Top :</strong><br />
+                    @if (ViewBag.Role != 1)
+                    {
+                        @Html.DropDownList("AllyTop", listChamp, new { @id = "AllyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        <text>
+                            <strong>You are the Toplaner</strong>
+                        </text>
+                    }
+                </div>
+
+                <div id="ally1" class="selectChamp">
+                    <strong>Ally jungle :</strong><br />
+                    @if (ViewBag.Role != 2)
+            {
+                        @Html.DropDownList("AllyJungle", listChamp, new { @id = "AllyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        <text>
+                            <strong>You are the Jungler</strong>
+                        </text>
+                    }
+
+                </div>
+                <div id="ally1" class="selectChamp">
+                    <strong>Ally Mid :</strong><br />
+                    @if (ViewBag.Role != 3)
+            {
+                        @Html.DropDownList("AllyMid", listChamp, new { @id = "AllyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        <text>
+                            <strong>You are the Midlaner</strong>
+                        </text>
+                    }
+                </div>
+                <div id="ally1" class="selectChamp">
+                    <strong>Ally Adc :</strong><br />
+                    @if (ViewBag.Role != 4)
+            {
+                        @Html.DropDownList("AllyAdc", listChamp, new { @id = "AllyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        <text>
+                            <strong>You are the Adc</strong>
+                        </text>
+                    }
+                </div>
+                <div id="ally1" class="selectChamp">
+                    <strong>Ally Support :</strong><br />
+                    @if (ViewBag.Role != 5)
+            {
+                        @Html.DropDownList("AllySupport", listChamp, new { @id = "AllySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        <text>
+                            <strong>You are the Support</strong>
+                        </text>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-left:-15px">
+                @Html.Partial("MyChampionsList", (List<FirstAPI.DbContext.Champion>)ViewBag.MyChampList)
+            </div>
+            <div class="col-md-3">
+                <div id="ennemy1" class="selectChamp">
+                    <strong>Top ennemy :</strong><br />
+                    @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                </div>
+                <div id="ennemy2" class="selectChamp">
+                    <strong>Jungle ennemy :</strong><br />
+                    @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                </div>
+                <div id="ennemy3" class="selectChamp">
+                    <strong>Mid ennemy :</strong><br />
+                    @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                </div>
+                <div id="ennemy4" class="selectChamp">
+                    <strong>Adc ennemy :</strong><br />
+                    @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                </div>
+                <div id="ennemy5" class="selectChamp">
+                    <strong>Support ennemy :</strong>
+                    <br />
+                    @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr id="detecteur" style="width:95%;margin-right: 67px;" />
+    <div class="row col-md-6">
+        <div id="resumeTableau">
+            <table>
+                <tr>
+                    <th></th>
+                    <th style="text-align:center">Top</th>
+                    <th style="text-align:center">Jungle</th>
+                    <th style="text-align:center">Mid</th>
+                    <th style="text-align:center">Adc</th>
+                    <th style="text-align:center">Support</th>
+                </tr>
+                <tr class="displayChoices">
+                    <td style="width:100px;height:55px;"><strong>Ally Team</strong></td>
+                    @if (ViewBag.Role != 1)
+            {
+                        <td id="displayAllyTop"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (ViewBag.Role != 2)
+                    {
+                        <td id="displayAllyJungle"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (ViewBag.Role != 3)
+                    {
+                        <td id="displayAllyMid"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (ViewBag.Role != 4)
+                    {
+                        <td id="displayAllyAdc"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (ViewBag.Role != 5)
+            {
+                        <td id="displayAllySupport"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                </tr>
+                <tr class="displayChoices">
+                    <td style="width:100px;height: 55px;"><strong>Ennemy Team</strong></td>
+                    <td id="displayEnnemyTop"></td>
+                    <td id="displayEnnemyJungle"></td>
+                    <td id="displayEnnemyMid"></td>
+                    <td id="displayEnnemyAdc"></td>
+                    <td id="displayEnnemySupport"></td>
+                </tr>
+            </table>
+            <div style="width:621px">
+                <br />
+                <div class="col-md-offset-4">
+                    <input type="button" value="Save" onclick="javascript: saveAnswer();" />
+                </div>
+                <br />
+            </div>
+        </div>
+
+    </div>
+    <div class="row col-md-6">
+        <p>
+            Your answers :
+        </p>
+        <div id="answersArea"></div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        //systeme pour scroller le tableau des picks
+        $(window).scroll(
+            function () {
+                var total = $('#detecteur').offset().top - $(window).scrollTop()
+                if (total < 0) {
+                    $('#resumeTableau').addClass("scroller");
+                } else {
+                    $('#resumeTableau').removeClass("scroller");
+                }
+            }
+            );
+
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+            var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            return $state;
+        }
+
+        $(".ddChamp").select2({
+            placeholder: "Choose...",
+            allowClear: true,
+            templateResult: formatState,
+            templateSelection: formatState,
+            minimumResultsForSearch: 1,
+        });
+
+        $('.ddChamp').on('select2:select', function (e) {
+
+            var champName = $('#' + e.currentTarget.id).select2('data')[0].text;
+            var targetId = "#display" + e.currentTarget.id
+            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+            var $state = $('<img style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
+
+            if (champName !== "") {
+                $(targetId).html($state);
+            } else {
+                $(targetId).html('');
+            }
+        });
+
+        $('.ddChamp').on('select2:open', function (e) {
+            //setTimeout(function () {
+            //    $(".select2-dropdown--below").css('width', '1110px');
+            //    $(".select2-dropdown--above").css('width', '1110px');
+            //}, 100);
+        });
+
+        $('.ddChamp').on('select2:clear', function (e) {
+            var targetId = "#display" + e.currentTarget.id
+            $(targetId).html('');
+        });
+
+        $(".imgChampion").on('click', function (e) {
+            var champName = e.target.alt;
+            var champId = e.target.getAttribute('data-id');
+            var isAlreadyAdded = $("#myAnswerIs" + champName);
+            if (isAlreadyAdded[0] === undefined) {
+                $("#img" + champName).addClass("selectedChampion");
+                addAnswer(champId, champName);
+            }
+        })
+
+        $('.ddChamp').each(function (index,e) {
+            var champName = $('#' + e.id).select2('data')[0].text;
+            var targetId = "#display" + e.id
+            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+            var $state = $('<img style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
+
+            if (champName !== "") {
+                $(targetId).html($state);
+            } else {
+                $(targetId).html('');
+            }
+        });
+
+        @if(Model.answers?.Count > 0)
+        {
+            <text>
+            function fillAnswers() {
+                var answers = new Object();
+                answers = @(Html.Raw(Json.Encode(Model.answers)));
+                console.log(answers);
+                for(var i=0; i < answers.length ;i++){
+                    addAnswer(answers[i].Id,answers[i].Name);
+                    //remplir le textarea
+                    $("#textarea_"+answers[i].Name).val(answers[i].Comments);
+                }
+            }
+            fillAnswers();
+            </text>
+        }
+    });
+
+
+
+    function addAnswer(champId, champName) {
+        var text = "<div class='myAnswers' id='myAnswerIs" + champName + "'>";
+        text = text + "<img alt='" + champName + "' style='height:48px;' src='http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion/" + champName + ".png' />";
+        text = text + "<textarea id='textarea_"+champName+"' placeholder=' Add informations about the matchup' style='width:100%;height:100%;resize: none;margin-left:10px;'></textarea>";
+        text = text + "<span style='float:right;cursor:pointer;' onclick='javascript:deleteAnswer(event)'><img style='height:25px' src='/Content/close-button.jpg' /></span>"
+        text = text + "<input id='hidden_" + champName + "' type='hidden' value='" + champId + "'>";
+        text = text + "</div>";
+
+        $("#answersArea").before(text);
+    }
+
+    function deleteAnswer(event) {
+        var zoneTodestroy = event.target.parentElement.parentElement.id;
+        $("#img" + zoneTodestroy.substring(10)).removeClass("selectedChampion");
+        $('#' + zoneTodestroy).remove();
+    }
+
+    function saveAnswer() {
+
+        //recup value des dropdown
+        var allyTop = $("#AllyTop").val();
+        var allyJungle = $("#AllyJungle").val();
+        var allyMid = $("#AllyMid").val();
+        var allyAdc = $("#AllyAdc").val();
+        var allySupport = $("#AllySupport").val();
+
+        var ennemyTop = $("#EnnemyTop").val();
+        var ennemyJungle = $("#EnnemyJungle").val();
+        var ennemyMid = $("#EnnemyMid").val();
+        var ennemyAdc = $("#EnnemyAdc").val();
+        var ennemySupport = $("#EnnemySupport").val();
+
+        //Creation object to post
+        var objA = new Object();
+        objA.playerId = '@(ViewBag.PlayerId)';
+        objA.matchupId = '@(ViewBag.MatchupId)';
+        objA.allyTop = allyTop;
+        objA.allyJungle = allyJungle;
+        objA.allyMid = allyMid;
+        objA.allyAdc = allyAdc;
+        objA.allySupport = allySupport;
+        objA.ennemyTop = ennemyTop;
+        objA.ennemyJungle = ennemyJungle;
+        objA.ennemyMid = ennemyMid;
+        objA.ennemyAdc = ennemyAdc;
+        objA.ennemySupport = ennemySupport;
+        objA.answers = new Array();
+
+        //recup les answers guid
+        //recup les commentaires
+        var arrayAnswers = $(".myAnswers");
+        for (var i = 0; i < arrayAnswers.length; i++) {
+            var answer = new Object();
+            answer.Id = arrayAnswers[i].lastElementChild.getAttribute('value');
+            answer.Comments = arrayAnswers[i].children[1].value;
+            objA.answers.push(answer);
+        }
+
+        var objs = JSON.stringify(objA);
+        //console.log(objs);
+
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("AddMatchup",null, new { controller = "Matchup" }, Request.Url.Scheme))',
+            data: objs,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            alert("matchup saved");
+            window.open('@(Url.Action("SearchMatchup",null, new { controller = "Matchup" ,playerId=ViewBag.playerId }, Request.Url.Scheme))', "_self")
+        });
+    }
+</script>
+<style>
+    .select2-selection--single {
+        height: 34px !important;
+    }
+
+    .select2-results__group {
+        text-align: center;
+    }
+
+    .select2-results__options--nested {
+        font-size: 12px;
+        width: 140px;
+    }
+
+        .select2-results__options--nested:last-child {
+            width: 136px;
+        }
+
+    .selectChamp {
+        width: 250px;
+        margin-bottom: 10px;
+    }
+
+    .displayChoices td {
+        width: 56px;
+        text-align: center;
+    }
+
+    .displayChoices {
+        margin-bottom: 10px;
+    }
+
+    .myAnswers {
+        height: 150px;
+        margin-bottom: 20px;
+    }
+
+    .scroller {
+        position: fixed;
+        top: 60px;
+    }
+
+    .imgChampion {
+        cursor: pointer;
+    }
+
+    .selectedChampion {
+        filter: grayscale(100%) brightness(2);
+    }
+
+    body {
+        background-image: url('https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/bg-default.jpg');
+        background-repeat: repeat-x;
+        background-color: black;
+    }
+
+    .body-content {
+        background-image: url("https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/frame-center.png");
+        background-repeat: repeat-y;
+        background-position: 50% 0;
+        background-size: 100%;
+    }
+
+    .container {
+        max-width: 1400px;
+    }
+
+    .sectionDown {
+        background: transparent url("https://lolstatic-a.akamaihd.net/lolkit/1.1.6/resources/images/frame-sprite.png") no-repeat 50% -284px;
+        bottom: -7px;
+        left: 0;
+        height: 130px;
+    }
+
+    #saveButton {
+        background: url(https://cdn.leagueoflegends.com/riotbar/prod/1.6.169/images/account/sprites-s2a5147f733.png) 0 -293px;
+        color: #b2d9db;
+        float: right;
+        height: 41px;
+        line-height: 28px;
+        margin: 5px 0 0 17px;
+        padding: 6px 0 0 0;
+        position: relative;
+        text-align: center;
+        width: 129px;
+        z-index: 0;
+    }
+</style>

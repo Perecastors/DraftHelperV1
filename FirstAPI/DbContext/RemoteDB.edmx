@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChampionPools">
+          <Key>
+            <PropertyRef Name="ChampionPoolId" />
+            <PropertyRef Name="PlayerId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionPoolId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Champions">
+          <Key>
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChampionName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChampionTags">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+            <PropertyRef Name="TagId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatchupComments">
+          <Key>
+            <PropertyRef Name="MatchupCommentId" />
+          </Key>
+          <Property Name="MatchupCommentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MatchupId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CommentText" Type="text" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatchupResponses">
+          <Key>
+            <PropertyRef Name="MatchupResponseId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="MatchupResponseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Matchups">
+          <Key>
+            <PropertyRef Name="MatchupId" />
+          </Key>
+          <Property Name="MatchupId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EnemyTop" Type="uniqueidentifier" />
+          <Property Name="EnemyJungle" Type="uniqueidentifier" />
+          <Property Name="EnemyMid" Type="uniqueidentifier" />
+          <Property Name="EnemyAdc" Type="uniqueidentifier" />
+          <Property Name="EnemySupport" Type="uniqueidentifier" />
+          <Property Name="AllyTop" Type="uniqueidentifier" />
+          <Property Name="AllyJungle" Type="uniqueidentifier" />
+          <Property Name="AllyMid" Type="uniqueidentifier" />
+          <Property Name="AllyAdc" Type="uniqueidentifier" />
+          <Property Name="AllySupport" Type="uniqueidentifier" />
+          <Property Name="MatchupResponseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Nickname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TagName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_ChampionTags_ToTable">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
+          <End Role="ChampionTags" Type="Self.ChampionTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="ChampionTags">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChampionTags_ToTable_1">
+          <End Role="Champions" Type="Self.Champions" Multiplicity="1" />
+          <End Role="ChampionTags" Type="Self.ChampionTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Champions">
+              <PropertyRef Name="ChampionId" />
+            </Principal>
+            <Dependent Role="ChampionTags">
+              <PropertyRef Name="ChampionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDBModelStoreContainer">
+          <EntitySet Name="ChampionPools" EntityType="Self.ChampionPools" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchupComments" EntityType="Self.MatchupComments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchupResponses" EntityType="Self.MatchupResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matchups" EntityType="Self.Matchups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChampionTags_ToTable" Association="Self.FK_ChampionTags_ToTable">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="ChampionTags" EntitySet="ChampionTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChampionTags_ToTable_1" Association="Self.FK_ChampionTags_ToTable_1">
+            <End Role="Champions" EntitySet="Champions" />
+            <End Role="ChampionTags" EntitySet="ChampionTags" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChampionPool">
+          <Key>
+            <PropertyRef Name="ChampionPoolId" />
+            <PropertyRef Name="PlayerId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionPoolId" Type="Guid" Nullable="false" />
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
+          <Property Name="ChampionId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Champion">
+          <Key>
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="ChampionId" Type="Guid" Nullable="false" />
+          <Property Name="ChampionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ChampionTags" Relationship="TestDBModel.FK_ChampionTags_ToTable_1" FromRole="Champion" ToRole="ChampionTag" />
+        </EntityType>
+        <EntityType Name="MatchupComment">
+          <Key>
+            <PropertyRef Name="MatchupCommentId" />
+          </Key>
+          <Property Name="MatchupCommentId" Type="Guid" Nullable="false" />
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
+          <Property Name="MatchupId" Type="Guid" Nullable="false" />
+          <Property Name="ChampionId" Type="Guid" Nullable="false" />
+          <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MatchupRespons">
+          <Key>
+            <PropertyRef Name="MatchupResponseId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="MatchupResponseId" Type="Guid" Nullable="false" />
+          <Property Name="ChampionId" Type="Guid" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Matchup">
+          <Key>
+            <PropertyRef Name="MatchupId" />
+          </Key>
+          <Property Name="MatchupId" Type="Guid" Nullable="false" />
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
+          <Property Name="EnemyTop" Type="Guid" />
+          <Property Name="EnemyJungle" Type="Guid" />
+          <Property Name="EnemyMid" Type="Guid" />
+          <Property Name="EnemyAdc" Type="Guid" />
+          <Property Name="EnemySupport" Type="Guid" />
+          <Property Name="AllyTop" Type="Guid" />
+          <Property Name="AllyJungle" Type="Guid" />
+          <Property Name="AllyMid" Type="Guid" />
+          <Property Name="AllyAdc" Type="Guid" />
+          <Property Name="AllySupport" Type="Guid" />
+          <Property Name="MatchupResponseId" Type="Guid" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+          </Key>
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
+          <Property Name="Nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="TagId" Type="Guid" Nullable="false" />
+          <Property Name="TagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ChampionTags" Relationship="TestDBModel.FK_ChampionTags_ToTable" FromRole="Tag" ToRole="ChampionTag" />
+        </EntityType>
+        <EntityType Name="ChampionTag">
+          <Key>
+            <PropertyRef Name="PlayerId" />
+            <PropertyRef Name="TagId" />
+            <PropertyRef Name="ChampionId" />
+          </Key>
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
+          <Property Name="TagId" Type="Guid" Nullable="false" />
+          <Property Name="ChampionId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Champion" Relationship="TestDBModel.FK_ChampionTags_ToTable_1" FromRole="ChampionTag" ToRole="Champion" />
+          <NavigationProperty Name="Tag" Relationship="TestDBModel.FK_ChampionTags_ToTable" FromRole="ChampionTag" ToRole="Tag" />
+        </EntityType>
+        <EntityContainer Name="Database2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChampionPools" EntityType="Self.ChampionPool" />
+          <EntitySet Name="Champions" EntityType="Self.Champion" />
+          <EntitySet Name="MatchupComments" EntityType="Self.MatchupComment" />
+          <EntitySet Name="MatchupResponses" EntityType="Self.MatchupRespons" />
+          <EntitySet Name="Matchups" EntityType="Self.Matchup" />
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="Tags" EntityType="Self.Tag" />
+          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTag" />
+          <AssociationSet Name="FK_ChampionTags_ToTable_1" Association="TestDBModel.FK_ChampionTags_ToTable_1">
+            <End Role="Champion" EntitySet="Champions" />
+            <End Role="ChampionTag" EntitySet="ChampionTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChampionTags_ToTable" Association="TestDBModel.FK_ChampionTags_ToTable">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="ChampionTag" EntitySet="ChampionTags" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_ChampionTags_ToTable_1">
+          <End Type="TestDBModel.Champion" Role="Champion" Multiplicity="1" />
+          <End Type="TestDBModel.ChampionTag" Role="ChampionTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Champion">
+              <PropertyRef Name="ChampionId" />
+            </Principal>
+            <Dependent Role="ChampionTag">
+              <PropertyRef Name="ChampionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChampionTags_ToTable">
+          <End Type="TestDBModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="TestDBModel.ChampionTag" Role="ChampionTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="ChampionTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="Database2Entities">
+          <EntitySetMapping Name="ChampionPools">
+            <EntityTypeMapping TypeName="TestDBModel.ChampionPool">
+              <MappingFragment StoreEntitySet="ChampionPools">
+                <ScalarProperty Name="ChampionPoolId" ColumnName="ChampionPoolId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Champions">
+            <EntityTypeMapping TypeName="TestDBModel.Champion">
+              <MappingFragment StoreEntitySet="Champions">
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="ChampionName" ColumnName="ChampionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchupComments">
+            <EntityTypeMapping TypeName="TestDBModel.MatchupComment">
+              <MappingFragment StoreEntitySet="MatchupComments">
+                <ScalarProperty Name="MatchupCommentId" ColumnName="MatchupCommentId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="MatchupId" ColumnName="MatchupId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchupResponses">
+            <EntityTypeMapping TypeName="TestDBModel.MatchupRespons">
+              <MappingFragment StoreEntitySet="MatchupResponses">
+                <ScalarProperty Name="MatchupResponseId" ColumnName="MatchupResponseId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matchups">
+            <EntityTypeMapping TypeName="TestDBModel.Matchup">
+              <MappingFragment StoreEntitySet="Matchups">
+                <ScalarProperty Name="MatchupId" ColumnName="MatchupId" />
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="EnemyTop" ColumnName="EnemyTop" />
+                <ScalarProperty Name="EnemyJungle" ColumnName="EnemyJungle" />
+                <ScalarProperty Name="EnemyMid" ColumnName="EnemyMid" />
+                <ScalarProperty Name="EnemyAdc" ColumnName="EnemyAdc" />
+                <ScalarProperty Name="EnemySupport" ColumnName="EnemySupport" />
+                <ScalarProperty Name="AllyTop" ColumnName="AllyTop" />
+                <ScalarProperty Name="AllyJungle" ColumnName="AllyJungle" />
+                <ScalarProperty Name="AllyMid" ColumnName="AllyMid" />
+                <ScalarProperty Name="AllyAdc" ColumnName="AllyAdc" />
+                <ScalarProperty Name="AllySupport" ColumnName="AllySupport" />
+                <ScalarProperty Name="MatchupResponseId" ColumnName="MatchupResponseId" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="TestDBModel.Player">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="TestDBModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChampionTags">
+            <EntityTypeMapping TypeName="TestDBModel.ChampionTag">
+              <MappingFragment StoreEntitySet="ChampionTags">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

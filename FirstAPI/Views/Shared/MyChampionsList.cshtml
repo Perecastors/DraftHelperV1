@@ -1,0 +1,33 @@
+﻿@model IEnumerable<FirstAPI.DbContext.Champion>
+
+@{
+    ViewBag.Title = "Matchup";
+    int i = 0;
+}
+
+<h3 style="text-align:center;">@ViewBag.Nickname Champions list</h3>
+
+<style>
+    .championsAlign {
+        margin-top: 5px;
+    }
+</style>
+<div class="col-md-12 championsAlign">
+    @if(Model !=null)
+    {
+        foreach (var item in Model)
+        {
+        i++;
+        <text>
+            <span class="imgChampion">
+                <img alt="@(item.ChampionName)" data-id="@(item.ChampionId)" id="img@(item.ChampionName)" style="height:48px;margin-bottom:2px;" src="http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion/@(item.ChampionName).png" />
+            </span>
+        </text>
+        if (i % 20 == 0)
+        {
+            @*@Html.Raw("</div><div class='col-md-12 championsAlign'>")*@
+            }
+        }
+    }
+
+</div>

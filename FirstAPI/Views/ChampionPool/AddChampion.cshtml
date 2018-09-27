@@ -1,0 +1,86 @@
+﻿@model FirstAPI.DbContext.Champion
+
+@using (Html.BeginForm("AddChampion","ChampionPool", new { playerId = ViewBag.PlayerId }, FormMethod.Post,new { @id="AddChampForm"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-12">
+        @Html.Label("What champion do you want to add ? ")
+    </div>
+    <br/>
+    <div class="form-inline">
+        @*<div class="col-md-2">
+            <input type="submit" value="Add" class="btn btn-default" />
+        </div>*@
+        @*<div class="col-md-2 container-fluid">
+                @Html.DropDownListFor(model => model.ChampionId, (SelectList)ViewBag.ListChampions, new { htmlAttributes = new { @class = "form-control" } })
+        </div>*@
+        <div class="col-md-12">
+            <div class="container-fluid">
+                @Html.DropDownListFor(model => model.ChampionId, (SelectList)FirstAPI.WebHelperTools.SelectListHelper.getAllChampions2(), new { @Multiple="multiple" ,@id = "e2_2", style = "width:20%;"  })
+                @*@Html.DropDownListFor(model => model.ChampionId, (SelectList)ViewBag.ListChampions, new { @class = "select2-multi-col", @id = "e2_2", @Multiple = "multiple", style = "width:100%" })*@
+            </div>
+        </div>
+     </div>
+}
+
+<script>
+$(document).ready(function(){
+
+    function formatState(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+        var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  '+ state.element.text +'</strong></span>');
+        return $state;
+    }
+
+    $("#e2_2").select2({
+        placeholder: "Select a champion",
+        templateResult: formatState,
+        maximumSelectionSize: 1,
+    });
+
+    $('#e2_2').on('select2:select', function (e) {
+        $("#AddChampForm").submit();
+    });
+
+    $('#e2_2').on('select2:open', function (e) {
+        console.log("open");
+        setTimeout(function () { $(".select2-dropdown--below").css('width', '1110px'); }, 100);
+        
+    });
+
+});
+</script>
+<style>
+
+#select2-e2_2-results{
+    display:flex;
+}
+.select2-results__group{
+    text-align:center;
+
+}
+.select2-results__options--nested{
+    font-size:12px;
+    width:140px;
+}
+
+select2-dropdown select2-dropdown--below{
+    width:1110px;
+}
+
+.select2-results__options--nested:last-child{
+    width:136px;
+}
+
+/* move close cross [x] from left to right on the selected value (tag) */
+/*#s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
+  padding: 3px 18px 3px 5px;
+}
+#s2id_e2_2.select2-container-multi .select2-search-choice-close {
+  left: auto;
+  right: 3px;
+}*/
+</style>
