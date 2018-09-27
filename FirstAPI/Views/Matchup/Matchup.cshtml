@@ -276,9 +276,9 @@
                 answers = @(Html.Raw(Json.Encode(Model.answers)));
                 console.log(answers);
                 for(var i=0; i < answers.length ;i++){
-                    addAnswer(answers[i].Id,answers[i].Name);
+                    addAnswer(answers[i].ChampionId,answers[i].ChampionName);
                     //remplir le textarea
-                    $("#textarea_"+answers[i].Name).val(answers[i].Comments);
+                    $("#textarea_"+answers[i].ChampionName).val(answers[i].Comments);
                 }
             }
             fillAnswers();
@@ -341,7 +341,7 @@
         var arrayAnswers = $(".myAnswers");
         for (var i = 0; i < arrayAnswers.length; i++) {
             var answer = new Object();
-            answer.Id = arrayAnswers[i].lastElementChild.getAttribute('value');
+            answer.ChampionId = arrayAnswers[i].lastElementChild.getAttribute('value');
             answer.Comments = arrayAnswers[i].children[1].value;
             objA.answers.push(answer);
         }

@@ -145,7 +145,7 @@ namespace FirstAPI.DbContext
                     foreach (var response in matchupResponse)
                     {
                         var matchupAnswer = new MatchupAnswer();
-                        matchupAnswer.Id = response.ChampionId;
+                        matchupAnswer.ChampionId = response.ChampionId;
                         matchupAnswer.Comments = listMatchupComment.Where(x => x.MatchupId == matchup.MatchupId && x.ChampionId == response.ChampionId).OrderByDescending(x => x.CreationDate).FirstOrDefault()?.CommentText;
                         matchupInfo.answers.Add(matchupAnswer);
                     }
@@ -244,7 +244,7 @@ namespace FirstAPI.DbContext
                 foreach (var answer in matchupInfos.answers)
                 {
                     MatchupRespons matchupRespons = new MatchupRespons();
-                    matchupRespons.ChampionId = answer.Id;
+                    matchupRespons.ChampionId = answer.ChampionId;
                     matchupRespons.MatchupResponseId = matchupResponseId;
                     matchupRespons.CreationDate = DateTime.Now;
                     matchupResponses.Add(matchupRespons);
@@ -263,7 +263,7 @@ namespace FirstAPI.DbContext
                 {
                     //var existingmatchupComment = db.MatchupComments.Where(x => x.MatchupId == matchupInfos.matchupId && x.ChampionId == comment.Id);
                     MatchupComment matchupComment = new MatchupComment();
-                    matchupComment.ChampionId = comment.Id;
+                    matchupComment.ChampionId = comment.ChampionId;
                     matchupComment.CommentText = comment.Comments;
                     matchupComment.PlayerId = matchup.PlayerId;
                     matchupComment.MatchupCommentId = Guid.NewGuid();
