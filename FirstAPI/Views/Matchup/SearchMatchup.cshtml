@@ -107,7 +107,7 @@
                         </text>
                     }
                 </div>
-                <br/>
+                <br />
                 <input type="button" value="Create New Matchup" onclick="javascript: createNewMatchup();" />
                 <br />
             </div>
@@ -153,7 +153,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </fieldset>
     </div>
 </div>
@@ -208,7 +208,7 @@
         Ennemy Team
     </div>
     <div class="col-md-6 text-center">
-        Best Answers 
+        Best Answers
     </div>
 </div>
 <div class="row">
@@ -291,7 +291,10 @@
 
         //search at the end of process
         updateSearch();
+       
     })
+
+    
 
     function deleteMatchup(matchupId, matchupResponseId) {
         console.log(matchupId);
@@ -311,7 +314,7 @@
 
     function editMatchup(matchupId) {
         var url = '@Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme)?matchupId=' + matchupId
-       // console.log(url);
+        // console.log(url);
         window.open(url);
     }
 
@@ -395,12 +398,24 @@
         $.ajax({
             type: "POST",
             url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
-            data:  objs,
+            data: objs,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
         }).complete(function (data) {
             $('#searchResults2').html(data.responseText);
+            $(".tooltipComment").each(function () {
+                var commentId = $(this).attr('data-id');
+                var comment = $('#commentId-' + commentId).html();
+                $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
+                //console.log($(this));
+                //console.log(commentId);
+                //console.log(comment);
+            });
         })
+    }
+
+    function getTooltipByMatchupId() {
+        
     }
 
 </script>

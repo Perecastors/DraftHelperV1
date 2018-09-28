@@ -145,6 +145,7 @@ namespace FirstAPI.DbContext
                     foreach (var response in matchupResponse)
                     {
                         var matchupAnswer = new MatchupAnswer();
+                        matchupAnswer.MatchupCommentId = response.MatchupResponseId;
                         matchupAnswer.ChampionId = response.ChampionId;
                         matchupAnswer.Comments = listMatchupComment.Where(x => x.MatchupId == matchup.MatchupId && x.ChampionId == response.ChampionId).OrderByDescending(x => x.CreationDate).FirstOrDefault()?.CommentText;
                         matchupInfo.answers.Add(matchupAnswer);

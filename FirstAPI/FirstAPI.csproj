@@ -346,6 +346,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebHelperTools\SelectListHelper.cs" />
+    <Compile Include="WebHelperTools\StringExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />

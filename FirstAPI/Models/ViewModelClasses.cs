@@ -45,6 +45,7 @@ namespace FirstAPI.Models
 
     public class MatchupAnswer
     {
+        public Guid MatchupCommentId { get; set; }
         public Guid ChampionId { get; set; }
         public string ChampionName { get { return convertGUIDtoString(ChampionId); } set { this.ChampionName = value; } }
         public string Comments { get; set; }
