@@ -1,0 +1,246 @@
+﻿@model FirstAPI.Models.MatchupInfos
+@using CustomExtensions
+
+@{ 
+    var myResult = new List<FirstAPI.Models.MatchupInfos>();
+    if (Model.answers?.Count > 0)
+    {
+        myResult.Add(Model);
+    }
+}
+
+@if (myResult.Count() > 0)
+{
+    foreach (var matchupInfos in myResult)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset class="panel panel-default" style="padding-bottom:10px;">
+                    <legend>Automatic Answer</legend>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-3 text-center">
+                            Ally Team
+                        </div>
+                        <div class="col-md-3 text-center">
+                            Ennemy Team
+                        </div>
+                        <div class="col-md-6 text-center">
+                            Best Answers
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="col-md-2" style="margin-left:4px">
+                                Top
+                            </span>
+                            <span class="col-md-2" style="margin-left:-6px">
+                                Jungle
+                            </span>
+                            <span class="col-md-2 " style="margin-left: 9px;">
+                                Mid
+                            </span>
+                            <span class="col-md-2 " style="margin-left: -2px;">
+                                Adc
+                            </span>
+                            <span class="col-md-2 " style="margin-left: -11px;">
+                                Support
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="col-md-2" style="margin-left:5px">
+                                Top
+                            </span>
+                            <span class="col-md-2" style="margin-left:-9px">
+                                Jungle
+                            </span>
+                            <span class="col-md-2" style="margin-left: 11px;">
+                                Mid
+                            </span>
+                            <span class="col-md-2" style="margin-left: -1px;">
+                                Adc
+                            </span>
+                            <span class="col-md-2" style="margin-left: -10px;">
+                                Support
+                            </span>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            @*<div class="col-md-2 text-center">
+                    Picks
+                </div>
+                <div class="col-md-2 text-center">
+                    Comments
+                </div>*@
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="col-md-3">
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.allyTopName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyTopName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.allyJungleName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyJungleName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.allyMidName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyMidName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.allyAdcName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyAdcName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.allySupportName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allySupportName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.ennemyTopName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyTopName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.ennemyJungleName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyJungleName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.ennemyMidName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyMidName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.ennemyAdcName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyAdcName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @if (!string.IsNullOrEmpty(matchupInfos.ennemySupportName))
+                    {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemySupportName).png" ; />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <span><i>N/A</i></span>
+                                </text>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        @{
+                            string champName;
+                        }
+                        @foreach (var answer in matchupInfos.answers)
+                    {
+                        champName = ((List<FirstAPI.DbContext.Champion>
+                            )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
+                            <text>
+                                <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
+                                    <img class="tooltipComment" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                    <div id="commentId-@(answer.MatchupCommentId)-@(answer.ChampionId)" class="hidden">
+                                        <div style="width:180px;">
+                                            @Html.Raw(Html.Encode(answer.Comments).ReplaceLineBreakToBr())
+                                        </div>
+                                    </div>
+                                </div>
+                            </text>
+                        }
+                        <input type="button" value="Create This Matchup" onclick="javascript: createNewMatchup();" />
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+                        }
+                    }
+                    

@@ -157,6 +157,10 @@
         </fieldset>
     </div>
 </div>
+<div id="searchResults">
+</div>
+
+
 <style>
     img {
         max-width: 36px;
@@ -200,222 +204,168 @@
             border:1px solid black;
         }*/
 </style>
-<div class="row" style="margin-bottom: 10px">
-    <div class="col-md-3 text-center">
-        Ally Team
-    </div>
-    <div class="col-md-3 text-center">
-        Ennemy Team
-    </div>
-    <div class="col-md-6 text-center">
-        Best Answers
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <span class="col-md-2" style="margin-left:4px">
-            Top
-        </span>
-        <span class="col-md-2" style="margin-left:-6px">
-            Jungle
-        </span>
-        <span class="col-md-2 " style="margin-left: 9px;">
-            Mid
-        </span>
-        <span class="col-md-2 " style="margin-left: -2px;">
-            Adc
-        </span>
-        <span class="col-md-2 " style="margin-left: -11px;">
-            Support
-        </span>
-    </div>
-    <div class="col-md-3">
-        <span class="col-md-2" style="margin-left:5px">
-            Top
-        </span>
-        <span class="col-md-2" style="margin-left:-9px">
-            Jungle
-        </span>
-        <span class="col-md-2" style="margin-left: 11px;">
-            Mid
-        </span>
-        <span class="col-md-2" style="margin-left: -1px;">
-            Adc
-        </span>
-        <span class="col-md-2" style="margin-left: -10px;">
-            Support
-        </span>
-    </div>
-    <div class="col-md-5 text-center">
-        @*<div class="col-md-2 text-center">
-                Picks
-            </div>
-            <div class="col-md-2 text-center">
-                Comments
-            </div>*@
-    </div>
-</div>
-<hr />
-<div id="searchResults">
-</div>
-<div id="searchResults2">
-</div>
 
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        function formatState(state) {
-            if (!state.id) {
-                return state.text;
+            function formatState(state) {
+                if (!state.id) {
+                    return state.text;
+                }
+                var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+                var $state = $('<span><img style="height:20px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+                return $state;
             }
-            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
-            var $state = $('<span><img style="height:20px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
-            return $state;
+
+            $(".ddChamp").select2({
+                placeholder: "Choose...",
+                allowClear: true,
+                templateResult: formatState,
+                templateSelection: formatState,
+                minimumResultsForSearch: 1,
+            });
+
+            $('.ddChamp').on('select2:select', function (e) {
+                updateSearch();
+            });
+
+            $('.ddChamp').on('select2:clear', function (e) {
+                updateSearch();
+            });
+
+            //search at the end of process
+            updateSearch();
+
+        })
+
+
+
+        function deleteMatchup(matchupId, matchupResponseId) {
+            console.log(matchupId);
+            console.log(matchupResponseId);
+            var r = confirm("Are your sure to delete ?");
+            if (r == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '@(Url.Action("DeleteMatchup",null, new { controller = "Matchup" }, Request.Url.Scheme))',
+                    data: JSON.stringify({ matchupId: matchupId, matchupResponseId: matchupResponseId }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (e) { window.location.reload() },
+                    dataType: 'json'
+                });
+            }
         }
 
-        $(".ddChamp").select2({
-            placeholder: "Choose...",
-            allowClear: true,
-            templateResult: formatState,
-            templateSelection: formatState,
-            minimumResultsForSearch: 1,
-        });
+        function editMatchup(matchupId) {
+            var url = '@Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme)?matchupId=' + matchupId
+            // console.log(url);
+            window.open(url);
+        }
 
-        $('.ddChamp').on('select2:select', function (e) {
-            updateSearch();
-        });
+        function createNewMatchup() {
+            //recup value des dropdown
+            var allyTop = $("#AllyTop").val();
+            var allyJungle = $("#AllyJungle").val();
+            var allyMid = $("#AllyMid").val();
+            var allyAdc = $("#AllyAdc").val();
+            var allySupport = $("#AllySupport").val();
 
-        $('.ddChamp').on('select2:clear', function (e) {
-            updateSearch();
-        });
+            var ennemyTop = $("#EnnemyTop").val();
+            var ennemyJungle = $("#EnnemyJungle").val();
+            var ennemyMid = $("#EnnemyMid").val();
+            var ennemyAdc = $("#EnnemyAdc").val();
+            var ennemySupport = $("#EnnemySupport").val();
 
-        //search at the end of process
-        updateSearch();
-       
-    })
+            //Creation object to post
+            var objA = new Object();
+            objA.playerId = '@(ViewBag.PlayerId)';
+            objA.allyTop = allyTop;
+            objA.allyJungle = allyJungle;
+            objA.allyMid = allyMid;
+            objA.allyAdc = allyAdc;
+            objA.allySupport = allySupport;
+            objA.ennemyTop = ennemyTop;
+            objA.ennemyJungle = ennemyJungle;
+            objA.ennemyMid = ennemyMid;
+            objA.ennemyAdc = ennemyAdc;
+            objA.ennemySupport = ennemySupport;
+            objA.answers = new Array();
+            //recup les answers guid
+            //recup les commentaires
+            var arrayAnswers = $(".automaticAnswers");
+            for (var i = 0; i < arrayAnswers.length; i++) {
+                var answer = new Object();
+                answer.ChampionId = arrayAnswers[i].id;
+                objA.answers.push(answer);
+            }
+            var objs = JSON.stringify(objA);
 
-    
 
-    function deleteMatchup(matchupId, matchupResponseId) {
-        console.log(matchupId);
-        console.log(matchupResponseId);
-        var r = confirm("Are your sure to delete ?");
-        if (r == true) {
             $.ajax({
                 type: "POST",
-                url: '@(Url.Action("DeleteMatchup",null, new { controller = "Matchup" }, Request.Url.Scheme))',
-                data: JSON.stringify({ matchupId: matchupId, matchupResponseId: matchupResponseId }),
+                url: '@(Url.Action("CreateNewMatchup",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+                data: objs,
                 contentType: 'application/json; charset=utf-8',
-                success: function (e) { window.location.reload() },
                 dataType: 'json'
-            });
+            }).complete(function (data) {
+                //$('#searchResults').html(data.responseText);
+                var matchupId = data.responseJSON
+                if (data.responseJSON !== undefined) {
+                    var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
+                    window.open(url, "_self");
+                }
+            })
         }
-    }
 
-    function editMatchup(matchupId) {
-        var url = '@Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme)?matchupId=' + matchupId
-        // console.log(url);
-        window.open(url);
-    }
+        function updateSearch() {
 
-    function createNewMatchup() {
-        //recup value des dropdown
-        var allyTop = $("#AllyTop").val();
-        var allyJungle = $("#AllyJungle").val();
-        var allyMid = $("#AllyMid").val();
-        var allyAdc = $("#AllyAdc").val();
-        var allySupport = $("#AllySupport").val();
+            //recup value des dropdown
+            var allyTop = $("#AllyTop").val();
+            var allyJungle = $("#AllyJungle").val();
+            var allyMid = $("#AllyMid").val();
+            var allyAdc = $("#AllyAdc").val();
+            var allySupport = $("#AllySupport").val();
 
-        var ennemyTop = $("#EnnemyTop").val();
-        var ennemyJungle = $("#EnnemyJungle").val();
-        var ennemyMid = $("#EnnemyMid").val();
-        var ennemyAdc = $("#EnnemyAdc").val();
-        var ennemySupport = $("#EnnemySupport").val();
+            var ennemyTop = $("#EnnemyTop").val();
+            var ennemyJungle = $("#EnnemyJungle").val();
+            var ennemyMid = $("#EnnemyMid").val();
+            var ennemyAdc = $("#EnnemyAdc").val();
+            var ennemySupport = $("#EnnemySupport").val();
 
-        //Creation object to post
-        var objA = new Object();
-        objA.playerId = '@(ViewBag.PlayerId)';
-        objA.allyTop = allyTop;
-        objA.allyJungle = allyJungle;
-        objA.allyMid = allyMid;
-        objA.allyAdc = allyAdc;
-        objA.allySupport = allySupport;
-        objA.ennemyTop = ennemyTop;
-        objA.ennemyJungle = ennemyJungle;
-        objA.ennemyMid = ennemyMid;
-        objA.ennemyAdc = ennemyAdc;
-        objA.ennemySupport = ennemySupport;
-        objA.answers = new Array();
-        var objs = JSON.stringify(objA);
+            //Creation object to post
+            var objA = new Object();
+            objA.playerId = '@(ViewBag.PlayerId)';
+            objA.allyTop = allyTop;
+            objA.allyJungle = allyJungle;
+            objA.allyMid = allyMid;
+            objA.allyAdc = allyAdc;
+            objA.allySupport = allySupport;
+            objA.ennemyTop = ennemyTop;
+            objA.ennemyJungle = ennemyJungle;
+            objA.ennemyMid = ennemyMid;
+            objA.ennemyAdc = ennemyAdc;
+            objA.ennemySupport = ennemySupport;
+            objA.answers = new Array();
 
-        $.ajax({
-            type: "POST",
-            url: '@(Url.Action("CreateNewMatchup",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
-            data: objs,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
-        }).complete(function (data) {
-            //$('#searchResults').html(data.responseText);
-            var matchupId = data.responseJSON
-            if (data.responseJSON !== undefined) {
-                var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
-                window.open(url, "_self");
-            }
-        })
-    }
+            var objs = JSON.stringify(objA);
+            $.ajax({
+                type: "POST",
+                url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+                data: objs,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).complete(function (data) {
+                $('#searchResults').html(data.responseText);
+                //automaticSearch()
+                $(".tooltipComment").each(function () {
+                    var commentId = $(this).attr('data-id');
+                    var comment = $('#commentId-' + commentId).html();
+                    $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
+                    //console.log($(this));
+                    //console.log(commentId);
+                    //console.log(comment);
+                });
+            })
+        }
 
-    function updateSearch() {
-
-        //recup value des dropdown
-        var allyTop = $("#AllyTop").val();
-        var allyJungle = $("#AllyJungle").val();
-        var allyMid = $("#AllyMid").val();
-        var allyAdc = $("#AllyAdc").val();
-        var allySupport = $("#AllySupport").val();
-
-        var ennemyTop = $("#EnnemyTop").val();
-        var ennemyJungle = $("#EnnemyJungle").val();
-        var ennemyMid = $("#EnnemyMid").val();
-        var ennemyAdc = $("#EnnemyAdc").val();
-        var ennemySupport = $("#EnnemySupport").val();
-
-        //Creation object to post
-        var objA = new Object();
-        objA.playerId = '@(ViewBag.PlayerId)';
-        objA.allyTop = allyTop;
-        objA.allyJungle = allyJungle;
-        objA.allyMid = allyMid;
-        objA.allyAdc = allyAdc;
-        objA.allySupport = allySupport;
-        objA.ennemyTop = ennemyTop;
-        objA.ennemyJungle = ennemyJungle;
-        objA.ennemyMid = ennemyMid;
-        objA.ennemyAdc = ennemyAdc;
-        objA.ennemySupport = ennemySupport;
-        objA.answers = new Array();
-
-        var objs = JSON.stringify(objA);
-        $.ajax({
-            type: "POST",
-            url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
-            data: objs,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
-        }).complete(function (data) {
-            $('#searchResults2').html(data.responseText);
-            $(".tooltipComment").each(function () {
-                var commentId = $(this).attr('data-id');
-                var comment = $('#commentId-' + commentId).html();
-                $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
-                //console.log($(this));
-                //console.log(commentId);
-                //console.log(comment);
-            });
-        })
-    }
-
-    function getTooltipByMatchupId() {
-        
-    }
-
-</script>
+    </script>

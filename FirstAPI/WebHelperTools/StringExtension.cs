@@ -9,7 +9,7 @@ namespace CustomExtensions
     {
         public static string ReplaceLineBreakToBr(this string str)
         {
-            string newStr = "";
+            string newStr = "N/A";
             if (!string.IsNullOrEmpty(str))
             {
                 newStr = str.Replace("\n", "<br/>");

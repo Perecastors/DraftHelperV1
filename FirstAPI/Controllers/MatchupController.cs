@@ -100,7 +100,21 @@ namespace FirstAPI.Controllers
             var listMatchupInfos = matchupDal.getAllMatchupByParams(playerId, matchupInfos);
             s.Stop();
             ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
+            ViewBag.AutomaticResults = listMatchupInfos.Item3;
             return PartialView("SearchResults", listMatchupInfos.Item1);
+        }
+
+        [HttpPost]
+        public ActionResult AutomaticSearchResults(Guid playerId, MatchupInfos matchupInfos)
+        {
+            var matchupDal = new DALMatchup();
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            matchupInfos.playerId = playerId;
+            var listMatchupInfos = matchupDal.GetEstimatedAnswersByMatchupParam2(matchupInfos);
+            s.Stop();
+            //ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
+            return PartialView("AutomaticResults", listMatchupInfos);
         }
 
         [HttpPost]

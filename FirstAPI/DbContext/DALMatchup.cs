@@ -29,7 +29,7 @@ namespace FirstAPI.DbContext
             return matchupInfos;
         }
 
-        public Tuple<List<MatchupInfos>, long> getAllMatchupByParams(Guid playerId, MatchupInfos matchupInfos)
+        public Tuple<List<MatchupInfos>, long,MatchupInfos> getAllMatchupByParams(Guid playerId, MatchupInfos matchupInfos)
         {
             List<MatchupInfos> listMatchupInfos = new List<MatchupInfos>();
 
@@ -89,28 +89,329 @@ namespace FirstAPI.DbContext
                 hasFilter = true;
             }
 
+            bool isPerfectMatch = isPerfectMatchExist(matchupInfos, playerId);
+
             long time;
+            var automaticMatchup = new MatchupInfos();
             if (true)
             {
                 var listMatchupComment = db.MatchupComments.Where(x => x.PlayerId == playerId).ToList();
                 Stopwatch t0 = new Stopwatch();
                 t0.Start();
-                var temp = listMatchup.OrderByDescending(x => x.CreationDate).ToList();
+                var listMatchups = listMatchup.OrderByDescending(x => x.CreationDate).ToList();
                 time = t0.ElapsedMilliseconds;
-                listMatchupInfos = ConvertMatchupsToMatchupInfos(temp, listMatchupComment);
+                listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, listMatchupComment);
+                if(!isPerfectMatch)
+                {
+                    matchupInfos.playerId = playerId;
+                    automaticMatchup = GetEstimatedAnswersByMatchupParam(matchupInfos);
+                }
                 var t2 = t0.ElapsedMilliseconds;
             }
 
-            return new Tuple<List<MatchupInfos>, long>(listMatchupInfos, time);
+            return new Tuple<List<MatchupInfos>, long, MatchupInfos>(listMatchupInfos, time, automaticMatchup);
+        }
+
+        private bool isPerfectMatchExist(MatchupInfos matchupInfos, Guid playerId)
+        {
+            var listMatchup = db.Matchups.Where(x => x.PlayerId == playerId);
+                listMatchup = listMatchup.Where(x => x.AllyTop == matchupInfos.allyTop);
+                listMatchup = listMatchup.Where(x => x.AllyJungle == matchupInfos.allyJungle);
+                listMatchup = listMatchup.Where(x => x.AllyMid == matchupInfos.allyMid);
+                listMatchup = listMatchup.Where(x => x.AllyAdc == matchupInfos.allyAdc);
+                listMatchup = listMatchup.Where(x => x.AllySupport == matchupInfos.allySupport);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.ennemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.ennemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.ennemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.ennemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.ennemySupport);
+
+            if(listMatchup.Count() > 0)
+                return true;
+
+            return false;
+        }
+
+        public MatchupInfos GetEstimatedAnswersByMatchupParam(MatchupInfos matchupInfos)
+        {
+            IQueryable<Matchup> listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+            List<Matchup> calcultedList = new List<Matchup>();
+
+            bool hasFilter = false;
+            //ALLY
+            if (matchupInfos.allyTop != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.AllyTop == matchupInfos.allyTop)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.allyJungle != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.AllyJungle == matchupInfos.allyJungle)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.allyMid != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.AllyMid == matchupInfos.allyMid)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.allyAdc != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.AllyAdc == matchupInfos.allyAdc)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.allySupport != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.AllySupport == matchupInfos.allySupport)).ToList();
+                hasFilter = true;
+            }
+            //ENNEMI
+            if (matchupInfos.ennemyTop != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyTop == matchupInfos.ennemyTop)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyJungle != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyJungle == matchupInfos.ennemyJungle)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyMid != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyMid == matchupInfos.ennemyMid)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyAdc != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyAdc == matchupInfos.ennemyAdc)).ToList();
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemySupport != Guid.Empty)
+            {
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemySupport == matchupInfos.ennemySupport)).ToList();
+                hasFilter = true;
+            }
+
+            //recuperer la liste das matchupResponsesId pour recuperer la liste des champions
+            var listMatchupResponse = calcultedList.Select(x => x.MatchupResponseId).ToList();
+            var automaticMatchupInfos = new MatchupInfos();
+            automaticMatchupInfos = CreateAutomaticMatchupInfo(matchupInfos, listMatchupResponse);
+            //listMatchupInfos.Add(listMatchup);
+            //
+
+            return automaticMatchupInfos;
+        }
+
+        public MatchupInfos GetEstimatedAnswersByMatchupParam2(MatchupInfos matchupInfos)
+        {
+            IEnumerable<Matchup> listMatchup = Enumerable.Empty<Matchup>().AsQueryable();
+
+            bool hasFilter = false;
+            //ALLY
+            if (matchupInfos.allyTop != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.AllyTop == matchupInfos.allyTop && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList).ToList();
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.AllyTop == matchupInfos.allyTop && x.PlayerId == matchupInfos.playerId).ToList();
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.allyJungle != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.AllyJungle == matchupInfos.allyJungle && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList).ToList();
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.AllyJungle == matchupInfos.allyJungle && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.allyMid != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.AllyMid == matchupInfos.allyMid && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.AllyMid == matchupInfos.allyMid && x.PlayerId == matchupInfos.playerId);
+
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.allyAdc != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.AllyAdc == matchupInfos.allyAdc && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.AllyAdc == matchupInfos.allyAdc && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.allySupport != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.AllySupport == matchupInfos.allySupport && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.AllySupport == matchupInfos.allySupport && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            //ENNEMI
+            if (matchupInfos.ennemyTop != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.EnemyTop == matchupInfos.ennemyTop && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.EnemyTop == matchupInfos.ennemyTop && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyJungle != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.EnemyJungle == matchupInfos.ennemyJungle && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.EnemyJungle == matchupInfos.ennemyJungle && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyMid != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.EnemyMid == matchupInfos.ennemyMid && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.EnemyMid == matchupInfos.ennemyMid && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemyAdc != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.EnemyAdc == matchupInfos.ennemyAdc && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.EnemyAdc == matchupInfos.ennemyAdc && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+            if (matchupInfos.ennemySupport != Guid.Empty)
+            {
+                if (listMatchup.Count() > 0)
+                {
+                    var tempList = listMatchup.Where(x => x.EnemySupport == matchupInfos.ennemySupport && x.PlayerId == matchupInfos.playerId);
+                    if (tempList.Count() > 0)
+                    {
+                        listMatchup = listMatchup.Intersect(tempList);
+                    }
+                }
+                else
+                {
+                    listMatchup = db.Matchups.Where(x => x.EnemySupport == matchupInfos.ennemySupport && x.PlayerId == matchupInfos.playerId);
+                }
+                hasFilter = true;
+            }
+
+            var automaticMatchupInfos = new MatchupInfos();
+            if (hasFilter)
+            {
+                //recuperer la liste das matchupResponsesId pour recuperer la liste des champions
+                var listMatchupResponse = listMatchup.Select(x => x.MatchupResponseId).ToList();
+                automaticMatchupInfos = CreateAutomaticMatchupInfo(matchupInfos, listMatchupResponse);
+            }
+
+            return automaticMatchupInfos;
+        }
+
+        private MatchupInfos CreateAutomaticMatchupInfo(MatchupInfos matchupInfos, List<Guid> listMatchupResponse)
+        {
+            foreach (Guid matchupResponseId in listMatchupResponse)
+            {
+                var matchupResponses = db.MatchupResponses.Where(x => x.MatchupResponseId == matchupResponseId).ToList();
+                foreach (var matchupResponse in matchupResponses)
+                {
+                    var matchupAnswer = new MatchupAnswer();
+                    matchupAnswer.ChampionId = matchupResponse.ChampionId;
+                    if (matchupInfos.answers == null)
+                    {
+                        matchupInfos.answers = new List<MatchupAnswer>();
+                    }
+                    if (!matchupInfos.answers.Where(x => x.ChampionId == matchupResponse.ChampionId).Any())
+                    {
+                        matchupInfos.answers.Add(matchupAnswer);
+                    }
+                }
+            }
+            return matchupInfos;
         }
 
         public Guid createNewMatchup(Guid playerId, MatchupInfos matchupInfos)
         {
             Matchup matchup = buildMatchupEntity(matchupInfos);
+            List<MatchupRespons> matchupResponses = buildMatchupResponsEntity(matchupInfos, matchup.MatchupResponseId);
             matchup.PlayerId = playerId;
             using (TransactionScope scope = new TransactionScope())
             {
                 db.Matchups.Add(matchup);
+                db.MatchupResponses.AddRange(matchupResponses);
                 db.SaveChanges();
                 scope.Complete();
                 return matchup.MatchupId;

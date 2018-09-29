@@ -469,6 +469,7 @@
     <Content Include="Views\Shared\MyChampionsList.cshtml" />
     <Content Include="Views\Matchup\SearchMatchup.cshtml" />
     <Content Include="Views\Matchup\SearchResults.cshtml" />
+    <Content Include="Views\Matchup\AutomaticResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Test\" />
