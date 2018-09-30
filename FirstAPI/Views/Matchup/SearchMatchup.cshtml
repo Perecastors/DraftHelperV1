@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-md-12">
         <fieldset id="searchFields" class="panel panel-default" >
-            <legend>Search Parameters <br/><span style="font-size:14px;font-style:italic"> Select Allies and/or Ennemy champions to find or create the appropriate champion to pick</span></legend>
+            <legend>Search Parameters <br/><span style="font-size:14px;font-style:italic"> Select Allies and / or Ennemy champions to find or create the appropriate champion to pick</span></legend>
             <div class="row" id="rowSearchResults">
                 <div class="col-md-3 form-horizontal">
                     <div class="row">
@@ -352,7 +352,7 @@
         objA.answers = new Array();
 
         var objs = JSON.stringify(objA);
-        setTimeout(function () {   
+        //setTimeout(function () {   
         $.ajax({
             type: "POST",
             url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
@@ -373,7 +373,7 @@
                 //console.log(comment);
             });
         })
-        }, 1);
+        //}, 1);
     }
 
 </script>

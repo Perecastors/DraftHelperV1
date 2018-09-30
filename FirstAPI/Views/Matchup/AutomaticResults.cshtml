@@ -25,7 +25,7 @@
                             Ennemy Team
                         </div>
                         <div class="col-md-6 text-center">
-                            Best Answers
+                            Possible Answers <small style="font-size:12px">(Based on informations you have recorded)</small>
                         </div>
                     </div>
                     <div class="row">
@@ -78,7 +78,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.allyTopName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyTopName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyTopName).png" ; />
                                 </text>
                             }
                             else
@@ -92,7 +92,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.allyJungleName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyJungleName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyJungleName).png" ; />
                                 </text>
                             }
                             else
@@ -106,7 +106,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.allyMidName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyMidName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyMidName).png" ; />
                                 </text>
                             }
                             else
@@ -120,7 +120,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.allyAdcName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyAdcName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyAdcName).png" ; />
                                 </text>
                             }
                             else
@@ -134,7 +134,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.allySupportName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allySupportName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allySupportName).png" ; />
                                 </text>
                             }
                             else
@@ -150,7 +150,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.ennemyTopName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyTopName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyTopName).png" ; />
                                 </text>
                             }
                             else
@@ -164,7 +164,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.ennemyJungleName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyJungleName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyJungleName).png" ; />
                                 </text>
                             }
                             else
@@ -178,7 +178,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.ennemyMidName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyMidName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyMidName).png" ; />
                                 </text>
                             }
                             else
@@ -192,7 +192,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.ennemyAdcName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyAdcName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyAdcName).png" ; />
                                 </text>
                             }
                             else
@@ -206,7 +206,7 @@
                             @if (!string.IsNullOrEmpty(matchupInfos.ennemySupportName))
                     {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemySupportName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemySupportName).png" ; />
                                 </text>
                             }
                             else
@@ -225,11 +225,11 @@
                         {
                             champName = ((List<FirstAPI.DbContext.Champion>
                                 )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
-                            if (string.IsNullOrEmpty(answer.Comments))
+                            if (string.IsNullOrEmpty(answer.Comments) && false)
                             {
                                 <text>
                                     <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
-                                        <img class="tooltipComment" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                        <img class="tooltipComment imgAnswer" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
                                         <div id="commentId-@(answer.MatchupCommentId)-@(answer.ChampionId)" class="hidden">
                                             <div style="width:180px;">
                                                 @Html.Raw(Html.Encode(answer.Comments).ReplaceLineBreakToBr())
@@ -241,7 +241,7 @@
                             else
                             {
                                 <text>
-                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                    <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
                                 </text>
                             }
 
