@@ -267,6 +267,62 @@
 
     function createNewMatchup() {
         //recup value des dropdown
+        var allyTop = "";//$("#AllyTop").val();
+        var allyJungle = "";//$("#AllyJungle").val();
+        var allyMid = "";//$("#AllyMid").val();
+        var allyAdc = "";//$("#AllyAdc").val();
+        var allySupport = "";//$("#AllySupport").val();
+
+        var ennemyTop = "";//$("#EnnemyTop").val();
+        var ennemyJungle = "";//$("#EnnemyJungle").val();
+        var ennemyMid = "";//$("#EnnemyMid").val();
+        var ennemyAdc = "";//$("#EnnemyAdc").val();
+        var ennemySupport = "";// $("#EnnemySupport").val();
+
+        //Creation object to post
+        var objA = new Object();
+        objA.playerId = '@(ViewBag.PlayerId)';
+        objA.allyTop = allyTop;
+        objA.allyJungle = allyJungle;
+        objA.allyMid = allyMid;
+        objA.allyAdc = allyAdc;
+        objA.allySupport = allySupport;
+        objA.ennemyTop = ennemyTop;
+        objA.ennemyJungle = ennemyJungle;
+        objA.ennemyMid = ennemyMid;
+        objA.ennemyAdc = ennemyAdc;
+        objA.ennemySupport = ennemySupport;
+        objA.answers = new Array();
+        //recup les answers guid
+        //recup les commentaires
+        //var arrayAnswers = $(".automaticAnswers");
+        //for (var i = 0; i < arrayAnswers.length; i++) {
+        //    var answer = new Object();
+        //    answer.ChampionId = arrayAnswers[i].id;
+        //    objA.answers.push(answer);
+        //}
+        var objs = JSON.stringify(objA);
+
+
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("CreateNewMatchup",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+            data: objs,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            //$('#searchResults').html(data.responseText);
+            var matchupId = data.responseJSON
+            if (data.responseJSON !== undefined) {
+                var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
+                window.open(url, "_self");
+            }
+        })
+    }
+
+
+    function createThisMatchup() {
+        //recup value des dropdown
         var allyTop = $("#AllyTop").val();
         var allyJungle = $("#AllyJungle").val();
         var allyMid = $("#AllyMid").val();

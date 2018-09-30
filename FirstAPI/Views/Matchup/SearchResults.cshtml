@@ -22,7 +22,7 @@
 {
     <text>
         <fieldset class="panel panel-default" id="fieldsetAnswer" style="padding-bottom:10px;">
-            <legend>Your Answers <small style="font-size:12px"> (Find in @ViewBag.CalculationTime secs)</small></legend>
+            <legend>Your Answers <small style="font-size:12px"> (Find in @ViewBag.CalculationTime secs) <input type="button" value="Create New Answer" onclick="javascript: createNewMatchup();" /> </small></legend>
     </text>
 
     <div class="row" style="margin-bottom: 10px">
@@ -267,6 +267,6 @@
                     else if (myResult.Count() == 0)
                     {
                         <div class="col-md-3">
-                            No Results : <input type="button" value="Create New Answer" onclick="javascript: createNewMatchup();" />
+                            No Results : <input type="button" value="Create New Answer" onclick="javascript: createThisMatchup();" />
                         </div>
                     }
