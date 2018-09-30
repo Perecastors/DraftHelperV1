@@ -1,7 +1,10 @@
 ﻿@model FirstAPI.Models.MatchupInfos
 
+
+
 @{
     SelectList listChamp = FirstAPI.WebHelperTools.SelectListHelper.getAllChampions();
+    ViewBag.Title = ViewBag.Nickname + " - Edit Answer";
 }
 <p></p>
 <div class="row" style="width:95%;margin-left:56px">

@@ -360,6 +360,7 @@
     <Content Include="Content\close-button.jpg" />
     <Content Include="Content\erase.png" />
     <Content Include="Content\Multi-Column-Select.css" />
+    <Content Include="Content\perecastorIcon.jpg" />
     <Content Include="DbContext\ApiDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ApiDB.edmx</DependentUpon>
@@ -472,9 +473,7 @@
     <Content Include="Views\Matchup\SearchResults.cshtml" />
     <Content Include="Views\Matchup\AutomaticResults.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Test\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

@@ -55,7 +55,9 @@ namespace FirstAPI.Controllers
             //var matchupDal = new DALMatchup();
             var champPoolDal = new DALChampionPool();
             var playerDal = new DAL();
-            ViewBag.Role = playerDal.getPlayerById(playerId).Role;
+            var player = playerDal.getPlayerById(playerId);
+            ViewBag.Role = player?.Role;
+            ViewBag.Nickname = player?.Nickname;
             ViewBag.MyChampList = champPoolDal.getChampionPool(playerId);
             ViewBag.ListChampions = SelectListHelper.getAllChampions();
             //var listMatchupInfos = matchupDal.getAllMatchupByPlayerId(playerId);

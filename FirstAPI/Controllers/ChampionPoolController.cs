@@ -17,6 +17,7 @@ namespace FirstAPI.Controllers
             var MyChampionPool = dal.getChampionPool(playerId);
             ViewBag.ListChampions = SelectListHelper.getAllChampions();
             ViewBag.PlayerId = playerId;
+            ViewBag.Nickname = new DAL().getPlayerById(playerId).Nickname;
 
             return View(MyChampionPool);
         }
