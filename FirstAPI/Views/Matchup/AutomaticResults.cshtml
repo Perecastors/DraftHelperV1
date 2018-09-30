@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-12">
                 <fieldset class="panel panel-default" style="padding-bottom:10px;">
-                    <legend>Automatic Answer</legend>
+                    <legend>Estimated Answer <small style="font-size:12px">(Based on informations you have recorded)</small></legend>
                     <div class="row" style="margin-bottom: 10px">
                         <div class="col-md-3 text-center">
                             Ally Team
@@ -222,21 +222,31 @@
                             string champName;
                         }
                         @foreach (var answer in matchupInfos.answers)
-                    {
-                        champName = ((List<FirstAPI.DbContext.Champion>
-                            )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
-                            <text>
-                                <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
-                                    <img class="tooltipComment" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
-                                    <div id="commentId-@(answer.MatchupCommentId)-@(answer.ChampionId)" class="hidden">
-                                        <div style="width:180px;">
-                                            @Html.Raw(Html.Encode(answer.Comments).ReplaceLineBreakToBr())
+                        {
+                            champName = ((List<FirstAPI.DbContext.Champion>
+                                )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
+                            if (string.IsNullOrEmpty(answer.Comments))
+                            {
+                                <text>
+                                    <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
+                                        <img class="tooltipComment" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                        <div id="commentId-@(answer.MatchupCommentId)-@(answer.ChampionId)" class="hidden">
+                                            <div style="width:180px;">
+                                                @Html.Raw(Html.Encode(answer.Comments).ReplaceLineBreakToBr())
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </text>
-                        }
-                        <input type="button" value="Create This Matchup" onclick="javascript: createNewMatchup();" />
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <img src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                </text>
+                            }
+
+}
+                        <input type="button" value="Create and edit this Matchup" onclick="javascript: createNewMatchup();" />
                     </div>
                 </fieldset>
             </div>

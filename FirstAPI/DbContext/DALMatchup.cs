@@ -98,7 +98,7 @@ namespace FirstAPI.DbContext
                 var listMatchupComment = db.MatchupComments.Where(x => x.PlayerId == playerId).ToList();
                 Stopwatch t0 = new Stopwatch();
                 t0.Start();
-                var listMatchups = listMatchup.OrderByDescending(x => x.CreationDate).ToList();
+                var listMatchups = listMatchup.OrderByDescending(x => x.CreationDate).Take(20).ToList();
                 time = t0.ElapsedMilliseconds;
                 listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, listMatchupComment);
                 if(!isPerfectMatch)

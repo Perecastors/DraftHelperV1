@@ -271,8 +271,9 @@
                 console.log(answers);
                 for(var i=0; i < answers.length ;i++){
                     addAnswer(answers[i].ChampionId,answers[i].ChampionName);
+                    $("#img" + answers[i].ChampionName).addClass("selectedChampion");
                     //remplir le textarea
-                    $("#textarea_"+answers[i].ChampionName).val(answers[i].Comments);
+                    $("#textarea_" + answers[i].ChampionName).val(answers[i].Comments);
                 }
             }
             fillAnswers();
