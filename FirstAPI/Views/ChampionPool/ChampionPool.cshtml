@@ -26,7 +26,7 @@
                 <text>
             <span class="containerTest">
                 <a href="@Url.Action("DeleteChampion","ChampionPool",new {championId=item.ChampionId,playerId = ViewBag.PlayerId },null)"><img class="deleteChampIcon" src="~/Content/erase.png" /></a>
-                <img style="height:48px" src="http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion/@(item.ChampionName).png" />
+                <img style="height:48px" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(item.ChampionName).png" />
             </span>
                 </text>
                 if (i % 7 == 0)

@@ -89,7 +89,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.allyTopName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyTopName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.allyTopName).png" ; />
                         </text>
                     }
                     else
@@ -103,7 +103,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.allyJungleName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyJungleName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.allyJungleName).png" ; />
                         </text>
                     }
                     else
@@ -117,7 +117,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.allyMidName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyMidName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.allyMidName).png" ; />
                         </text>
                     }
                     else
@@ -131,7 +131,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.allyAdcName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allyAdcName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.allyAdcName).png" ; />
                         </text>
                     }
                     else
@@ -145,7 +145,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.allySupportName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.allySupportName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.allySupportName).png" ; />
                         </text>
                     }
                     else
@@ -161,7 +161,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.ennemyTopName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyTopName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.ennemyTopName).png" ; />
                         </text>
                     }
                     else
@@ -175,7 +175,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.ennemyJungleName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyJungleName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.ennemyJungleName).png" ; />
                         </text>
                     }
                     else
@@ -189,7 +189,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.ennemyMidName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyMidName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.ennemyMidName).png" ; />
                         </text>
                     }
                     else
@@ -203,7 +203,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.ennemyAdcName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemyAdcName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.ennemyAdcName).png" ; />
                         </text>
                     }
                     else
@@ -217,7 +217,7 @@
                     @if (!string.IsNullOrEmpty(matchupInfos.ennemySupportName))
                     {
                         <text>
-                            <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(matchupInfos.ennemySupportName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.ennemySupportName).png" ; />
                         </text>
                     }
                     else
@@ -249,7 +249,7 @@
                             }
                             else
                             {
-                                <img class="imgAnswer" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
+                                <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
                             }
                         </div>
                     </text>

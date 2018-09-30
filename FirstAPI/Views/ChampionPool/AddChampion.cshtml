@@ -30,7 +30,7 @@ $(document).ready(function(){
         if (!state.id) {
             return state.text;
         }
-        var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+        var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
         var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  '+ state.element.text +'</strong></span>');
         return $state;
     }
@@ -48,7 +48,7 @@ $(document).ready(function(){
     $('#e2_2').on('select2:open', function (e) {
         console.log("open");
         setTimeout(function () { $(".select2-dropdown--below").css('width', '1110px'); }, 100);
-        
+
     });
 
 });

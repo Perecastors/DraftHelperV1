@@ -25,7 +25,7 @@
         </td>
         <td>
             @{
-                string imgsrc = "http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/" + item.ChampionName + ".png";
+                string imgsrc = ConfigurationManager.AppSettings["UrlImgChamp"].ToLower() + "/" + item.ChampionName + ".png";
              }
             <img style="height:48px" src=@(imgsrc) />
             </td>

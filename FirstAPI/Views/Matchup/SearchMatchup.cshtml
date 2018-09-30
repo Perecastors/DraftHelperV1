@@ -14,7 +14,7 @@
                 <div class="col-md-3 form-horizontal">
                     <div class="row">
                         <div class="col-md-4">
-                            <label class="control-label align-middle"><strong>Ally Top</strong></label>
+                            <label class="control-label"><strong>Ally Top</strong></label>
                         </div>
                         @if (ViewBag.Role != 1)
                         {
@@ -158,7 +158,7 @@
         </fieldset>
     </div>
 </div>
-<div class="text-center row loader hidden"><img alt="Loading..." src="https://i.gifer.com/9wcA.gif" /></div>
+<div class="text-center row loaderC"><img alt="Loading..." src="~/Content/loader.gif" /></div>
 <div id="searchResults"></div>
 
 
@@ -215,7 +215,7 @@
             if (!state.id) {
                 return state.text;
             }
-            var baseUrl = "http://ddragon.leagueoflegends.com/cdn/8.17.1/img/champion";
+            var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
             var $state = $('<span><img style="height:20px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
             return $state;
         }
@@ -322,7 +322,7 @@
 
     function updateSearch() {
         $("#searchResults").hide();
-        $(".loader").show();
+        $(".loaderC").show();
         //recup value des dropdown
         var allyTop = $("#AllyTop").val();
         var allyJungle = $("#AllyJungle").val();
@@ -352,7 +352,7 @@
         objA.answers = new Array();
 
         var objs = JSON.stringify(objA);
-        //setTimeout(function () {   
+        setTimeout(function () {
         $.ajax({
             type: "POST",
             url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
@@ -361,7 +361,7 @@
             dataType: 'json'
         }).complete(function (data) {
             $("#searchResults").show();
-            $(".loader").hide();
+            $(".loaderC").hide();
             $('#searchResults').html(data.responseText);
             //automaticSearch()
             $(".tooltipComment").each(function () {
@@ -373,7 +373,7 @@
                 //console.log(comment);
             });
         })
-        //}, 1);
+        }, 150);
     }
 
 </script>
