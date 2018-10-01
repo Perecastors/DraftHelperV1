@@ -294,6 +294,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\DAL.cs" />
+    <Compile Include="DbContext\DALCalculation.cs" />
     <Compile Include="DbContext\DALChampionPool.cs" />
     <Compile Include="DbContext\DatabaseEntities.cs" />
     <Compile Include="DbContext\Matchup.cs">

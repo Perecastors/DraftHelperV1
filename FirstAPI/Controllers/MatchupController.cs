@@ -109,11 +109,11 @@ namespace FirstAPI.Controllers
         [HttpPost]
         public ActionResult AutomaticSearchResults(Guid playerId, MatchupInfos matchupInfos)
         {
-            var matchupDal = new DALMatchup();
+            var calculationDal = new DALCalculation();
             Stopwatch s = new Stopwatch();
             s.Start();
             matchupInfos.playerId = playerId;
-            var listMatchupInfos = matchupDal.GetEstimatedAnswersByMatchupParam2(matchupInfos);
+            var listMatchupInfos = calculationDal.GetEstimatedAnswersByMatchupParam(matchupInfos);
             s.Stop();
             //ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
             return PartialView("AutomaticResults", listMatchupInfos);

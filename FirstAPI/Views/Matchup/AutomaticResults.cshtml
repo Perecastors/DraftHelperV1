@@ -240,13 +240,16 @@
                             else
                             {
                                 <text>
+                                <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
                                     <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
+                                </div>
                                 </text>
-                            }
+    }
 
 }
-                        <input type="button" value="Create and edit this Matchup" onclick="javascript: createThisMatchup();" />
+                    <input type="button" value="Create and edit this Matchup" onclick="javascript: createThisMatchup();" />
                     </div>
+
                 </fieldset>
             </div>
         </div>
