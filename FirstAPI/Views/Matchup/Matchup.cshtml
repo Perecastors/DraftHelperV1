@@ -192,7 +192,7 @@
 
 <script>
     $(document).ready(function () {
-
+        var previousValue="rien";
         //systeme pour scroller le tableau des picks
         $(window).scroll(
             function () {
@@ -227,28 +227,44 @@
             var champName = $('#' + e.currentTarget.id).select2('data')[0].text;
             var targetId = "#display" + e.currentTarget.id
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<img style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
+            var $state = $('<img id="Compo-'+ champName +'" style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
 
             if (champName !== "") {
                 $(targetId).html($state);
+                $("#img" + champName).addClass("selectedChampion");
+                $("#img" + previousValue).removeClass("selectedChampion");
             } else {
                 $(targetId).html('');
             }
         });
 
+        $('.ddChamp').on('select2:selecting', function (e) {
+            var champName = $('#' + e.currentTarget.id).select2('data')[0].text;
+            previousValue=champName;
+        })
 
         $('.ddChamp').on('select2:clear', function (e) {
-            var targetId = "#display" + e.currentTarget.id
-            $(targetId).html('');
+
+            var targetDisplayCompo = "#display" + e.currentTarget.id;
+
+            //reset img in championpool area
+            var targetDisplay = $(targetDisplayCompo).children()[0].id;
+            var nameImg = "#img"+ targetDisplay.substring(6);
+            $(nameImg).removeClass("selectedChampion");
+
+            //clear img in compo area
+            $(targetDisplayCompo).html('');
         });
 
         $(".imgChampion").on('click', function (e) {
             var champName = e.target.alt;
-            var champId = e.target.getAttribute('data-id');
-            var isAlreadyAdded = $("#myAnswerIs" + champName);
-            if (isAlreadyAdded[0] === undefined) {
-                $("#img" + champName).addClass("selectedChampion");
-                addAnswer(champId, champName);
+            if(champName !== undefined){
+                var champId = e.target.getAttribute('data-id');
+                var isAlreadyAdded = $("#myAnswerIs" + champName);
+                if (isAlreadyAdded[0] === undefined) {
+                    $("#img" + champName).addClass("selectedChampion");
+                    addAnswer(champId, champName);
+                }
             }
         })
 
@@ -269,15 +285,26 @@
         {
             <text>
             function fillAnswers() {
-                var answers = new Object();
-                answers = @(Html.Raw(Json.Encode(Model.answers)));
-                console.log(answers);
+                var matchupinfos = new Object();
+                matchupinfos = @(Html.Raw(Json.Encode(Model)));
+                var answers = matchupinfos.answers;
                 for(var i=0; i < answers.length ;i++){
                     addAnswer(answers[i].ChampionId,answers[i].ChampionName);
                     $("#img" + answers[i].ChampionName).addClass("selectedChampion");
                     //remplir le textarea
                     $("#textarea_" + answers[i].ChampionName).val(answers[i].Comments);
                 }
+                
+                $("#img" + matchupinfos.allyTopName).addClass("selectedChampion");
+                $("#img" + matchupinfos.allyJungleName).addClass("selectedChampion");
+                $("#img" + matchupinfos.allyMidName).addClass("selectedChampion");
+                $("#img" + matchupinfos.allyAdcName).addClass("selectedChampion");
+                $("#img" + matchupinfos.allySupportName).addClass("selectedChampion");
+                $("#img" + matchupinfos.ennemyTopName).addClass("selectedChampion");
+                $("#img" + matchupinfos.ennemyJungleName).addClass("selectedChampion");
+                $("#img" + matchupinfos.ennemyMidName).addClass("selectedChampion");
+                $("#img" + matchupinfos.ennemyAdcName).addClass("selectedChampion");
+                $("#img" + matchupinfos.ennemySupportName).addClass("selectedChampion");
             }
             fillAnswers();
             </text>
@@ -407,6 +434,8 @@
 
     .selectedChampion {
         filter: grayscale(100%) brightness(2);
+        cursor:not-allowed;
+        pointer-events:none;
     }
 
     body {
