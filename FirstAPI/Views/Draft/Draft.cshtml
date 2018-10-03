@@ -71,10 +71,10 @@
     </div>
 </div>
 <br />
-<div class="row" style="border: 1px solid #dddddd;padding: 15px;border-radius: 14px;">
+<div class="row" style="border: 1px solid #dddddd;padding-right: 23px;padding-top: 15px;border-radius: 14px;">
     <div class="col-md-3" style="padding-right:30px;">
-        <div class="row col-md-offset-10 text-right" style="margin-bottom:10px">
-            is Flex ?
+        <div class="row col-md-offset-10 text-right" style="margin-bottom: 10px;margin-right: -27px;">
+            Flex ?
         </div>
         <div class="row" style="height:60px">
             <div class="col-md-1">
@@ -83,8 +83,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("AllyTop", listChamp, new { @id = "AllyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckAllyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckAllyTop" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -94,8 +94,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("AllyJungle", listChamp, new { @id = "AllyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckAllyJungle" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckAllyJungle" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -105,8 +105,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("AllyMid", listChamp, new { @id = "AllyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1" style="height:60px">
-                <input type="checkbox" id="ckAllyMid" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckAllyMid" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -116,8 +116,8 @@
             <div class="col-md-9 col-md-offset-1" >
                 @Html.DropDownList("AllyAdc", listChamp, new { @id = "AllyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckAllyAdc" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckAllyAdc" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -127,14 +127,14 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("AllySupport", listChamp, new { @id = "AllySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckAllySupport" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckAllySupport" />
             </div>
         </div>
     </div>
     <div class="col-md-6" style="padding-left: 15px;padding-top: 10px;">
         <div class="row col-md-12" style="height:300px">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills" style="margin-left: 219px;">
                 <li class="active"><a data-toggle="tab" href="#answerTop">Top</a></li>
                 <li><a data-toggle="tab" href="#answerJungle">Jungle</a></li>
                 <li><a data-toggle="tab" href="#answerMid">Mid</a></li>
@@ -166,8 +166,8 @@
         </div>
     </div>
     <div class="col-md-3">
-        <div class="row col-md-offset-10 text-right" style="margin-bottom:10px">
-            is Flex ?
+        <div class="row col-md-offset-10 text-right" style="margin-bottom: 10px;margin-right: -27px;">
+            Flex ?
         </div>
         <div class="row" style="height:60px">
             <div class="col-md-1">
@@ -176,8 +176,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckEnnemyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemyTop" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -187,8 +187,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckEnnemyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemyJungle" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -198,8 +198,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckEnnemyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemyMid" />
             </div>
         </div>
         <div class="row" style="height:60px">
@@ -209,8 +209,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckEnnemyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemyAdc" />
             </div>
         </div>
         <div class="row" >
@@ -220,8 +220,8 @@
             <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
-            <div class="col-md-1">
-                <input type="checkbox" id="ckEnnemyTop" />
+            <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
+                <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemySupport" />
             </div>
         </div>
     </div>
@@ -235,7 +235,6 @@
     .select2-selection--single {
         height: 34px !important;
     }
-
     
 </style>
 
