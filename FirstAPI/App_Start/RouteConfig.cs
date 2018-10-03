@@ -13,10 +13,16 @@ namespace FirstAPI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "Matchup2",
+            //    url: "Matchup/{action}/{playerId}/{matchupId}",
+            //    defaults: new { controller = "Matchup", action = "Matchup", playerId = UrlParameter.Optional, matchupId=UrlParameter.Optional }
+            //);
+
             routes.MapRoute(
-                name: "Matchup2",
-                url: "Matchup/{action}/{playerId}/{matchupId}",
-                defaults: new { controller = "Matchup", action = "Matchup", playerId = UrlParameter.Optional, matchupId=UrlParameter.Optional }
+                name: "Draft",
+                url: "Draft/{action}/{id}",
+                defaults: new { controller = "Draft", action = "Draft", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

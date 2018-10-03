@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "Draft Mode";
+    SelectList listChamp = FirstAPI.WebHelperTools.SelectListHelper.getAllChampions();
+}
+
+
+<div class="row col-md-12">
+    <div class="col-md-3 text-center">
+        <h3>Your Team</h3>
+    </div>
+    <div class="col-md-6 text-center">
+        <h3>DraftHelper</h3>
+    </div>
+    <div class="col-md-3 text-center">
+        <h3>Ennemy Team</h3>
+    </div>
+</div>
+<div class="row" style="border: 1px solid #dddddd;padding: 15px;border-radius: 14px;">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="col-md-4">
+                Ban 1
+                @Html.DropDownList("AllyBan1", listChamp, new { @id = "AllyBan1", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 2
+                @Html.DropDownList("AllyBan2", listChamp, new { @id = "AllyBan2", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 3
+                @Html.DropDownList("AllyBan3", listChamp, new { @id = "AllyBan3", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-md-5 col-md-offset-2">
+            <div class="col-md-4">
+                Ban 3
+                @Html.DropDownList("EnnemyBan3", listChamp, new { @id = "EnnemyBan3", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 2
+                @Html.DropDownList("EnnemyBan2", listChamp, new { @id = "EnnemyBan2", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 1
+                @Html.DropDownList("EnnemyBan1", listChamp, new { @id = "EnnemyBan1", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5px;">
+        <div class="col-md-5">
+            <div class="col-md-4">
+                Ban 4
+                @Html.DropDownList("AllyBan4", listChamp, new { @id = "AllyBan4", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 5
+                @Html.DropDownList("AllyBan5", listChamp, new { @id = "AllyBan5", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+        </div>
+        <div class="col-md-5 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-4">
+                Ban 5
+                @Html.DropDownList("EnnemyBan5", listChamp, new { @id = "EnnemyBan5", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-4">
+                Ban 4
+                @Html.DropDownList("EnnemyBan4", listChamp, new { @id = "EnnemyBan4", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row" style="border: 1px solid #dddddd;padding: 15px;border-radius: 14px;">
+    <div class="col-md-3" style="padding-right:30px;">
+        <div class="row col-md-offset-10 text-right" style="margin-bottom:10px">
+            is Flex ?
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Top
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("AllyTop", listChamp, new { @id = "AllyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckAllyTop" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Jungle
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("AllyJungle", listChamp, new { @id = "AllyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckAllyJungle" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Mid
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("AllyMid", listChamp, new { @id = "AllyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1" style="height:60px">
+                <input type="checkbox" id="ckAllyMid" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Adc
+            </div>
+            <div class="col-md-9 col-md-offset-1" >
+                @Html.DropDownList("AllyAdc", listChamp, new { @id = "AllyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckAllyAdc" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Support
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("AllySupport", listChamp, new { @id = "AllySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckAllySupport" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="padding-left: 15px;padding-top: 10px;">
+        <div class="row col-md-12" style="height:300px">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="tab" href="#answerTop">Top</a></li>
+                <li><a data-toggle="tab" href="#answerJungle">Jungle</a></li>
+                <li><a data-toggle="tab" href="#answerMid">Mid</a></li>
+                <li><a data-toggle="tab" href="#answerAdc">Adc</a></li>
+                <li><a data-toggle="tab" href="#answerSupport">Support</a></li>
+            </ul>
+            <div class="tab-content" style="border: 1px solid #dddddd;border-radius:10px;height:270px;padding:10px">
+                <div id="answerTop" class="tab-pane fade in active">
+                    <h3>Top</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magnaaer aliqua.</p>
+                </div>
+                <div id="answerJungle" class="tab-pane fade">
+                    <h3>Jungle</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div id="answerMid" class="tab-pane fade">
+                    <h3>Mid</h3>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
+                <div id="answerAdc" class="tab-pane fade">
+                    <h3>Adc</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+                <div id="answerSupport" class="tab-pane fade">
+                    <h3>Support</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row col-md-offset-10 text-right" style="margin-bottom:10px">
+            is Flex ?
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Top
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckEnnemyTop" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Jungle
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckEnnemyTop" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Mid
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckEnnemyTop" />
+            </div>
+        </div>
+        <div class="row" style="height:60px">
+            <div class="col-md-1">
+                Adc
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckEnnemyTop" />
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1">
+                Support
+            </div>
+            <div class="col-md-9 col-md-offset-1">
+                @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" id="ckEnnemyTop" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 1700px;
+    }
+
+    .select2-selection--single {
+        height: 34px !important;
+    }
+
+    
+</style>
+
+<script>
+    $(document).ready(function () {
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
+            var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            return $state;
+        }
+
+        $(".ddChamp").select2({
+            placeholder: "Choose...",
+            allowClear: true,
+            templateResult: formatState,
+            templateSelection: formatState,
+            minimumResultsForSearch: 1,
+        });
+    });
+</script>
