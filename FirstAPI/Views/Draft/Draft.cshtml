@@ -113,7 +113,7 @@
             <div class="col-md-1">
                 Adc
             </div>
-            <div class="col-md-9 col-md-offset-1" >
+            <div class="col-md-9 col-md-offset-1">
                 @Html.DropDownList("AllyAdc", listChamp, new { @id = "AllyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
             </div>
             <div class="col-md-1" style="margin-left: -8px;margin-top: 4px;">
@@ -133,37 +133,73 @@
         </div>
     </div>
     <div class="col-md-6" style="padding-left: 15px;padding-top: 10px;">
-        <div class="row col-md-12" style="height:300px">
-            <ul class="nav nav-pills" style="margin-left: 219px;">
+        <div class="row col-md-12" id="answerArea" style="height:400px;border: 1px solid #dddddd;border-radius:10px;display:none">
+            @*<ul class="nav nav-pills" style="margin-left: 219px;">
                 <li class="active"><a data-toggle="tab" href="#answerTop">Top</a></li>
                 <li><a data-toggle="tab" href="#answerJungle">Jungle</a></li>
                 <li><a data-toggle="tab" href="#answerMid">Mid</a></li>
                 <li><a data-toggle="tab" href="#answerAdc">Adc</a></li>
                 <li><a data-toggle="tab" href="#answerSupport">Support</a></li>
             </ul>
-            <div class="tab-content" style="border: 1px solid #dddddd;border-radius:10px;height:270px;padding:10px">
+            <div class="tab-content" style="border: 1px solid #dddddd;border-radius:10px;height:270px;padding:10px;text-align: center;">
                 <div id="answerTop" class="tab-pane fade in active">
                     <h3>Top</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magnaaer aliqua.</p>
                 </div>
                 <div id="answerJungle" class="tab-pane fade">
                     <h3>Jungle</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 </div>
                 <div id="answerMid" class="tab-pane fade">
                     <h3>Mid</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                 </div>
                 <div id="answerAdc" class="tab-pane fade">
                     <h3>Adc</h3>
-                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
                 </div>
                 <div id="answerSupport" class="tab-pane fade">
                     <h3>Support</h3>
-                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+                <div class="text-center row loaderC" style="display:none"><img alt="Loading..." src="~/Content/loader.gif" /></div>
+            </div>*@
+            <div class="row" style="height:80px;" >
+                <div class="col-md-1 verticalCenter">
+                    <div>Top</div>
+                </div><div class="col-md-11 verticalCenter">
+                    <div id="answerTop"></div>
+                </div>
+            </div>
+            <div class="row" style="height:80px;border: 1px solid #dddddd;">
+                <div class="col-md-1">
+                    Jungle
+                </div>
+                <div class="col-md-11">
+                    <div id="answerJungle"></div>
+                </div>
+            </div>
+            <div class="row" style="height:80px;border: 1px solid #dddddd;">
+                <div class="col-md-1">
+                    Mid
+                </div>
+                <div class="col-md-11">
+                    <div id="answerMid"></div>
+                </div>
+            </div>
+            <div class="row" style="height:80px;border: 1px solid #dddddd;">
+                <div class="col-md-1">
+                    Adc
+                </div>
+                <div class="col-md-11">
+                    <div id="answerAdc"></div>
+                </div>
+            </div>
+            <div class="row" style="height:80px;border: 1px solid #dddddd;">
+                <div class="col-md-1">
+                    Support
+                </div>
+                <div class="col-md-11">
+                    <div id="answerSupport"></div>
                 </div>
             </div>
         </div>
+        <div class="text-center row loaderC" style="display:none"><img alt="Loading..." src="~/Content/loader.gif" /></div>
     </div>
     <div class="col-md-3">
         <div class="row col-md-offset-10 text-right" style="margin-bottom: 10px;margin-right: -27px;">
@@ -213,7 +249,7 @@
                 <input type="checkbox" data-on="Yes" data-off="No" data-size="mini" data-toggle="toggle" id="ckEnnemyAdc" />
             </div>
         </div>
-        <div class="row" >
+        <div class="row">
             <div class="col-md-1">
                 Support
             </div>
@@ -235,7 +271,12 @@
     .select2-selection--single {
         height: 34px !important;
     }
-    
+
+    .verticalCenter {
+ display: inline-block;
+ vertical-align: middle;
+ float: none;
+}
 </style>
 
 <script>
@@ -256,5 +297,135 @@
             templateSelection: formatState,
             minimumResultsForSearch: 1,
         });
+
+        $('.ddChamp').on('select2:select', function (e) {
+            computeDraftInfos();
+        });
+
+        $('.ddChamp').on('select2:clear', function (e) {
+            computeDraftInfos();
+        });
+
     });
+
+    function computeDraftInfos() {
+        $("#answerArea").hide();
+        $(".loaderC").show();
+        var draftInfos = new Object();
+        draftInfos.AllyTop = $("#AllyTop").val();
+        draftInfos.AllyJungle = $("#AllyJungle").val();
+        draftInfos.AllyMid = $("#AllyMid").val();
+        draftInfos.AllyAdc = $("#AllyAdc").val();
+        draftInfos.AllySupport = $("#AllySupport").val();
+
+        draftInfos.EnnemyTop = $("#EnnemyTop").val();
+        draftInfos.EnnemyJungle = $("#EnnemyJungle").val();
+        draftInfos.EnnemyMid = $("#EnnemyMid").val();
+        draftInfos.EnnemyAdc = $("#EnnemyAdc").val();
+        draftInfos.EnnemySupport = $("#EnnemySupport").val();
+
+        draftInfos.FlexAllyTop = $("#FlexAllyTop").val();
+        draftInfos.FlexAllyJungle = $("#FlexAllyJungle").val();
+        draftInfos.FlexAllyMid = $("#FlexAllyMid").val();
+        draftInfos.FlexAllyAdc = $("#FlexAllyAdc").val();
+        draftInfos.FlexAllySupport = $("#FlexAllySupport").val();
+
+        draftInfos.FlexEnnemyTop = $("#FlexEnnemyTop").val();
+        draftInfos.FlexEnnemyJungle = $("#FlexEnnemyJungle").val();
+        draftInfos.FlexEnnemyMid = $("#FlexEnnemyMid").val();
+        draftInfos.FlexEnnemyAdc = $("#FlexEnnemyAdc").val();
+        draftInfos.FlexEnnemySupport = $("#FlexEnnemySupport").val();
+
+        draftInfos.AllyBan1 = $("#AllyBan1").val();
+        draftInfos.AllyBan2 = $("#AllyBan2").val();
+        draftInfos.AllyBan3 = $("#AllyBan3").val();
+        draftInfos.AllyBan4 = $("#AllyBan4").val();
+        draftInfos.AllyBan5 = $("#AllyBan5").val();
+
+        draftInfos.EnnemyBan1 = $("#EnnemyBan1").val();
+        draftInfos.EnnemyBan2 = $("#EnnemyBan2").val();
+        draftInfos.EnnemyBan3 = $("#EnnemyBan3").val();
+        draftInfos.EnnemyBan4 = $("#EnnemyBan4").val();
+        draftInfos.EnnemyBan5 = $("#EnnemyBan5").val();
+
+        var objs = JSON.stringify(draftInfos);
+
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("ComputeDraft",null, new { controller = "Draft" }, Request.Url.Scheme))',
+            data: objs,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            $(".loaderC").hide();
+            $("#answerArea").show();
+
+            var allAnswersList = data.responseJSON;
+            var listTop = allAnswersList[0];
+            var listJungle = allAnswersList[1];
+            var listMid = allAnswersList[2];
+            var listAdc = allAnswersList[3];
+            var listSupport = allAnswersList[4];
+
+            showTopAnswers(listTop);
+            showJungleAnswers(listJungle);
+            showMidAnswers(listMid);
+            showAdcAnswers(listAdc);
+            showSupportAnswers(listSupport);
+        });
+  
+    }
+
+    function showTopAnswers(answers) {
+        var str = "";
+        $.each(answers, function (i, answer) {
+            console.log(answer);
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        $("#answerTop").html(str);
+    }
+
+    function showJungleAnswers(answers) {
+        var str = "";
+        $.each(answers, function (i, answer) {
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        $("#answerJungle").html(str);
+    }
+
+    function showMidAnswers(answers) {
+        var str = "";
+        $.each(answers, function (i, answer) {
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        $("#answerMid").html(str);
+    }
+
+    function showAdcAnswers(answers) {
+        var str = "";
+        $.each(answers, function (i, answer) {
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        $("#answerAdc").html(str);
+    }
+
+    function showSupportAnswers(answers) {
+        var str = "";
+        $.each(answers, function (i, answer) {
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        $("#answerSupport").html(str);
+    }
+
+
 </script>

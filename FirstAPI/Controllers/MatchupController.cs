@@ -106,27 +106,27 @@ namespace FirstAPI.Controllers
             return PartialView("SearchResults", listMatchupInfos.Item1);
         }
 
-        [HttpPost]
-        public ActionResult AutomaticSearchResults(Guid playerId, MatchupInfos matchupInfos)
-        {
-            var calculationDal = new DALCalculation();
-            Stopwatch s = new Stopwatch();
-            s.Start();
-            matchupInfos.playerId = playerId;
-            var listMatchupInfos = calculationDal.GetEstimatedAnswersByMatchupParam(matchupInfos);
-            s.Stop();
-            //ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
-            return PartialView("AutomaticResults", listMatchupInfos);
-        }
+        //[HttpPost]
+        //public ActionResult AutomaticSearchResults(Guid playerId, MatchupInfos matchupInfos)
+        //{
+        //    var calculationDal = new DALCalculation();
+        //    Stopwatch s = new Stopwatch();
+        //    s.Start();
+        //    matchupInfos.playerId = playerId;
+        //    var listMatchupInfos = calculationDal.GetEstimatedAnswersByMatchupParam(matchupInfos);
+        //    s.Stop();
+        //    //ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
+        //    return PartialView("AutomaticResults", listMatchupInfos);
+        //}
 
-        [HttpPost]
-        public JsonResult UpdateSearchResults2(Guid playerId, MatchupInfos matchupInfos)
-        {
-            var matchupDal = new DALMatchup();
-            var listMatchupInfos = matchupDal.getAllMatchupByParams(playerId, matchupInfos);
+        //[HttpPost]
+        //public JsonResult UpdateSearchResults2(Guid playerId, MatchupInfos matchupInfos)
+        //{
+        //    var matchupDal = new DALMatchup();
+        //    var listMatchupInfos = matchupDal.getAllMatchupByParams(playerId, matchupInfos);
 
-            return Json(listMatchupInfos, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(listMatchupInfos, JsonRequestBehavior.AllowGet);
+        //}
 
     }
 

@@ -24,6 +24,13 @@ namespace FirstAPI.DbContext
             return listPlayers;
         }
 
+        public Player getPlayerByName(string name)
+        {
+            Player player = new Player();
+            player = db.Players.Where(x => x.Nickname.ToLower().Equals(name.ToLower())).FirstOrDefault();
+            return player;
+        }
+
         public Player getPlayerById(Guid playerId)
         {
             Player player = new Player();

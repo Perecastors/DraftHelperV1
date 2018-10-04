@@ -295,16 +295,16 @@
                     $("#textarea_" + answers[i].ChampionName).val(answers[i].Comments);
                 }
                 
-                $("#img" + matchupinfos.allyTopName).addClass("selectedChampion");
-                $("#img" + matchupinfos.allyJungleName).addClass("selectedChampion");
-                $("#img" + matchupinfos.allyMidName).addClass("selectedChampion");
-                $("#img" + matchupinfos.allyAdcName).addClass("selectedChampion");
-                $("#img" + matchupinfos.allySupportName).addClass("selectedChampion");
-                $("#img" + matchupinfos.ennemyTopName).addClass("selectedChampion");
-                $("#img" + matchupinfos.ennemyJungleName).addClass("selectedChampion");
-                $("#img" + matchupinfos.ennemyMidName).addClass("selectedChampion");
-                $("#img" + matchupinfos.ennemyAdcName).addClass("selectedChampion");
-                $("#img" + matchupinfos.ennemySupportName).addClass("selectedChampion");
+                $("#img" + matchupinfos.AllyTopName).addClass("selectedChampion");
+                $("#img" + matchupinfos.AllyJungleName).addClass("selectedChampion");
+                $("#img" + matchupinfos.AllyMidName).addClass("selectedChampion");
+                $("#img" + matchupinfos.AllyAdcName).addClass("selectedChampion");
+                $("#img" + matchupinfos.AllySupportName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnnemyTopName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnnemyJungleName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnnemyMidName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnnemyAdcName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnnemySupportName).addClass("selectedChampion");
             }
             fillAnswers();
             </text>
@@ -349,16 +349,16 @@
         var objA = new Object();
         objA.playerId = '@(ViewBag.PlayerId)';
         objA.matchupId = '@(ViewBag.MatchupId)';
-        objA.allyTop = allyTop;
-        objA.allyJungle = allyJungle;
-        objA.allyMid = allyMid;
-        objA.allyAdc = allyAdc;
-        objA.allySupport = allySupport;
-        objA.ennemyTop = ennemyTop;
-        objA.ennemyJungle = ennemyJungle;
-        objA.ennemyMid = ennemyMid;
-        objA.ennemyAdc = ennemyAdc;
-        objA.ennemySupport = ennemySupport;
+        objA.AllyTop = allyTop;
+        objA.AllyJungle = allyJungle;
+        objA.AllyMid = allyMid;
+        objA.AllyAdc = allyAdc;
+        objA.AllySupport = allySupport;
+        objA.EnnemyTop = ennemyTop;
+        objA.EnnemyJungle = ennemyJungle;
+        objA.EnnemyMid = ennemyMid;
+        objA.EnnemyAdc = ennemyAdc;
+        objA.EnnemySupport = ennemySupport;
         objA.answers = new Array();
 
         //recup les answers guid
