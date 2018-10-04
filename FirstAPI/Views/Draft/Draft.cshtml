@@ -373,57 +373,45 @@
             showAdcAnswers(listAdc);
             showSupportAnswers(listSupport);
         });
-  
+
+    }
+
+    function buildAnswer(str,answers) {
+        $.each(answers, function (i, answer) {
+            str = str + "<span>"
+            str = str + "<img alt='" + answer.ChampionName + "' style='height:38px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "</span>"
+        })
+        return str;
     }
 
     function showTopAnswers(answers) {
         var str = "";
-        $.each(answers, function (i, answer) {
-            console.log(answer);
-            str = str + "<span>"
-            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
-            str = str + "</span>"
-        })
+        str = str + buildAnswer(str, answers);
         $("#answerTop").html(str);
     }
 
     function showJungleAnswers(answers) {
         var str = "";
-        $.each(answers, function (i, answer) {
-            str = str + "<span>"
-            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
-            str = str + "</span>"
-        })
+        str = str + buildAnswer(str, answers);
         $("#answerJungle").html(str);
     }
 
     function showMidAnswers(answers) {
         var str = "";
-        $.each(answers, function (i, answer) {
-            str = str + "<span>"
-            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
-            str = str + "</span>"
-        })
+        str = str + buildAnswer(str, answers);
         $("#answerMid").html(str);
     }
 
     function showAdcAnswers(answers) {
         var str = "";
-        $.each(answers, function (i, answer) {
-            str = str + "<span>"
-            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
-            str = str + "</span>"
-        })
+        str = str + buildAnswer(str, answers);
         $("#answerAdc").html(str);
     }
 
     function showSupportAnswers(answers) {
         var str = "";
-        $.each(answers, function (i, answer) {
-            str = str + "<span>"
-            str = str + "<img alt='" + answer.ChampionName + "' style='height:35px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
-            str = str + "</span>"
-        })
+        str = str + buildAnswer(str, answers);
         $("#answerSupport").html(str);
     }
 
