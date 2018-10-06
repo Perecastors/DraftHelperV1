@@ -170,8 +170,10 @@ namespace FirstAPI.DbContext
                         matchupAnswer.Comments = listMatchupComment.Where(x => x.MatchupId == matchup.MatchupId && x.ChampionId == response.ChampionId).OrderByDescending(x => x.CreationDate).FirstOrDefault()?.CommentText;
                         matchupInfo.answers.Add(matchupAnswer);
                     }
+                    matchupInfo.answers = matchupInfo.answers.OrderBy(x => x.ChampionName).ToList();
                     matchupInfos.Add(matchupInfo);
                 }
+
             }
             return matchupInfos;
 
@@ -254,6 +256,11 @@ namespace FirstAPI.DbContext
             else
                 matchup.MatchupResponseId = matchupInfos.matchupResponseId;
             matchup.CreationDate = DateTime.Now;
+
+            if(String.IsNullOrEmpty(matchup.PatchVersion) && matchup.PatchVersion != ConfigurationManager.AppSettings["PatchVersion"]) {
+                matchup.PatchVersion = ConfigurationManager.AppSettings["PatchVersion"];
+            }
+
             return matchup;
         }
 

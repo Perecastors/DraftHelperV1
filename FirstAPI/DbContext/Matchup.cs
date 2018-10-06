@@ -28,5 +28,6 @@ namespace FirstAPI.DbContext
         public Nullable<System.Guid> AllySupport { get; set; }
         public System.Guid MatchupResponseId { get; set; }
         public System.DateTime CreationDate { get; set; }
+        public string PatchVersion { get; set; }
     }
 }

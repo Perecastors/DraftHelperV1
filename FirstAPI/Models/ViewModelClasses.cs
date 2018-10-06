@@ -35,6 +35,8 @@ namespace FirstAPI.Models
         public Guid EnnemySupport { get; set; }
         public string EnnemySupportName { get { return convertGUIDtoString(EnnemySupport); } set { EnnemySupportName = value; } }
 
+        public string PatchVersion { get; set; }
+
         public List<MatchupAnswer> answers { get; set; }
 
         private string convertGUIDtoString(Guid id)
@@ -100,5 +102,11 @@ namespace FirstAPI.Models
         {
             return obj.ToString().GetHashCode();
         }
+    }
+
+    public class UtilisateurViewModel
+    {
+        public Player Player { get; set; }
+        public bool Authentifie { get; set; }
     }
 }

@@ -33,5 +33,6 @@ namespace FirstAPI.DbContext
         public virtual DbSet<Matchup> Matchups { get; set; }
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

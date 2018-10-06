@@ -20,6 +20,12 @@ namespace FirstAPI
             //);
 
             routes.MapRoute(
+                name: "Login",
+                url: "Login/{action}/{id}",
+                defaults: new { controller = "Login", action = "Login", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Draft",
                 url: "Draft/{action}/{id}",
                 defaults: new { controller = "Draft", action = "Draft", id = UrlParameter.Optional }

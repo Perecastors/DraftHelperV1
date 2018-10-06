@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace FirstAPI.Controllers
 {
+    [Authorize]
     public class DraftController : Controller
     {
         // GET: Draft

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace FirstAPI.Controllers
 {
+    [Authorize]
     public class ChampionPoolController : Controller
     {
         // GET: ChampionPool

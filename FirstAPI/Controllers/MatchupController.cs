@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace FirstAPI.Controllers
 {
+    [Authorize]
     public class MatchupController : Controller
     {
         // GET: Matchup

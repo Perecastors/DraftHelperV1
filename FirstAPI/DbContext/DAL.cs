@@ -16,6 +16,12 @@ namespace FirstAPI.DbContext
                 db = new Database1Entities("name=Database2Entities");
         }
 
+        public User Login(string username,string password)
+        {
+            User user = db.Users.Where(x => x.Username == username && x.Password == password).FirstOrDefault();
+            return user;
+        }
+
         //GET 
         public List<Player> getAllPlayers()
         {

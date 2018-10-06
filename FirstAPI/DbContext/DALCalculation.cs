@@ -607,6 +607,7 @@ namespace FirstAPI.DbContext
                     matchupAnswer.ChampionId = matchupResponse.ChampionId;
                     automaticMatchupInfo.answers.Add(matchupAnswer);
                 }
+                automaticMatchupInfo.answers = automaticMatchupInfo.answers.OrderBy(x => x.ChampionName).ToList();
             }
             return automaticMatchupInfo;
         }
@@ -671,7 +672,7 @@ namespace FirstAPI.DbContext
                 }
             }
 
-            return listChampion.ToList();
+            return listChampion.OrderBy(x =>x.ChampionName).ToList();
         }
     }
 }
