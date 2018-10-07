@@ -1,1 +1,19 @@
-﻿<img style="width:110px;margin-left: 89px;" src="~/Content/clickhere-uparrow-blue.png" />
+﻿<div class="row">
+    <h3>Welcome @Session["Nickname"]</h3>
+</div>
+<br/>
+<br />
+<br />
+<br />
+<div class="row">
+    <h4><strong>@Html.ActionLink("My Champion Pool", "ChampionPool", "ChampionPool", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
+    <p>
+        <i>- In this section, you can edit your champion's list and also create your own champion tags</i>
+    </p>
+</div>
+<div class="row">
+    <h4><strong>@Html.ActionLink("My Matchups", "SearchMatchup", "Matchup", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
+    <p>
+        <i>- In this section, you can find or create custom matchup scenarios </i>
+    </p>
+</div>

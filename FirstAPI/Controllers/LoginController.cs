@@ -30,8 +30,6 @@ namespace FirstAPI.Controllers
                         return Redirect(returnUrl);
                     return Redirect("/");
                 }
-
-                ModelState.AddModelError(player.Nickname, "Login et/ou mot de passe incorrect(s)");
             }
             return View(viewModel);
         }
