@@ -80,6 +80,7 @@
           <Property Name="Nickname" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -88,14 +89,6 @@
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Users">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_ChampionTags_ToTable">
           <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
@@ -130,7 +123,6 @@
           <EntitySet Name="Matchups" EntityType="Self.Matchups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ChampionTags_ToTable" Association="Self.FK_ChampionTags_ToTable">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ChampionTags" EntitySet="ChampionTags" />
@@ -161,7 +153,6 @@
             <End Role="Tag" EntitySet="Tags" />
             <End Role="ChampionTag" EntitySet="ChampionTags" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="ApiDBModel.User" />
         </EntityContainer>
         <EntityType Name="ChampionPool">
           <Key>
@@ -241,6 +232,7 @@
           <Property Name="Nickname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -275,14 +267,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -360,6 +344,7 @@
           <EntitySetMapping Name="Players">
             <EntityTypeMapping TypeName="ApiDBModel.Player">
               <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Nickname" ColumnName="Nickname" />
@@ -373,15 +358,6 @@
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ApiDBModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

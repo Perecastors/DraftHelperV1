@@ -16,20 +16,20 @@ namespace FirstAPI.Controllers
         }
         
         [HttpPost]
-        public ActionResult Login(User viewModel, string returnUrl)
+        public ActionResult Login(Player viewModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                User utilisateur = new DAL().Login(viewModel.Username, viewModel.Password);
+                Player utilisateur = new DAL().Login(viewModel.Nickname, viewModel.Password);
                 if (utilisateur != null)
                 {
-                    FormsAuthentication.SetAuthCookie(utilisateur.UserId.ToString(), false);
+                    FormsAuthentication.SetAuthCookie(utilisateur.PlayerId.ToString(), false);
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
                     return Redirect("/");
                 }
 
-                ModelState.AddModelError("User.Username", "Login et/ou mot de passe incorrect(s)");
+                ModelState.AddModelError(utilisateur.Nickname, "Login et/ou mot de passe incorrect(s)");
             }
             return View(viewModel);
         }

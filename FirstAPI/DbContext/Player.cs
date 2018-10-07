@@ -18,5 +18,6 @@ namespace FirstAPI.DbContext
         public string Nickname { get; set; }
         public int Role { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
+        public string Password { get; set; }
     }
 }

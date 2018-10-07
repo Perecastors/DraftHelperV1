@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="ApiDBModel.Tag" Width="1.5" PointX="0.75" PointY="1.125" />
         <AssociationConnector Association="ApiDBModel.FK_ChampionTags_ToTable_1" />
         <AssociationConnector Association="ApiDBModel.FK_ChampionTags_ToTable" />
-        <EntityTypeShape EntityType="ApiDBModel.User" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

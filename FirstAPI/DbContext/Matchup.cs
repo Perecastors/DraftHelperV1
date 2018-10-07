@@ -16,6 +16,7 @@ namespace FirstAPI.DbContext
     {
         public System.Guid MatchupId { get; set; }
         public System.Guid PlayerId { get; set; }
+        public System.Guid MatchupResponseId { get; set; }
         public Nullable<System.Guid> EnemyTop { get; set; }
         public Nullable<System.Guid> EnemyJungle { get; set; }
         public Nullable<System.Guid> EnemyMid { get; set; }
@@ -26,7 +27,6 @@ namespace FirstAPI.DbContext
         public Nullable<System.Guid> AllyMid { get; set; }
         public Nullable<System.Guid> AllyAdc { get; set; }
         public Nullable<System.Guid> AllySupport { get; set; }
-        public System.Guid MatchupResponseId { get; set; }
         public System.DateTime CreationDate { get; set; }
         public string PatchVersion { get; set; }
     }

@@ -1,0 +1,4 @@
+﻿<ul class="nav navbar-nav">
+    <li>@Html.ActionLink("My Champion Pool", "ChampionPool", "ChampionPool", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</li>
+    <li>@Html.ActionLink("My Matchups", "SearchMatchup", "Matchup", new { area = "",playerId=HttpContext.Current.User.Identity.Name }, null)</li>
+</ul>

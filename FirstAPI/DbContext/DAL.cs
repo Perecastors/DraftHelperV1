@@ -16,9 +16,9 @@ namespace FirstAPI.DbContext
                 db = new Database1Entities("name=Database2Entities");
         }
 
-        public User Login(string username,string password)
+        public Player Login(string username,string password)
         {
-            User user = db.Users.Where(x => x.Username == username && x.Password == password).FirstOrDefault();
+            Player user = db.Players.Where(x => x.Nickname == username && x.Password == password).FirstOrDefault();
             return user;
         }
 
@@ -76,6 +76,7 @@ namespace FirstAPI.DbContext
             if (existingPlayer != null)
                 return 0;
             player.PlayerId = Guid.NewGuid();
+            player.CreationDate = DateTime.Now;
             db.Players.Add(player);
             int result = db.SaveChanges();
             return result;
