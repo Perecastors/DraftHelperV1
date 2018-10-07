@@ -51,9 +51,7 @@ namespace FirstAPI.Controllers
 
         public ActionResult SearchMatchup(Guid playerId)
         {
-            Session["GlobalChampions"] = new DAL().getAllChampions();
             ViewBag.PlayerId = playerId;
-            //var matchupDal = new DALMatchup();
             var champPoolDal = new DALChampionPool();
             var playerDal = new DAL();
             var player = playerDal.getPlayerById(playerId);
@@ -61,7 +59,6 @@ namespace FirstAPI.Controllers
             ViewBag.Nickname = player?.Nickname;
             ViewBag.MyChampList = champPoolDal.getChampionPool(playerId);
             ViewBag.ListChampions = SelectListHelper.getAllChampions();
-            //var listMatchupInfos = matchupDal.getAllMatchupByPlayerId(playerId);
             return View();
         }
 

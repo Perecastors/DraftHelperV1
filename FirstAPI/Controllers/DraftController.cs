@@ -14,7 +14,6 @@ namespace FirstAPI.Controllers
         // GET: Draft
         public ActionResult Draft()
         {
-            Session["GlobalChampions"] = new DAL().getAllChampions();
             return View();
         }
 

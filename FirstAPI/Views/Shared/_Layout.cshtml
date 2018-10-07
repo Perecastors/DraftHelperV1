@@ -33,8 +33,8 @@
 
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    <div class="nav navbar-nav navbar-right">@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new {@class= "navbar-brand" })</div>
-                }
+                    <div class="nav navbar-nav navbar-right" >@Html.ActionLink("Logout : " + Session["Nickname"], "Logout", "Login", new { area = "" }, new {@class= "navbar-brand" ,@style="font-size:16px" }) </div>
+                                                         }
             </div>
         </div>
     </div>

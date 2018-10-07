@@ -20,16 +20,18 @@ namespace FirstAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Player utilisateur = new DAL().Login(viewModel.Nickname, viewModel.Password);
-                if (utilisateur != null)
+                Player player = new DAL().Login(viewModel.Nickname, viewModel.Password);
+                if (player != null)
                 {
-                    FormsAuthentication.SetAuthCookie(utilisateur.PlayerId.ToString(), false);
+                    Session["GlobalChampions"] = new DAL().getAllChampions();
+                    Session["Nickname"] = new DAL().getPlayerById(player.PlayerId).Nickname;
+                    FormsAuthentication.SetAuthCookie(player.PlayerId.ToString(), false);
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
                     return Redirect("/");
                 }
 
-                ModelState.AddModelError(utilisateur.Nickname, "Login et/ou mot de passe incorrect(s)");
+                ModelState.AddModelError(player.Nickname, "Login et/ou mot de passe incorrect(s)");
             }
             return View(viewModel);
         }
