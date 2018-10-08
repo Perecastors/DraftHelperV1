@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace FirstAPI.Controllers
 {
+    [Authorize]
     public class SoloQController : MyBaseController
     {
         // GET: SoloQ

@@ -2,10 +2,11 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "SoloQ "+Model.Nickname;
 }
 
 <div class="row">
-    <h2>Solo Q informations</h2>
+    <h2>SoloQ informations</h2>
 </div>
 <div class="row">
     <p>
@@ -25,8 +26,8 @@
     function displayLastSoloQs(nbGames) {
         $.get("https://euw1.api.riotgames.com/lol/match/v3/matchlists/by-account/@(Model.AccountId)?endIndex="+ nbGames+"&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])",
         function (data, status, xhr) {
+            $(".matchInfos").html("");
             console.log(status);
-            console.log(data);
             computeListMatchInfos(data.matches);
         });
     }
@@ -42,9 +43,17 @@
         $.get(url,
         function (data, status, xhr) {
             console.log(status);
+            console.log("-- Match Infos --")
+            console.log(data);
+
             var matchInfos = new Object();
             matchInfos.myParticipantId = getParticipantId(data.participantIdentities, "@(Model.AccountId)")
             matchInfos.myChampionId = getMyChampionId(data.participants, matchInfos.myParticipantId);
+            console.log("Participant id : " + matchInfos.myParticipantId);
+            console.log("Champion id : " + matchInfos.myChampionId);
+            matchInfos.gameCreation = getDate(data.gameCreation);
+            matchInfos.gameDuration = getDuration(data.gameDuration);
+            console.log("-- End Infos --");
             displayMatchDetails(matchInfos);
         });
     }
@@ -64,6 +73,8 @@
     function displayMatchDetails(matchInfos) {
         var str = "<div class='matchInfo'>";
         str = str + "<img style='height:55px' src='@(ConfigurationManager.AppSettings["UrlImgChamp"])/" + getChampionNameByRiotId(matchInfos.myChampionId) + ".png'>";
+        str = str + "<span style='margin-left:15px'> " + matchInfos.gameCreation + " </span>";
+        str = str + "<span style='margin-left:15px'> " + matchInfos.gameDuration + " </span>";
         str = str + "</div>";
         str = str + "<hr>";
 
@@ -74,10 +85,19 @@
         var champNameList = JSON.parse('@(Html.Raw(ViewBag.ChampionList))'); @*//"@(((List<FirstAPI.DbContext.Champion>)Session["GlobalChampions"]).ToArray())";*@
         for (var i = 0; i < champNameList.length; i++) {
             if (champNameList[i].ChampionRiotId.toString() == championRiotId.toString()) {
-                console.log(champNameList[i].ChampionName);
                 return champNameList[i].ChampionName;
             }
         }
+    }
+
+    function getDate(timestamp) {
+        var date = new Date(timestamp);
+        return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+    }
+
+    function getDuration(timestamp) {
+        var date = new Date(timestamp*1000);
+        return date.getMinutes() + "min" + date.getSeconds()+"s";
     }
 </script>
 <style>
