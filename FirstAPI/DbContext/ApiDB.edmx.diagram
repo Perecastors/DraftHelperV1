@@ -13,8 +13,6 @@
         <EntityTypeShape EntityType="ApiDBModel.Matchup" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="ApiDBModel.Player" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="ApiDBModel.Tag" Width="1.5" PointX="0.75" PointY="1.125" />
-        <AssociationConnector Association="ApiDBModel.FK_ChampionTags_ToTable_1" />
-        <AssociationConnector Association="ApiDBModel.FK_ChampionTags_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

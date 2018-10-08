@@ -16,8 +16,5 @@ namespace FirstAPI.DbContext
     {
         public System.Guid TagId { get; set; }
         public System.Guid ChampionId { get; set; }
-    
-        public virtual Champion Champion { get; set; }
-        public virtual Tag Tag { get; set; }
     }
 }

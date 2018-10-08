@@ -13,8 +13,6 @@
         <EntityTypeShape EntityType="TestDBModel.Player" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDBModel.Tag" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDBModel.ChampionTag" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <AssociationConnector Association="TestDBModel.FK_ChampionTags_ToTable_1" />
-        <AssociationConnector Association="TestDBModel.FK_ChampionTags_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

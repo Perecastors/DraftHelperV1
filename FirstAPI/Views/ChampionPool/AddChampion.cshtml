@@ -8,12 +8,6 @@
     </div>
     <br/>
     <div class="form-inline">
-        @*<div class="col-md-2">
-            <input type="submit" value="Add" class="btn btn-default" />
-        </div>*@
-        @*<div class="col-md-2 container-fluid">
-                @Html.DropDownListFor(model => model.ChampionId, (SelectList)ViewBag.ListChampions, new { htmlAttributes = new { @class = "form-control" } })
-        </div>*@
         <div class="col-md-12">
             <div class="container-fluid">
                 @Html.DropDownListFor(model => model.ChampionId, (SelectList)FirstAPI.WebHelperTools.SelectListHelper.getAllChampions2(), new { @Multiple="multiple" ,@id = "e2_2", style = "width:20%;"  })
@@ -75,12 +69,4 @@ select2-dropdown select2-dropdown--below{
     width:136px;
 }
 
-/* move close cross [x] from left to right on the selected value (tag) */
-/*#s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
-  padding: 3px 18px 3px 5px;
-}
-#s2id_e2_2.select2-container-multi .select2-search-choice-close {
-  left: auto;
-  right: 3px;
-}*/
 </style>

@@ -14,17 +14,8 @@ namespace FirstAPI.DbContext
     
     public partial class Champion
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Champion()
-        {
-            this.ChampionTags = new HashSet<ChampionTag>();
-        }
-    
         public System.Guid ChampionId { get; set; }
         public string ChampionName { get; set; }
         public string ChampionRiotId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChampionTag> ChampionTags { get; set; }
     }
 }

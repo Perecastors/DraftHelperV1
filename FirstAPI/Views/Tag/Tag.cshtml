@@ -1,0 +1,168 @@
+﻿@model IEnumerable<FirstAPI.DbContext.Tag>
+
+@{
+    ViewBag.Title = "My Tags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int j = 0;
+}
+
+<br />
+<p>
+    @Html.Partial("AddTag", new FirstAPI.DbContext.Tag())
+</p>
+<hr>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <label>Click on a picture to add on this list : @Html.DropDownList("SelectedTag", (SelectList)FirstAPI.WebHelperTools.SelectListHelper.getAllTags((Guid)ViewBag.PlayerId), new { id = "SelectedTag" , @autocomplete="off"})</label>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        @foreach (FirstAPI.DbContext.Champion champion in ViewBag.MyChampionPool)
+        {
+            j++;
+            <img class="champPoolImg" alt="@(champion.ChampionName)" onclick="addToTaglist(event)" id="@champion.ChampionId" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champion.ChampionName).png" />
+            if (j % 25 == 0)
+            {
+                @Html.Raw("</div></div><div class='row'><div class='col-md-12'>")
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        <input type="Button" value="Save" onclick="saveTagLists()" />
+    </div>
+</div>
+<br />
+<hr style="margin-bottom:0" />
+@if (Model?.Count() > 0)
+            {
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel-group" id="accordion">
+                @foreach (var item in Model)
+                {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title" onclick="changeSelectValue('@(item.TagId)');">
+                            <a data-toggle="collapse" id="panel-@(item.TagId)" data-parent="#accordion" href="#collapse@(item.TagId)">@item.TagName</a>
+                            <a class="xDelete" href="@Url.Action("DeleteTag","Tag",new {tagId=item.TagId,playerId = ViewBag.PlayerId },null)"> Delete This</a>
+                        </h4>
+                        
+                    </div>
+                    <div id="collapse@(item.TagId)" class="panel-collapse collapse">
+                        <div class="panel-body" id="tag-@(item.TagId)">
+
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function changeSelectValue(tagId) {
+        $("#SelectedTag").val(tagId);
+    }
+
+    $("#SelectedTag").on("change", function (e) {
+        var tagId = $("#SelectedTag").val();
+        console.log(e);
+        console.log(tagId);
+        $("#panel-" + tagId).click();
+    })
+
+    function addToTaglist(event) {
+        var tagId = $("#SelectedTag option:selected").val();
+        if (tagId != "") {
+            addImgToList(event.target.id, event.target.alt, tagId);
+        } else {
+            console.log("no tag selected");
+        }
+    }
+
+    function addImgToList(championId, championName, tagId) {
+
+        var target = "#" + tagId + "-" + championId;
+        var test = $(target);
+        if (test[0] === undefined) {
+            var str = "<div class='containerTest' id='" + tagId + "-" + championId + "'>";
+            str = str + "<img class='champTagImg'  src='@(ConfigurationManager.AppSettings["UrlImgChamp"])/" + championName + ".png'> ";
+            str = str + '<a href="javascript:void(0)" onclick="javascript:removeImgToList(\'' + tagId + '\',\'' + championId + '\');"><img class="deleteChampIcon" src="/Content/erase.png" /></a>';
+            $("#tag-" + tagId).append(str);
+        }
+    }
+
+    function removeImgToList(tagId, championId) {
+        var target = "#" + tagId + "-" + championId;
+        console.log(target);
+        $(target).remove();
+    }
+
+    function saveTagLists() {
+
+        var championTagArray = new Array();
+        $(".containerTest").each(function (i, e) {
+            var ids = e.id;
+            var championTag = new Object();
+            championTag.TagId = ids.substring(0, 36);
+            championTag.ChampionId = ids.substring(37);
+            championTagArray.push(championTag);
+        });
+
+        var championTagList = JSON.stringify(championTagArray);
+        console.log(championTagList);
+        $.ajax({
+            type: "POST",
+            url: '@(Url.Action("saveTag",null, new { controller = "Tag" ,playerId=ViewBag.PlayerId }, Request.Url.Scheme))',
+            data: championTagList,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).complete(function (data) {
+            alert("Tags saved");
+            //window.location.reload();
+        });
+        
+    }
+</script>
+<style>
+    .xDelete {
+        text-decoration: none!important;
+        color:red !important;
+        float: right;
+    }
+
+    .champPoolImg {
+        margin-bottom: 3px;
+        margin-right: 3px;
+        height: 38px;
+    }
+
+    .champTagImg {
+        margin-bottom: 7px;
+        margin-right: 3px;
+        height: 40px;
+    }
+
+    .tagName {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .containerTest {
+        display: inline;
+        position: relative;
+    }
+
+    .deleteChampIcon {
+        height: 16px;
+        position: absolute;
+        top: -20px;
+        left: 32px;
+    }
+</style>

@@ -52,5 +52,20 @@ namespace FirstAPI.WebHelperTools
             var selectlist = new SelectList(listSelectItem, "Value", "Text", "Group.Name",null,null);
             return selectlist;
         }
+
+        public static SelectList getAllTags(Guid playerId)
+        {
+            var dalTag = new DALTag();
+            var list = dalTag.GetAllTagsByPlayerId(playerId);
+            var listSelectItem = new List<SelectListItem>();
+            listSelectItem.Add(new SelectListItem() { Text = "----------- Choose a Tag -----------", Value = "" });
+            foreach (var item in list)
+            {
+                listSelectItem.Add(new SelectListItem() { Text = item.TagName, Value = item.TagId.ToString() });
+            }
+            var selectlist = new SelectList(listSelectItem, "Value", "Text");
+            return selectlist;
+        }
+
     }
 }

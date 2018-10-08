@@ -14,18 +14,9 @@ namespace FirstAPI.DbContext
     
     public partial class Tag
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tag()
-        {
-            this.ChampionTags = new HashSet<ChampionTag>();
-        }
-    
         public System.Guid TagId { get; set; }
         public string TagName { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
-        public Nullable<System.Guid> PlayerId { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChampionTag> ChampionTags { get; set; }
+        public System.Guid PlayerId { get; set; }
     }
 }
