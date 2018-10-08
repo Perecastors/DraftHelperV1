@@ -66,6 +66,14 @@
 }
 
 <script>
+    $(document).ready(function () {
+        var championTagList = @(Html.Raw(Json.Encode(ViewBag.ListChampionTag)));
+        console.log(championTagList);
+        for (var i = 0; i < championTagList.length; i++) {
+            addImgToList(championTagList[i].ChampionId,championTagList[i].ChampionName,championTagList[i].TagId);
+        }
+    });
+
     function changeSelectValue(tagId) {
         $("#SelectedTag").val(tagId);
     }
@@ -125,7 +133,7 @@
             dataType: 'json'
         }).complete(function (data) {
             alert("Tags saved");
-            //window.location.reload();
+            window.location.reload();
         });
         
     }

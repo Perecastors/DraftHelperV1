@@ -17,6 +17,6 @@ namespace FirstAPI.DbContext
         public System.Guid TagId { get; set; }
         public string TagName { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
-        public System.Guid PlayerId { get; set; }
+        public Nullable<System.Guid> PlayerId { get; set; }
     }
 }

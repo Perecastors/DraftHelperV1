@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace FirstAPI.Controllers
 {
-    public class TagController : Controller
+    public class TagController : MyBaseController
     {
         // GET: Tag
         public ActionResult Tag(Guid playerId)
@@ -20,7 +20,7 @@ namespace FirstAPI.Controllers
             ViewBag.PlayerId = playerId;
             ViewBag.Nickname = new DAL().getPlayerById(playerId).Nickname;
             ViewBag.ListTags = SelectListHelper.getAllTags(playerId);
-
+            ViewBag.ListChampionTag = dalTag.GetAllChampionTagsByPlayerId(playerId);
             var tags = dalTag.GetAllTagsByPlayerId(playerId);
             return View(tags);
         }
@@ -46,7 +46,7 @@ namespace FirstAPI.Controllers
         public ActionResult SaveTag(List<ChampionTag> championTagList,Guid playerId)
         {
             var dalTag = new DALTag();
-            //int result = dalTag.SaveTag(championTagList);
+            int result = dalTag.SaveTag(championTagList);
             return RedirectToAction("Tag",new { playerId = playerId });
         }
     }

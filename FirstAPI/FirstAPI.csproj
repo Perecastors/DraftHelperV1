@@ -289,15 +289,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\Champion.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\ChampionPool.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\ChampionTag.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\DAL.cs" />
@@ -306,20 +306,21 @@
     <Compile Include="DbContext\DALTag.cs" />
     <Compile Include="DbContext\DatabaseEntities.cs" />
     <Compile Include="DbContext\Matchup.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\MatchupComment.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\DALMatchup.cs" />
     <Compile Include="DbContext\MatchupRespons.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="DbContext\Partials.cs" />
     <Compile Include="DbContext\Player.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DbContext\RemoteDB.Context.cs">
@@ -338,7 +339,7 @@
       <DependentUpon>RemoteDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="DbContext\Tag.cs">
-      <DependentUpon>ApiDB.tt</DependentUpon>
+      <DependentUpon>RemoteDB.tt</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Global.asax.cs">

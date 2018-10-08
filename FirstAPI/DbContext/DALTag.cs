@@ -34,9 +34,9 @@ namespace FirstAPI.DbContext
             Tag tag = new Tag();
 
             //Loof for existing tag by playerId
-            var existingTag = db.Tags.Where(x => x.PlayerId == playerId && x.TagName==tagName).FirstOrDefault();
+            var existingTag = db.Tags.Where(x => x.PlayerId == playerId && x.TagName == tagName).FirstOrDefault();
             if (existingTag != null)
-                    return 0;
+                return 0;
 
             //INIT
             tag.TagName = tagName;
@@ -50,6 +50,27 @@ namespace FirstAPI.DbContext
             return result;
         }
 
+        public List<ChampionTag> GetAllChampionTagsByPlayerId(Guid playerId)
+        {
+            var tagList = db.Tags.Where(x => x.PlayerId == playerId).ToList();
+
+            var championTagList = new List<ChampionTag>();
+            if (tagList?.Count > 0)
+            {
+                foreach (var tag in tagList)
+                {
+                    var championTags = new List<ChampionTag>();
+                    championTags = db.ChampionTags.Where(x => x.TagId == tag.TagId).ToList();
+                    if(championTags?.Count() > 0)
+                    foreach (var championTag in championTags)
+                    {
+                            championTagList.Add(championTag);
+                    }
+                }
+            }
+            return championTagList;
+        }
+
         public int DeleteTag(Guid tagId, Guid playerId)
         {
             if (tagId == null || tagId == Guid.Empty)
@@ -60,6 +81,11 @@ namespace FirstAPI.DbContext
             int result = 0;
 
             var objtoDelete = db.Tags.Where(x => x.TagId == tagId).FirstOrDefault();
+            //clear all championTag with this tagId
+            var clear = db.ChampionTags.Where(x => x.TagId == tagId);
+            db.ChampionTags.RemoveRange(clear);
+            db.SaveChanges();
+
             if (objtoDelete != null)
             {
                 db.Tags.Remove(objtoDelete);
@@ -72,15 +98,17 @@ namespace FirstAPI.DbContext
         public int SaveTag(List<ChampionTag> championTagList)
         {
             int result = -1;
-            if(championTagList?.Count > 0)
+            if (championTagList?.Count > 0)
             {
                 foreach (var championTag in championTagList)
                 {
-                    var alreadyExist = db.ChampionTags.Where(x => x.ChampionId == championTag.ChampionId && x.TagId == championTag.TagId).Any();
-                    if (!alreadyExist)
-                    {
-                        db.ChampionTags.Add(championTag);
-                    }
+                    var clear = db.ChampionTags.Where(x => x.TagId == championTag.TagId);
+                    db.ChampionTags.RemoveRange(clear);
+                    db.SaveChanges();
+                }
+                foreach (var championTag in championTagList)
+                {
+                    db.ChampionTags.Add(championTag);
                 }
                 result = db.SaveChanges();
             }

@@ -23,8 +23,6 @@
           <Property Name="ChampionName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ChampionRiotId" Type="varchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'E:\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\FIRSTAPI\FIRSTAPI\APP_DATA\DATABASE1.MDF.dbo.ChampionTags' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ChampionTags">
           <Key>
             <PropertyRef Name="TagId" />
@@ -97,17 +95,12 @@ warning 6002: The table/view 'E:\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\FIRSTAPI\
         <EntityContainer Name="ApiDBModelStoreContainer">
           <EntitySet Name="ChampionPools" EntityType="Self.ChampionPools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupComments" EntityType="Self.MatchupComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupResponses" EntityType="Self.MatchupResponses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Matchups" EntityType="Self.Matchups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ChampionTags].[TagId] AS [TagId], 
-    [ChampionTags].[ChampionId] AS [ChampionId]
-    FROM [dbo].[ChampionTags] AS [ChampionTags]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
