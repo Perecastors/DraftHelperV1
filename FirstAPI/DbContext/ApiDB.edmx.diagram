@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="5451c52c0e1f4ae7b0d75b4886ecd9ca" Name="Diagram1">
         <EntityTypeShape EntityType="ApiDBModel.ChampionPool" Width="1.5" PointX="4.25" PointY="3.25" />
-        <EntityTypeShape EntityType="ApiDBModel.Champion" Width="1.5" PointX="0.875" PointY="3.125" />
+        <EntityTypeShape EntityType="ApiDBModel.Champion" Width="1.5" PointX="1" PointY="3.75" />
         <EntityTypeShape EntityType="ApiDBModel.ChampionTag" Width="1.5" PointX="3" PointY="0.875" />
         <EntityTypeShape EntityType="ApiDBModel.MatchupComment" Width="1.5" PointX="6.375" PointY="3.25" />
         <EntityTypeShape EntityType="ApiDBModel.MatchupRespons" Width="1.5" PointX="5.875" PointY="0.875" />

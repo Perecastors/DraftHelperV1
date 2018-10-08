@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = ViewBag.Nickname + "- My Champion Pool";
     int i = 0;
-
+    int j = 0;
 }
 
 <br/>
@@ -14,35 +14,40 @@
 <br />
 <br />
 <br />
-<table class="table">
-    <tr>
-        <td width="200px">
-            My Champion's List (@Model.Count()):
-        </td>
-        <td>
-            @foreach (var item in Model)
+<div class="row">
+    <div class="col-md-2">My Champion's List (@Model.Count()):</div>
+    <div class="col-md-10">
+        @foreach (var item in Model)
             {
                 i++;
-                <text>
-            <span class="containerTest">
-                <a href="@Url.Action("DeleteChampion","ChampionPool",new {championId=item.ChampionId,playerId = ViewBag.PlayerId },null)"><img class="deleteChampIcon" src="~/Content/erase.png" /></a>
-                <img style="height:48px" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(item.ChampionName).png" />
-            </span>
-                </text>
-                if (i % 7 == 0)
-                {
-                  @Html.Raw("</td><tr><td></td><td>")
-                }
+            <text>
+                <div class="containerTest">
+                    <img class="imgChamp" style="height:48px" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(item.ChampionName).png" />
+                    <a href="@Url.Action("DeleteChampion","ChampionPool",new {championId=item.ChampionId,playerId = ViewBag.PlayerId },null)"><img class="deleteChampIcon" src="~/Content/erase.png" /></a>
+                </div>
+            </text>
+            if (i % 10 == 0)
+            {
+                @Html.Raw("</div></div><div class='row'><div class='col-md-offset-2 col-md-10'>")
             }
-        </td>
-    </tr>
+        }
 
-</table>
+    </div>
+</div>
+
+
 <style>
     .containerTest{
+        display:inline;
         position:relative;
+        width:70px;
+        /*margin-right:5px;
+        margin-bottom:10px;*/
+    }
+
+    .imgChamp{
+        margin-bottom:5px;
         margin-right:5px;
-        margin-bottom:10px;
     }
 
     .deleteChampIcon{
@@ -52,7 +57,4 @@
         left: 40px;
     }
 
-    .table tbody > tr > td, .table tfoot > tr > td{
-        border-top:none;
-    }
 </style>

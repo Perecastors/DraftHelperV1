@@ -23,13 +23,13 @@
           <Property Name="ChampionName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ChampionRiotId" Type="varchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\FIRSTAPI\FIRSTAPI\APP_DATA\DATABASE1.MDF.dbo.ChampionTags' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ChampionTags">
           <Key>
-            <PropertyRef Name="PlayerId" />
             <PropertyRef Name="TagId" />
             <PropertyRef Name="ChampionId" />
           </Key>
-          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -90,6 +90,7 @@
             <PropertyRef Name="TagId" />
           </Key>
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" />
         </EntityType>
@@ -120,12 +121,17 @@
         <EntityContainer Name="ApiDBModelStoreContainer">
           <EntitySet Name="ChampionPools" EntityType="Self.ChampionPools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupComments" EntityType="Self.MatchupComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupResponses" EntityType="Self.MatchupResponses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Matchups" EntityType="Self.Matchups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ChampionTags].[TagId] AS [TagId], 
+    [ChampionTags].[ChampionId] AS [ChampionId]
+    FROM [dbo].[ChampionTags] AS [ChampionTags]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ChampionTags_ToTable" Association="Self.FK_ChampionTags_ToTable">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ChampionTags" EntitySet="ChampionTags" />
@@ -178,11 +184,9 @@
         </EntityType>
         <EntityType Name="ChampionTag">
           <Key>
-            <PropertyRef Name="PlayerId" />
             <PropertyRef Name="TagId" />
             <PropertyRef Name="ChampionId" />
           </Key>
-          <Property Name="PlayerId" Type="Guid" Nullable="false" />
           <Property Name="TagId" Type="Guid" Nullable="false" />
           <Property Name="ChampionId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Champion" Relationship="ApiDBModel.FK_ChampionTags_ToTable_1" FromRole="ChampionTag" ToRole="Champion" />
@@ -248,6 +252,7 @@
           <Property Name="TagName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChampionTags" Relationship="ApiDBModel.FK_ChampionTags_ToTable" FromRole="Tag" ToRole="ChampionTag" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="PlayerId" Type="Guid" Nullable="false" />
         </EntityType>
         <Association Name="FK_ChampionTags_ToTable_1">
           <End Type="ApiDBModel.Champion" Role="Champion" Multiplicity="1" />
@@ -302,7 +307,6 @@
               <MappingFragment StoreEntitySet="ChampionTags">
                 <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
-                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -364,6 +368,7 @@
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="ApiDBModel.Tag">
               <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />

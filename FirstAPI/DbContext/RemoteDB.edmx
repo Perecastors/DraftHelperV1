@@ -23,13 +23,13 @@
           <Property Name="ChampionName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ChampionRiotId" Type="varchar" MaxLength="50" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ecagma147759com33848_TestDB.dbo.ChampionTags' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ChampionTags">
           <Key>
-            <PropertyRef Name="PlayerId" />
             <PropertyRef Name="TagId" />
             <PropertyRef Name="ChampionId" />
           </Key>
-          <Property Name="PlayerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -92,6 +92,7 @@
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TagName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" />
+          <Property Name="PlayerId" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="FK_ChampionTags_ToTable">
           <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
@@ -120,12 +121,17 @@
         <EntityContainer Name="TestDBModelStoreContainer">
           <EntitySet Name="ChampionPools" EntityType="Self.ChampionPools" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Champions" EntityType="Self.Champions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupComments" EntityType="Self.MatchupComments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchupResponses" EntityType="Self.MatchupResponses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Matchups" EntityType="Self.Matchups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChampionTags" EntityType="Self.ChampionTags" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ChampionTags].[TagId] AS [TagId], 
+    [ChampionTags].[ChampionId] AS [ChampionId]
+    FROM [dbo].[ChampionTags] AS [ChampionTags]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ChampionTags_ToTable" Association="Self.FK_ChampionTags_ToTable">
             <End Role="Tags" EntitySet="Tags" />
             <End Role="ChampionTags" EntitySet="ChampionTags" />
@@ -218,14 +224,13 @@
           <Property Name="TagName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="ChampionTags" Relationship="TestDBModel.FK_ChampionTags_ToTable" FromRole="Tag" ToRole="ChampionTag" />
+          <Property Name="PlayerId" Type="Guid" />
         </EntityType>
         <EntityType Name="ChampionTag">
           <Key>
-            <PropertyRef Name="PlayerId" />
             <PropertyRef Name="TagId" />
             <PropertyRef Name="ChampionId" />
           </Key>
-          <Property Name="PlayerId" Type="Guid" Nullable="false" />
           <Property Name="TagId" Type="Guid" Nullable="false" />
           <Property Name="ChampionId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Champion" Relationship="TestDBModel.FK_ChampionTags_ToTable_1" FromRole="ChampionTag" ToRole="Champion" />
@@ -355,6 +360,7 @@
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="TestDBModel.Tag">
               <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
                 <ScalarProperty Name="TagName" ColumnName="TagName" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
@@ -364,7 +370,6 @@
           <EntitySetMapping Name="ChampionTags">
             <EntityTypeMapping TypeName="TestDBModel.ChampionTag">
               <MappingFragment StoreEntitySet="ChampionTags">
-                <ScalarProperty Name="PlayerId" ColumnName="PlayerId" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
                 <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
               </MappingFragment>

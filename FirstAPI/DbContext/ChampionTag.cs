@@ -14,7 +14,6 @@ namespace FirstAPI.DbContext
     
     public partial class ChampionTag
     {
-        public System.Guid PlayerId { get; set; }
         public System.Guid TagId { get; set; }
         public System.Guid ChampionId { get; set; }
     
