@@ -104,9 +104,9 @@ namespace FirstAPI.Models
         }
     }
 
-    public class UtilisateurViewModel
+    public class ChampionRiot
     {
-        public Player Player { get; set; }
-        public bool Authentifie { get; set; }
+        public string key { get; set; }
+        public string id { get; set; }
     }
 }

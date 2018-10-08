@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace FirstAPI.Controllers
 {
     [Authorize]
-    public class ChampionPoolController : Controller
+    public class ChampionPoolController : MyBaseController
     {
         // GET: ChampionPool
         public ActionResult ChampionPool(Guid playerId)

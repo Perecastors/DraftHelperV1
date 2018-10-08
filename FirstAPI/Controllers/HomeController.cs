@@ -69,6 +69,8 @@ namespace FirstAPI.Controllers
             return RedirectToAction("AddChampion");
         }
 
+       
+
         public ActionResult DeleteChampion(Guid id)
         {
             var dal = new DAL();

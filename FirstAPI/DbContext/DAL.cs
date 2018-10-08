@@ -58,7 +58,6 @@ namespace FirstAPI.DbContext
             return championName;
         }
 
-
         //ADD
         public int AddChampion(Champion champion)
         {
@@ -80,6 +79,15 @@ namespace FirstAPI.DbContext
             db.Players.Add(player);
             int result = db.SaveChanges();
             return result;
+        }
+
+        public void UpdateChampion(string championName, string championRiotId)
+        {
+            var champion = db.Champions.Where(x => x.ChampionName == championName).FirstOrDefault();
+            champion.ChampionRiotId = championRiotId;
+            //db.Entry(existingMatchup).CurrentValues.SetValues(matchup);
+            db.Entry(champion).CurrentValues.SetValues(champion);
+            db.SaveChanges();
         }
 
         //DELETE

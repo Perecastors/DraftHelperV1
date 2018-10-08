@@ -1,0 +1,45 @@
+﻿<h2>Index</h2>
+
+<div class="row">
+    <h3>Update Champion Riot Ids</h3>
+    <p>
+        <input type="text" placeholder="Put url json file" id="jsonUrl"/>
+        <input type="button" onclick="importChampionJson()" value="Update Champion Riot Ids"/>
+    </p>
+</div>
+
+
+<script>
+    function importChampionJson() {
+
+        var url = $("#jsonUrl").val();
+
+            $.get(url,
+            function (data, status, xhr) {
+                console.log(status);
+                console.log(data.data);
+                var list =  $.map(data.data, function(value, index) {
+                    return [value];
+                });;
+                var championsRiot = new Array();
+
+                for (var i = 0; i < list.length; i++) {
+                    var championRiot = new Object();
+                    championRiot.id = list[i].id;
+                    championRiot.key = list[i].key;
+                    championsRiot.push(championRiot);
+                }
+
+                var championsList = JSON.stringify(championsRiot);
+                $.ajax({
+                    type: "POST",
+                    url: '@(Url.Action("ImportChampionRiotId", null, new { controller = "Backend" }, Request.Url.Scheme))',
+                    data: championsList,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                }).complete(function (data) {
+                    alert(data);
+                })
+            });
+    }
+</script>

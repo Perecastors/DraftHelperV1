@@ -1,0 +1,89 @@
+﻿@model FirstAPI.DbContext.Player
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2>Solo Q informations</h2>
+</div>
+<div class="row">
+    <p>
+        <input type="button" onclick="displayLastSoloQs(2);" value="show infos" />
+    </p>
+</div>
+<br />
+<hr />
+<div class="row matchInfos">
+</div>
+
+
+<script>
+    $(document).ready(function () {
+    });
+
+    function displayLastSoloQs(nbGames) {
+        $.get("https://euw1.api.riotgames.com/lol/match/v3/matchlists/by-account/@(Model.AccountId)?endIndex="+ nbGames+"&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])",
+        function (data, status, xhr) {
+            console.log(status);
+            console.log(data);
+            computeListMatchInfos(data.matches);
+        });
+    }
+
+    function computeListMatchInfos(listMatch) {
+        for (var i = 0; i < listMatch.length; i++) {
+            computeMatchDetails(listMatch[i].gameId);
+        }
+    }
+
+    function computeMatchDetails(gameId) {
+        var url = "https://euw1.api.riotgames.com/lol/match/v3/matches/" + gameId + "?api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])";
+        $.get(url,
+        function (data, status, xhr) {
+            console.log(status);
+            var matchInfos = new Object();
+            matchInfos.myParticipantId = getParticipantId(data.participantIdentities, "@(Model.AccountId)")
+            matchInfos.myChampionId = getMyChampionId(data.participants, matchInfos.myParticipantId);
+            displayMatchDetails(matchInfos);
+        });
+    }
+
+    function getParticipantId(participants,accountId) {
+        for (var i = 0; i < participants.length; i++) {
+            if (participants[i].player.accountId == accountId) {
+                return participants[i].participantId;
+            }
+        }
+    }
+
+    function getMyChampionId(participants,myparticipantId) {
+        return participants[myparticipantId - 1].championId;
+    }
+
+    function displayMatchDetails(matchInfos) {
+        var str = "<div class='matchInfo'>";
+        str = str + "<img style='height:55px' src='@(ConfigurationManager.AppSettings["UrlImgChamp"])/" + getChampionNameByRiotId(matchInfos.myChampionId) + ".png'>";
+        str = str + "</div>";
+        str = str + "<hr>";
+
+        $(".matchInfos").append(str);
+    }
+
+    function getChampionNameByRiotId(championRiotId) {
+        var champNameList = JSON.parse('@(Html.Raw(ViewBag.ChampionList))'); @*//"@(((List<FirstAPI.DbContext.Champion>)Session["GlobalChampions"]).ToArray())";*@
+        for (var i = 0; i < champNameList.length; i++) {
+            if (champNameList[i].ChampionRiotId.toString() == championRiotId.toString()) {
+                console.log(champNameList[i].ChampionName);
+                return champNameList[i].ChampionName;
+            }
+        }
+    }
+</script>
+<style>
+
+    #matchupInfo{
+        margin-bottom:5px;
+    }
+
+</style>

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace FirstAPI.Controllers
 {
     [Authorize]
-    public class DraftController : Controller
+    public class DraftController : MyBaseController
     {
         // GET: Draft
         public ActionResult Draft()

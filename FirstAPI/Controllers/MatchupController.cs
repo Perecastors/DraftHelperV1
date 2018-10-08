@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace FirstAPI.Controllers
 {
     [Authorize]
-    public class MatchupController : Controller
+    public class MatchupController : MyBaseController
     {
         // GET: Matchup
         public ActionResult Matchup(Guid playerId)

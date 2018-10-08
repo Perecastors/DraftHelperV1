@@ -21,6 +21,7 @@
           </Key>
           <Property Name="ChampionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ChampionName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ChampionRiotId" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ChampionTags">
           <Key>
@@ -81,6 +82,8 @@
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="CreationDate" Type="datetime" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountId" Type="varchar" MaxLength="50" />
+          <Property Name="SummonerId" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -171,6 +174,7 @@
           <Property Name="ChampionId" Type="Guid" Nullable="false" />
           <Property Name="ChampionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChampionTags" Relationship="ApiDBModel.FK_ChampionTags_ToTable_1" FromRole="Champion" ToRole="ChampionTag" />
+          <Property Name="ChampionRiotId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ChampionTag">
           <Key>
@@ -233,6 +237,8 @@
           <Property Name="Role" Type="Int32" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AccountId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SummonerId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -285,6 +291,7 @@
           <EntitySetMapping Name="Champions">
             <EntityTypeMapping TypeName="ApiDBModel.Champion">
               <MappingFragment StoreEntitySet="Champions">
+                <ScalarProperty Name="ChampionRiotId" ColumnName="ChampionRiotId" />
                 <ScalarProperty Name="ChampionName" ColumnName="ChampionName" />
                 <ScalarProperty Name="ChampionId" ColumnName="ChampionId" />
               </MappingFragment>
@@ -344,6 +351,8 @@
           <EntitySetMapping Name="Players">
             <EntityTypeMapping TypeName="ApiDBModel.Player">
               <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="SummonerId" ColumnName="SummonerId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
