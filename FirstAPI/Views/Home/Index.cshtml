@@ -6,14 +6,20 @@
 <br />
 <br />
 <div class="row">
-    <h4><strong>@Html.ActionLink("My Champion Pool", "ChampionPool", "ChampionPool", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
+    <h4><strong>@Html.ActionLink("Champion Pool", "ChampionPool", "ChampionPool", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
     <p>
-        <i>- In this section, you can edit your champion's list and also create your own champion tags</i>
+        <i>- In this section, you can edit your champion's list</i>
     </p>
 </div>
 <div class="row">
-    <h4><strong>@Html.ActionLink("My Matchups", "SearchMatchup", "Matchup", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
+    <h4><strong>@Html.ActionLink(" Matchups", "SearchMatchup", "Matchup", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
     <p>
         <i>- In this section, you can find or create custom matchup scenarios </i>
+    </p>
+</div>
+<div class="row">
+    <h4><strong>@Html.ActionLink("Tags", "Tag", "Tag", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</strong></h4>
+    <p>
+        <i>- In this section, you can create your own champion categories </i>
     </p>
 </div>
