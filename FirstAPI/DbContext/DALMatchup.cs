@@ -33,13 +33,13 @@ namespace FirstAPI.DbContext
         {
             Tuple<List<MatchupInfos>, long, MatchupInfos> listMatchupInfos;
             listMatchupInfos = getAllMatchupByParams(playerId, draftInfos);
-            var listChampions = new DALCalculation().ComputeAnswerWithDraftInfos(listMatchupInfos,draftInfos, playerId);
+            var listChampions = new DALCalculation().ComputeAnswerWithDraftInfos(listMatchupInfos, draftInfos, playerId);
             return listChampions.OrderBy(x => x.ChampionName).ToList();
         }
 
-        
 
-        public Tuple<List<MatchupInfos>, long,MatchupInfos> getAllMatchupByParams(Guid playerId, MatchupInfos matchupInfos)
+
+        public Tuple<List<MatchupInfos>, long, MatchupInfos> getAllMatchupByParams(Guid playerId, MatchupInfos matchupInfos)
         {
             List<MatchupInfos> listMatchupInfos = new List<MatchupInfos>();
             var dalCalculation = new DALCalculation();
@@ -73,33 +73,33 @@ namespace FirstAPI.DbContext
                 hasFilter = true;
             }
             //ENNEMI
-            if (matchupInfos.EnnemyTop != Guid.Empty)
+            if (matchupInfos.EnemyTop != Guid.Empty)
             {
-                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyJungle != Guid.Empty)
+            if (matchupInfos.EnemyJungle != Guid.Empty)
             {
-                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyMid != Guid.Empty)
+            if (matchupInfos.EnemyMid != Guid.Empty)
             {
-                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyAdc != Guid.Empty)
+            if (matchupInfos.EnemyAdc != Guid.Empty)
             {
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemySupport != Guid.Empty)
+            if (matchupInfos.EnemySupport != Guid.Empty)
             {
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
                 hasFilter = true;
             }
 
-            bool isPerfectMatch = dalCalculation.isPerfectMatchExist(matchupInfos, playerId);
+            bool isPerfectMatch = dalCalculation.isPerfectMatchupExistWithMatchupInfo(matchupInfos, playerId);
 
             long time;
             var automaticMatchup = new MatchupInfos();
@@ -108,18 +108,38 @@ namespace FirstAPI.DbContext
                 var listMatchupComment = db.MatchupComments.Where(x => x.PlayerId == playerId).ToList();
                 Stopwatch t0 = new Stopwatch();
                 t0.Start();
-                var listMatchups = listMatchup.OrderByDescending(x => x.CreationDate).Take(40).ToList();
+                var listMatchups = listMatchup.OrderByDescending(x=> x.PatchVersion).ThenBy(x => x.CreationDate).Take(200).ToList();
                 time = t0.ElapsedMilliseconds;
                 listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, listMatchupComment);
-                if(!isPerfectMatch)
+                if (!isPerfectMatch)
                 {
-                    matchupInfos.playerId = playerId;
+                    matchupInfos.PlayerId = playerId;
                     automaticMatchup = dalCalculation.GetEstimatedAnswersByMatchupParam(matchupInfos);
                 }
                 var t2 = t0.ElapsedMilliseconds;
             }
 
             return new Tuple<List<MatchupInfos>, long, MatchupInfos>(listMatchupInfos, time, automaticMatchup);
+        }
+
+        public Tuple<List<MatchupInfos>, long> getAllMatchupByBestAnswer(Guid playerId, Guid championId)
+        {
+            List<MatchupInfos> listMatchupInfos = new List<MatchupInfos>();
+            bool exist = db.Champions.Where(x => x.ChampionId == championId).Any();
+            long time;
+            Stopwatch t0 = new Stopwatch();
+            t0.Start();
+            if (exist)
+            {
+                var listMatchupResponses = db.MatchupResponses.Where(x => x.ChampionId == championId);
+                var listMatchups = (from m in db.Matchups.Where(x => x.PlayerId == playerId)
+                                    join mr in listMatchupResponses on m.MatchupResponseId equals mr.MatchupResponseId
+                                    select m).OrderByDescending(x => x.PatchVersion).ThenBy(x => x.CreationDate).ToList();
+
+                listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, new List<MatchupComment>());
+            }
+            time = t0.ElapsedMilliseconds;
+            return new Tuple<List<MatchupInfos>, long>(listMatchupInfos, time);
         }
 
         public Guid createNewMatchup(Guid playerId, MatchupInfos matchupInfos)
@@ -147,30 +167,31 @@ namespace FirstAPI.DbContext
                 foreach (var matchup in listMatchup)
                 {
                     MatchupInfos matchupInfo = new MatchupInfos();
-                    matchupInfo.matchupId = matchup.MatchupId;
-                    matchupInfo.matchupResponseId = matchup.MatchupResponseId;
+                    matchupInfo.MatchupId = matchup.MatchupId;
+                    matchupInfo.MatchupResponseId = matchup.MatchupResponseId;
                     matchupInfo.AllyTop = matchup.AllyTop.Value;
                     matchupInfo.AllyJungle = matchup.AllyJungle.Value;
                     matchupInfo.AllyMid = matchup.AllyMid.Value;
                     matchupInfo.AllyAdc = matchup.AllyAdc.Value;
                     matchupInfo.AllySupport = matchup.AllySupport.Value;
 
-                    matchupInfo.EnnemyTop = matchup.EnemyTop.Value;
-                    matchupInfo.EnnemyJungle = matchup.EnemyJungle.Value;
-                    matchupInfo.EnnemyMid = matchup.EnemyMid.Value;
-                    matchupInfo.EnnemyAdc = matchup.EnemyAdc.Value;
-                    matchupInfo.EnnemySupport = matchup.EnemySupport.Value;
+                    matchupInfo.EnemyTop = matchup.EnemyTop.Value;
+                    matchupInfo.EnemyJungle = matchup.EnemyJungle.Value;
+                    matchupInfo.EnemyMid = matchup.EnemyMid.Value;
+                    matchupInfo.EnemyAdc = matchup.EnemyAdc.Value;
+                    matchupInfo.EnemySupport = matchup.EnemySupport.Value;
+                    matchupInfo.PatchVersion = matchup.PatchVersion;
                     var matchupResponse = db.MatchupResponses.Where(x => x.MatchupResponseId == matchup.MatchupResponseId);
-                    matchupInfo.answers = new List<MatchupAnswer>();
+                    matchupInfo.Answers = new List<MatchupAnswer>();
                     foreach (var response in matchupResponse)
                     {
                         var matchupAnswer = new MatchupAnswer();
                         matchupAnswer.MatchupCommentId = response.MatchupResponseId;
                         matchupAnswer.ChampionId = response.ChampionId;
                         matchupAnswer.Comments = listMatchupComment.Where(x => x.MatchupId == matchup.MatchupId && x.ChampionId == response.ChampionId).OrderByDescending(x => x.CreationDate).FirstOrDefault()?.CommentText;
-                        matchupInfo.answers.Add(matchupAnswer);
+                        matchupInfo.Answers.Add(matchupAnswer);
                     }
-                    matchupInfo.answers = matchupInfo.answers.OrderBy(x => x.ChampionName).ToList();
+                    matchupInfo.Answers = matchupInfo.Answers.OrderBy(x => x.ChampionName).ToList();
                     matchupInfos.Add(matchupInfo);
                 }
 
@@ -194,12 +215,20 @@ namespace FirstAPI.DbContext
 
         public int saveMatchup(Matchup matchup, List<MatchupRespons> matchupResponses, List<MatchupComment> matchupComments)
         {
+
             using (TransactionScope scope = new TransactionScope())
             {
                 var existingMatchup = db.Matchups.SingleOrDefault(x => x.MatchupId == matchup.MatchupId);
                 if (existingMatchup == null)
                 {
                     db.Matchups.Add(matchup);
+                }
+                else if (existingMatchup != null && matchup.PatchVersion != ConfigurationManager.AppSettings["PatchVersion"])
+                {
+                    int result2 = SaveAsDuplicateMatchupWithActualPatch(existingMatchup, matchupResponses, matchupComments);
+                    if (result2 > 0)
+                        scope.Complete();
+                    return result2;
                 }
                 else
                 {
@@ -239,25 +268,26 @@ namespace FirstAPI.DbContext
             matchup.AllyAdc = matchupInfos.AllyAdc;
             matchup.AllySupport = matchupInfos.AllySupport;
 
-            matchup.EnemyTop = matchupInfos.EnnemyTop;
-            matchup.EnemyJungle = matchupInfos.EnnemyJungle;
-            matchup.EnemyMid = matchupInfos.EnnemyMid;
-            matchup.EnemyAdc = matchupInfos.EnnemyAdc;
-            matchup.EnemySupport = matchupInfos.EnnemySupport;
+            matchup.EnemyTop = matchupInfos.EnemyTop;
+            matchup.EnemyJungle = matchupInfos.EnemyJungle;
+            matchup.EnemyMid = matchupInfos.EnemyMid;
+            matchup.EnemyAdc = matchupInfos.EnemyAdc;
+            matchup.EnemySupport = matchupInfos.EnemySupport;
 
-            if (matchupInfos.matchupId == Guid.Empty)
+            if (matchupInfos.MatchupId == Guid.Empty)
                 matchup.MatchupId = Guid.NewGuid();
             else
-                matchup.MatchupId = matchupInfos.matchupId;
+                matchup.MatchupId = matchupInfos.MatchupId;
 
-            matchup.PlayerId = matchupInfos.playerId;
-            if (matchupInfos.matchupResponseId == Guid.Empty)
+            matchup.PlayerId = matchupInfos.PlayerId;
+            if (matchupInfos.MatchupResponseId == Guid.Empty)
                 matchup.MatchupResponseId = Guid.NewGuid();
             else
-                matchup.MatchupResponseId = matchupInfos.matchupResponseId;
+                matchup.MatchupResponseId = matchupInfos.MatchupResponseId;
             matchup.CreationDate = DateTime.Now;
-
-            if(String.IsNullOrEmpty(matchup.PatchVersion) && matchup.PatchVersion != ConfigurationManager.AppSettings["PatchVersion"]) {
+            matchup.PatchVersion = matchupInfos.PatchVersion;
+            if (String.IsNullOrEmpty(matchupInfos.PatchVersion))
+            {
                 matchup.PatchVersion = ConfigurationManager.AppSettings["PatchVersion"];
             }
 
@@ -267,9 +297,9 @@ namespace FirstAPI.DbContext
         public List<MatchupRespons> buildMatchupResponsEntity(MatchupInfos matchupInfos, Guid matchupResponseId)
         {
             List<MatchupRespons> matchupResponses = new List<MatchupRespons>();
-            if (matchupInfos.answers?.Count > 0)
+            if (matchupInfos.Answers?.Count > 0)
             {
-                foreach (var answer in matchupInfos.answers)
+                foreach (var answer in matchupInfos.Answers)
                 {
                     MatchupRespons matchupRespons = new MatchupRespons();
                     matchupRespons.ChampionId = answer.ChampionId;
@@ -285,9 +315,9 @@ namespace FirstAPI.DbContext
         public List<MatchupComment> buildMatchupCommentsEntity(MatchupInfos matchupInfos, Matchup matchup)
         {
             List<MatchupComment> matchupComments = new List<MatchupComment>();
-            if (matchupInfos.answers?.Count > 0)
+            if (matchupInfos.Answers?.Count > 0)
             {
-                foreach (var comment in matchupInfos.answers)
+                foreach (var comment in matchupInfos.Answers)
                 {
                     //var existingmatchupComment = db.MatchupComments.Where(x => x.MatchupId == matchupInfos.matchupId && x.ChampionId == comment.Id);
                     MatchupComment matchupComment = new MatchupComment();
@@ -303,6 +333,59 @@ namespace FirstAPI.DbContext
 
 
             return matchupComments;
+        }
+
+        public int SaveAsDuplicateMatchupWithActualPatch(Matchup matchup, List<MatchupRespons> matchupResponses, List<MatchupComment> matchupComments)
+        {
+            int result = -1;
+            var newMatchupid = Guid.NewGuid();
+            using (TransactionScope scope = new TransactionScope())
+            {
+                //on matchup en changeant l'ID
+
+                matchup.CreationDate = DateTime.Now;
+                //on cherche le matchupResponses et on le duplique aussi en changeant l'ID
+                var oldMatchupResponsId = matchup.MatchupResponseId;
+                var newMatchupResponsId = Guid.NewGuid();
+                if (matchupResponses?.Count() > 0)
+                {
+                    foreach (var item in matchupResponses)
+                    {
+                        db.MatchupResponses.Add(new MatchupRespons()
+                        {
+                            ChampionId = item.ChampionId,
+                            CreationDate = DateTime.Now,
+                            MatchupResponseId = newMatchupResponsId
+                        });
+                    }
+                }
+                //on duplique les commentaires 
+                if (matchupComments?.Count() > 0)
+                {
+                    foreach (var item in matchupComments)
+                    {
+                        db.MatchupComments.Add(new MatchupComment()
+                        {
+                            ChampionId = item.ChampionId,
+                            CreationDate = DateTime.Now,
+                            MatchupCommentId = Guid.NewGuid(),
+                            CommentText = item.CommentText,
+                            MatchupId = newMatchupid
+                        });
+                    }
+                }
+
+                var newMatchup = matchup.DuplicateWithNewIds(matchup, newMatchupid, newMatchupResponsId);
+                bool isExist = new DALCalculation().isPerfectMatchupExist(newMatchup);
+                if (!isExist)
+                {
+                    db.Matchups.Add(newMatchup);
+                    result = db.SaveChanges();
+                }
+                scope.Complete();
+            }
+
+            return result;
         }
 
     }

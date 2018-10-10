@@ -8,8 +8,8 @@
 
 <div class="row">
     <div class="col-md-12">
-        <fieldset id="searchFields" class="panel panel-default" >
-            <legend>Search Parameters <br/><span style="font-size:14px;font-style:italic"> Select Allies and / or Ennemy champions to find or create the appropriate champion to pick</span></legend>
+        <fieldset id="searchFields" class="panel panel-default">
+            <legend>Search Parameters <br /><span style="font-size:14px;font-style:italic"> Select Allies and / or Enemy champions to find or create the appropriate champion to pick</span></legend>
             <div class="row" id="rowSearchResults">
                 <div class="col-md-3 form-horizontal">
                     <div class="row">
@@ -115,42 +115,52 @@
                 <div class="col-md-3 form-horizontal">
                     <div class="row">
                         <div class="col-md-5">
-                            <label class="control-label"><strong>Ennemy Top</strong></label>
+                            <label class="control-label"><strong>Enemy Top</strong></label>
                         </div>
                         <div class="col-md-7">
-                            @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                            @Html.DropDownList("EnemyTop", listChamp, new { @id = "EnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
-                            <label class="control-label"><strong>Ennemy Jungle</strong></label>
+                            <label class="control-label"><strong>Enemy Jungle</strong></label>
                         </div>
                         <div class="col-md-7">
-                            @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                            @Html.DropDownList("EnemyJungle", listChamp, new { @id = "EnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
-                            <label class="control-label"><strong>Ennemy Mid</strong></label>
+                            <label class="control-label"><strong>Enemy Mid</strong></label>
                         </div>
                         <div class="col-md-7">
-                            @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                            @Html.DropDownList("EnemyMid", listChamp, new { @id = "EnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
-                            <label class="control-label"><strong>Ennemy Adc</strong></label>
+                            <label class="control-label"><strong>Enemy Adc</strong></label>
                         </div>
                         <div class="col-md-7">
-                            @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                            @Html.DropDownList("EnemyAdc", listChamp, new { @id = "EnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
-                            <label class="control-label"><strong>Ennemy Support</strong></label>
+                            <label class="control-label"><strong>Enemy Support</strong></label>
                         </div>
                         <div class="col-md-7">
-                            @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                            @Html.DropDownList("EnemySupport", listChamp, new { @id = "EnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 form-horizontal">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label class="control-label"><strong>Best Answers</strong></label>
+                        </div>
+                        <div class="col-md-7">
+                            @Html.DropDownList("BestAnswers", listChamp, new { @id = "BestAnswers", @class = "ddChamp2", style = "width:100%;", autocomplete = "off" })
                         </div>
                     </div>
                 </div>
@@ -163,17 +173,18 @@
 
 
 <style>
-  
     .imgAnswer {
         max-width: 36px;
+        margin-left:3px;
+        margin-bottom:3px;
     }
 
-    #rowSearchResults{
+    #rowSearchResults {
         margin-top: -52px;
         margin-left: 10px;
     }
 
-    #searchFields > legend{
+    #searchFields > legend {
         margin-bottom: 60px;
     }
 
@@ -187,7 +198,7 @@
     }
 
     .container {
-        max-width: 1400px;
+        max-width: 1600px;
     }
 
     .select2-selection--single {
@@ -228,11 +239,27 @@
             minimumResultsForSearch: 1,
         });
 
+        $(".ddChamp2").select2({
+            placeholder: "Choose...",
+            allowClear: true,
+            templateResult: formatState,
+            templateSelection: formatState,
+            minimumResultsForSearch: 1,
+        });
+
         $('.ddChamp').on('select2:select', function (e) {
             updateSearch();
         });
 
         $('.ddChamp').on('select2:clear', function (e) {
+            updateSearch();
+        });
+
+        $('.ddChamp2').on('select2:select', function (e) {
+            updateSearchBestAnswers();
+        });
+
+        $('.ddChamp2').on('select2:clear', function (e) {
             updateSearch();
         });
 
@@ -273,11 +300,11 @@
         var allyAdc = "";//$("#AllyAdc").val();
         var allySupport = "";//$("#AllySupport").val();
 
-        var ennemyTop = "";//$("#EnnemyTop").val();
-        var ennemyJungle = "";//$("#EnnemyJungle").val();
-        var ennemyMid = "";//$("#EnnemyMid").val();
-        var ennemyAdc = "";//$("#EnnemyAdc").val();
-        var ennemySupport = "";// $("#EnnemySupport").val();
+        var EnemyTop = "";//$("#EnemyTop").val();
+        var EnemyJungle = "";//$("#EnemyJungle").val();
+        var EnemyMid = "";//$("#EnemyMid").val();
+        var EnemyAdc = "";//$("#EnemyAdc").val();
+        var EnemySupport = "";// $("#EnemySupport").val();
 
         //Creation object to post
         var objA = new Object();
@@ -287,11 +314,11 @@
         objA.AllyMid = allyMid;
         objA.AllyAdc = allyAdc;
         objA.AllySupport = allySupport;
-        objA.EnnemyTop = ennemyTop;
-        objA.EnnemyJungle = ennemyJungle;
-        objA.EnnemyMid = ennemyMid;
-        objA.EnnemyAdc = ennemyAdc;
-        objA.EnnemySupport = ennemySupport;
+        objA.EnemyTop = EnemyTop;
+        objA.EnemyJungle = EnemyJungle;
+        objA.EnemyMid = EnemyMid;
+        objA.EnemyAdc = EnemyAdc;
+        objA.EnemySupport = EnemySupport;
         objA.answers = new Array();
         //recup les answers guid
         //recup les commentaires
@@ -329,11 +356,11 @@
         var allyAdc = $("#AllyAdc").val();
         var allySupport = $("#AllySupport").val();
 
-        var ennemyTop = $("#EnnemyTop").val();
-        var ennemyJungle = $("#EnnemyJungle").val();
-        var ennemyMid = $("#EnnemyMid").val();
-        var ennemyAdc = $("#EnnemyAdc").val();
-        var ennemySupport = $("#EnnemySupport").val();
+        var EnemyTop = $("#EnemyTop").val();
+        var EnemyJungle = $("#EnemyJungle").val();
+        var EnemyMid = $("#EnemyMid").val();
+        var EnemyAdc = $("#EnemyAdc").val();
+        var EnemySupport = $("#EnemySupport").val();
 
         //Creation object to post
         var objA = new Object();
@@ -343,19 +370,19 @@
         objA.AllyMid = allyMid;
         objA.AllyAdc = allyAdc;
         objA.AllySupport = allySupport;
-        objA.EnnemyTop = ennemyTop;
-        objA.EnnemyJungle = ennemyJungle;
-        objA.EnnemyMid = ennemyMid;
-        objA.EnnemyAdc = ennemyAdc;
-        objA.EnnemySupport = ennemySupport;
-        objA.answers = new Array();
+        objA.EnemyTop = EnemyTop;
+        objA.EnemyJungle = EnemyJungle;
+        objA.EnemyMid = EnemyMid;
+        objA.EnemyAdc = EnemyAdc;
+        objA.EnemySupport = EnemySupport;
+        objA.Answers = new Array();
         //recup les answers guid
         //recup les commentaires
         var arrayAnswers = $(".automaticAnswers");
         for (var i = 0; i < arrayAnswers.length; i++) {
             var answer = new Object();
             answer.ChampionId = arrayAnswers[i].id;
-            objA.answers.push(answer);
+            objA.Answers.push(answer);
         }
         var objs = JSON.stringify(objA);
 
@@ -386,11 +413,11 @@
         var allyAdc = $("#AllyAdc").val();
         var allySupport = $("#AllySupport").val();
 
-        var ennemyTop = $("#EnnemyTop").val();
-        var ennemyJungle = $("#EnnemyJungle").val();
-        var ennemyMid = $("#EnnemyMid").val();
-        var ennemyAdc = $("#EnnemyAdc").val();
-        var ennemySupport = $("#EnnemySupport").val();
+        var EnemyTop = $("#EnemyTop").val();
+        var EnemyJungle = $("#EnemyJungle").val();
+        var EnemyMid = $("#EnemyMid").val();
+        var EnemyAdc = $("#EnemyAdc").val();
+        var EnemySupport = $("#EnemySupport").val();
 
         //Creation object to post
         var objA = new Object();
@@ -400,35 +427,67 @@
         objA.AllyMid = allyMid;
         objA.AllyAdc = allyAdc;
         objA.AllySupport = allySupport;
-        objA.EnnemyTop = ennemyTop;
-        objA.EnnemyJungle = ennemyJungle;
-        objA.EnnemyMid = ennemyMid;
-        objA.EnnemyAdc = ennemyAdc;
-        objA.EnnemySupport = ennemySupport;
-        objA.answers = new Array();
+        objA.EnemyTop = EnemyTop;
+        objA.EnemyJungle = EnemyJungle;
+        objA.EnemyMid = EnemyMid;
+        objA.EnemyAdc = EnemyAdc;
+        objA.EnemySupport = EnemySupport;
+        objA.Answers = new Array();
 
         var objs = JSON.stringify(objA);
         setTimeout(function () {
-        $.ajax({
-            type: "POST",
-            url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
-            data: objs,
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json'
-        }).complete(function (data) {
-            $("#searchResults").show();
-            $(".loaderC").hide();
-            $('#searchResults').html(data.responseText);
-            //automaticSearch()
-            $(".tooltipComment").each(function () {
-                var commentId = $(this).attr('data-id');
-                var comment = $('#commentId-' + commentId).html();
-                $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
-                //console.log($(this));
-                //console.log(commentId);
-                //console.log(comment);
-            });
-        })
+            $.ajax({
+                type: "POST",
+                url: '@(Url.Action("UpdateSearchResults",null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+                data: objs,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).complete(function (data) {
+                $("#searchResults").show();
+                $(".loaderC").hide();
+                $('#searchResults').html(data.responseText);
+                //automaticSearch()
+                $(".tooltipComment").each(function () {
+                    var commentId = $(this).attr('data-id');
+                    var comment = $('#commentId-' + commentId).html();
+                    $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
+                    //console.log($(this));
+                    //console.log(commentId);
+                    //console.log(comment);
+                });
+            })
+        }, 150);
+    }
+
+    function updateSearchBestAnswers() {
+        $("#searchResults").hide();
+        $(".loaderC").show();
+        //recup value des dropdown
+        var bestAnswers = $("#BestAnswers").val();
+        
+        console.log(bestAnswers);
+        //Creation object to post
+        setTimeout(function () {
+            $.ajax({
+                type: "POST",
+                url: '@(Url.Action("UpdateSearchResultsBestAnswers", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))',
+                data: { championId: bestAnswers },
+                //contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).complete(function (data) {
+                $("#searchResults").show();
+                $(".loaderC").hide();
+                $('#searchResults').html(data.responseText);
+                //automaticSearch()
+                $(".tooltipComment").each(function () {
+                    var commentId = $(this).attr('data-id');
+                    var comment = $('#commentId-' + commentId).html();
+                    $("#tooltipComment-" + commentId).tooltip({ html: true, placement: "top", title: comment });
+                    //console.log($(this));
+                    //console.log(commentId);
+                    //console.log(comment);
+                });
+            })
         }, 150);
     }
 

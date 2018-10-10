@@ -19,7 +19,7 @@ namespace FirstAPI.DbContext
 
 
 
-        public bool isPerfectMatchExist(MatchupInfos matchupInfos, Guid playerId)
+        public bool isPerfectMatchupExistWithMatchupInfo(MatchupInfos matchupInfos, Guid playerId)
         {
             var listMatchup = db.Matchups.Where(x => x.PlayerId == playerId);
             listMatchup = listMatchup.Where(x => x.AllyTop == matchupInfos.AllyTop);
@@ -27,12 +27,32 @@ namespace FirstAPI.DbContext
             listMatchup = listMatchup.Where(x => x.AllyMid == matchupInfos.AllyMid);
             listMatchup = listMatchup.Where(x => x.AllyAdc == matchupInfos.AllyAdc);
             listMatchup = listMatchup.Where(x => x.AllySupport == matchupInfos.AllySupport);
-            listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
-            listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
-            listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
-            listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
-            listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+            listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
+            listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
+            listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
+            listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
+            listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
+            listMatchup = listMatchup.Where(x => x.PatchVersion == matchupInfos.PatchVersion);
+            if (listMatchup.Count() > 0)
+                return true;
 
+            return false;
+        }
+
+        public bool isPerfectMatchupExist(Matchup matchup)
+        {
+            var listMatchup = db.Matchups.Where(x => x.PlayerId == matchup.PlayerId);
+            listMatchup = listMatchup.Where(x => x.AllyTop == matchup.AllyTop);
+            listMatchup = listMatchup.Where(x => x.AllyJungle == matchup.AllyJungle);
+            listMatchup = listMatchup.Where(x => x.AllyMid == matchup.AllyMid);
+            listMatchup = listMatchup.Where(x => x.AllyAdc == matchup.AllyAdc);
+            listMatchup = listMatchup.Where(x => x.AllySupport == matchup.AllySupport);
+            listMatchup = listMatchup.Where(x => x.EnemyTop == matchup.EnemyTop);
+            listMatchup = listMatchup.Where(x => x.EnemyJungle == matchup.EnemyJungle);
+            listMatchup = listMatchup.Where(x => x.EnemyMid == matchup.EnemyMid);
+            listMatchup = listMatchup.Where(x => x.EnemyAdc == matchup.EnemyAdc);
+            listMatchup = listMatchup.Where(x => x.EnemySupport == matchup.EnemySupport);
+            listMatchup = listMatchup.Where(x => x.PatchVersion == matchup.PatchVersion);
             if (listMatchup.Count() > 0)
                 return true;
 
@@ -41,7 +61,7 @@ namespace FirstAPI.DbContext
 
         public MatchupInfos GetEstimatedAnswersWithAllParam(MatchupInfos matchupInfos)
         {
-            IQueryable<Matchup> listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+            IQueryable<Matchup> listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
             List<Matchup> calcultedList = new List<Matchup>();
 
             bool hasFilter = false;
@@ -72,29 +92,29 @@ namespace FirstAPI.DbContext
                 hasFilter = true;
             }
             //ENNEMI
-            if (matchupInfos.EnnemyTop != Guid.Empty)
+            if (matchupInfos.EnemyTop != Guid.Empty)
             {
-                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop)).ToList();
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop)).ToList();
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyJungle != Guid.Empty)
+            if (matchupInfos.EnemyJungle != Guid.Empty)
             {
-                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle)).ToList();
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle)).ToList();
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyMid != Guid.Empty)
+            if (matchupInfos.EnemyMid != Guid.Empty)
             {
-                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid)).ToList();
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid)).ToList();
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemyAdc != Guid.Empty)
+            if (matchupInfos.EnemyAdc != Guid.Empty)
             {
-                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc)).ToList();
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc)).ToList();
                 hasFilter = true;
             }
-            if (matchupInfos.EnnemySupport != Guid.Empty)
+            if (matchupInfos.EnemySupport != Guid.Empty)
             {
-                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport)).ToList();
+                calcultedList = calcultedList.Union(listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport)).ToList();
                 hasFilter = true;
             }
 
@@ -110,7 +130,7 @@ namespace FirstAPI.DbContext
 
         public MatchupInfos GetEstimatedAnswersByMatchupParam(MatchupInfos matchupInfos)
         {
-            var player = new DAL().getPlayerById(matchupInfos.playerId);
+            var player = new DAL().getPlayerById(matchupInfos.PlayerId);
             IEnumerable<Matchup> listMatchup = GetListMatchupByRole(player, matchupInfos);
             bool hasFilter = false;
             if (listMatchup.Count() == 0)
@@ -121,7 +141,7 @@ namespace FirstAPI.DbContext
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.AllyTop == matchupInfos.AllyTop && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.AllyTop == matchupInfos.AllyTop && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList).ToList();
@@ -129,7 +149,7 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.AllyTop == matchupInfos.AllyTop && x.PlayerId == matchupInfos.playerId).ToList();
+                        listMatchup = db.Matchups.Where(x => x.AllyTop == matchupInfos.AllyTop && x.PlayerId == matchupInfos.PlayerId).ToList();
                     }
                     hasFilter = true;
                 }
@@ -137,7 +157,7 @@ namespace FirstAPI.DbContext
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList).ToList();
@@ -145,7 +165,7 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.AllyJungle == matchupInfos.AllyJungle && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.AllyJungle == matchupInfos.AllyJungle && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
@@ -153,7 +173,7 @@ namespace FirstAPI.DbContext
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.AllyMid == matchupInfos.AllyMid && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.AllyMid == matchupInfos.AllyMid && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -161,7 +181,7 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.AllyMid == matchupInfos.AllyMid && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.AllyMid == matchupInfos.AllyMid && x.PlayerId == matchupInfos.PlayerId);
 
                     }
                     hasFilter = true;
@@ -170,7 +190,7 @@ namespace FirstAPI.DbContext
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.AllyAdc == matchupInfos.AllyAdc && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.AllyAdc == matchupInfos.AllyAdc && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -178,7 +198,7 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.AllyAdc == matchupInfos.AllyAdc && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.AllyAdc == matchupInfos.AllyAdc && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
@@ -186,7 +206,7 @@ namespace FirstAPI.DbContext
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.AllySupport == matchupInfos.AllySupport && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.AllySupport == matchupInfos.AllySupport && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -194,16 +214,16 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.AllySupport == matchupInfos.AllySupport && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.AllySupport == matchupInfos.AllySupport && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
                 //ENNEMI
-                if (matchupInfos.EnnemyTop != Guid.Empty)
+                if (matchupInfos.EnemyTop != Guid.Empty)
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -211,15 +231,15 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.EnemyTop == matchupInfos.EnnemyTop && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.EnemyTop == matchupInfos.EnemyTop && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
-                if (matchupInfos.EnnemyJungle != Guid.Empty)
+                if (matchupInfos.EnemyJungle != Guid.Empty)
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -227,15 +247,15 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
-                if (matchupInfos.EnnemyMid != Guid.Empty)
+                if (matchupInfos.EnemyMid != Guid.Empty)
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -243,15 +263,15 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.EnemyMid == matchupInfos.EnnemyMid && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.EnemyMid == matchupInfos.EnemyMid && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
-                if (matchupInfos.EnnemyAdc != Guid.Empty)
+                if (matchupInfos.EnemyAdc != Guid.Empty)
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -259,15 +279,15 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
-                if (matchupInfos.EnnemySupport != Guid.Empty)
+                if (matchupInfos.EnemySupport != Guid.Empty)
                 {
                     if (listMatchup.Count() > 0)
                     {
-                        var tempList = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport && x.PlayerId == matchupInfos.playerId);
+                        var tempList = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport && x.PlayerId == matchupInfos.PlayerId);
                         if (tempList.Count() > 0)
                         {
                             listMatchup = listMatchup.Intersect(tempList);
@@ -275,7 +295,7 @@ namespace FirstAPI.DbContext
                     }
                     else
                     {
-                        listMatchup = db.Matchups.Where(x => x.EnemySupport == matchupInfos.EnnemySupport && x.PlayerId == matchupInfos.playerId);
+                        listMatchup = db.Matchups.Where(x => x.EnemySupport == matchupInfos.EnemySupport && x.PlayerId == matchupInfos.PlayerId);
                     }
                     hasFilter = true;
                 }
@@ -325,9 +345,9 @@ namespace FirstAPI.DbContext
             IEnumerable<Matchup> listMatchup = Enumerable.Empty<Matchup>().AsQueryable();
 
             // les 3 param
-            if (matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.AllySupport != Guid.Empty)
+            if (matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.EnemySupport != Guid.Empty && matchupInfos.AllySupport != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -336,13 +356,13 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
             //sans le support allié
-            else if (matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.AllySupport == Guid.Empty)
+            else if (matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.EnemySupport != Guid.Empty && matchupInfos.AllySupport == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -351,13 +371,13 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
-            //sans le support ennemy
-            else if (matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.EnnemySupport == Guid.Empty && matchupInfos.AllySupport != Guid.Empty)
+            //sans le support Enemy
+            else if (matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.EnemySupport == Guid.Empty && matchupInfos.AllySupport != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -366,13 +386,13 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
-            // sans le support allié et support ennemy
-            else if (matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.EnnemySupport == Guid.Empty && matchupInfos.AllySupport == Guid.Empty)
+            // sans le support allié et support Enemy
+            else if (matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.EnemySupport == Guid.Empty && matchupInfos.AllySupport == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -381,7 +401,7 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
 
@@ -393,9 +413,9 @@ namespace FirstAPI.DbContext
             IEnumerable<Matchup> listMatchup = Enumerable.Empty<Matchup>().AsQueryable();
 
             // les 3 param
-            if (matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
+            if (matchupInfos.EnemySupport != Guid.Empty && matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -404,13 +424,13 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
             //sans l'adc allié
-            else if (matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.AllyAdc == Guid.Empty)
+            else if (matchupInfos.EnemySupport != Guid.Empty && matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.AllyAdc == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -419,13 +439,13 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnnemyAdc);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
-            //sans l'adc ennemy
-            else if (matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.EnnemyAdc == Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
+            //sans l'adc Enemy
+            else if (matchupInfos.EnemySupport != Guid.Empty && matchupInfos.EnemyAdc == Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -435,12 +455,12 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
-            // sans l'adc allié et l'adc ennemy
-            else if (matchupInfos.EnnemySupport != Guid.Empty && matchupInfos.EnnemyAdc != Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
+            // sans l'adc allié et l'adc Enemy
+            else if (matchupInfos.EnemySupport != Guid.Empty && matchupInfos.EnemyAdc != Guid.Empty && matchupInfos.AllyAdc != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -450,7 +470,7 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnnemySupport);
+                listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
             }
 
             return listMatchup;
@@ -461,39 +481,39 @@ namespace FirstAPI.DbContext
             IEnumerable<Matchup> listMatchup = Enumerable.Empty<Matchup>().AsQueryable();
 
             // les 3 param
-            if (matchupInfos.EnnemyMid != Guid.Empty && matchupInfos.EnnemyJungle != Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
+            if (matchupInfos.EnemyMid != Guid.Empty && matchupInfos.EnemyJungle != Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
-                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
             //sans le jungler allié
-            else if (matchupInfos.EnnemyMid != Guid.Empty && matchupInfos.EnnemyJungle != Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
+            else if (matchupInfos.EnemyMid != Guid.Empty && matchupInfos.EnemyJungle != Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
-                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
-            //sans le jungler ennemy
-            else if (matchupInfos.EnnemyMid != Guid.Empty && matchupInfos.EnnemyJungle == Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
+            //sans le jungler Enemy
+            else if (matchupInfos.EnemyMid != Guid.Empty && matchupInfos.EnemyJungle == Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -501,14 +521,14 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
-            // sans le jungler allié et ennemy
-            else if (matchupInfos.EnnemyMid != Guid.Empty && matchupInfos.EnnemyJungle == Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
+            // sans le jungler allié et Enemy
+            else if (matchupInfos.EnemyMid != Guid.Empty && matchupInfos.EnemyJungle == Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
@@ -516,7 +536,7 @@ namespace FirstAPI.DbContext
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnnemyMid);
+                listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
@@ -529,60 +549,60 @@ namespace FirstAPI.DbContext
             IEnumerable<Matchup> listMatchup = Enumerable.Empty<Matchup>().AsQueryable();
 
             // les 3 param
-            if (matchupInfos.EnnemyTop != Guid.Empty && matchupInfos.EnnemyJungle != Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
+            if (matchupInfos.EnemyTop != Guid.Empty && matchupInfos.EnemyJungle != Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
-                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
             //sans le jungler allié
-            else if (matchupInfos.EnnemyTop != Guid.Empty && matchupInfos.EnnemyJungle != Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
+            else if (matchupInfos.EnemyTop != Guid.Empty && matchupInfos.EnemyJungle != Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
-                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnnemyJungle);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyJungle == matchupInfos.EnemyJungle);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
-            //sans le jungler ennemy
-            else if (matchupInfos.EnnemyTop != Guid.Empty && matchupInfos.EnnemyJungle == Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
+            //sans le jungler Enemy
+            else if (matchupInfos.EnemyTop != Guid.Empty && matchupInfos.EnemyJungle == Guid.Empty && matchupInfos.AllyJungle != Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == matchupInfos.AllyJungle);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemySupport == Guid.Empty);
             }
-            // sans le jungler allié et ennemy
-            else if (matchupInfos.EnnemyTop != Guid.Empty && matchupInfos.EnnemyJungle == Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
+            // sans le jungler allié et Enemy
+            else if (matchupInfos.EnemyTop != Guid.Empty && matchupInfos.EnemyJungle == Guid.Empty && matchupInfos.AllyJungle == Guid.Empty)
             {
-                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.playerId);
+                listMatchup = db.Matchups.Where(x => x.PlayerId == matchupInfos.PlayerId);
                 listMatchup = listMatchup.Where(x => x.AllyTop == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllyAdc == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.AllySupport == Guid.Empty);
-                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnnemyTop);
+                listMatchup = listMatchup.Where(x => x.EnemyTop == matchupInfos.EnemyTop);
                 listMatchup = listMatchup.Where(x => x.EnemyJungle == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyMid == Guid.Empty);
                 listMatchup = listMatchup.Where(x => x.EnemyAdc == Guid.Empty);
@@ -595,8 +615,8 @@ namespace FirstAPI.DbContext
         private MatchupInfos CreateAutomaticMatchupInfo(MatchupInfos matchupInfos, List<Guid> listMatchupResponse)
         {
             MatchupInfos automaticMatchupInfo = new MatchupInfos();
-            automaticMatchupInfo = matchupInfos;
-            automaticMatchupInfo.answers = new List<MatchupAnswer>();
+            automaticMatchupInfo = matchupInfos.DuplicateMe(matchupInfos);
+            automaticMatchupInfo.Answers = new List<MatchupAnswer>();
 
             foreach (Guid matchupResponseId in listMatchupResponse)
             {
@@ -605,10 +625,11 @@ namespace FirstAPI.DbContext
                 {
                     var matchupAnswer = new MatchupAnswer();
                     matchupAnswer.ChampionId = matchupResponse.ChampionId;
-                    automaticMatchupInfo.answers.Add(matchupAnswer);
+                    automaticMatchupInfo.Answers.Add(matchupAnswer);
                 }
-                automaticMatchupInfo.answers = automaticMatchupInfo.answers.OrderBy(x => x.ChampionName).ToList();
+                automaticMatchupInfo.Answers = automaticMatchupInfo.Answers.OrderBy(x => x.ChampionName).ToList();
             }
+            
             return automaticMatchupInfo;
         }
 
@@ -622,18 +643,18 @@ namespace FirstAPI.DbContext
             listChampionIdBans.Add(draftInfos.AllyBan4);
             listChampionIdBans.Add(draftInfos.AllyBan5);
 
-            listChampionIdBans.Add(draftInfos.EnnemyBan1);
-            listChampionIdBans.Add(draftInfos.EnnemyBan2);
-            listChampionIdBans.Add(draftInfos.EnnemyBan3);
-            listChampionIdBans.Add(draftInfos.EnnemyBan4);
-            listChampionIdBans.Add(draftInfos.EnnemyBan5);
+            listChampionIdBans.Add(draftInfos.EnemyBan1);
+            listChampionIdBans.Add(draftInfos.EnemyBan2);
+            listChampionIdBans.Add(draftInfos.EnemyBan3);
+            listChampionIdBans.Add(draftInfos.EnemyBan4);
+            listChampionIdBans.Add(draftInfos.EnemyBan5);
 
             var listChampion = new HashSet<Champion>(new ChampionComparer());
             if (listMatchupInfos.Item1?.Count() > 0)
             {
                 foreach (var matchupinfos in listMatchupInfos.Item1)
                 {
-                    foreach (var answer in matchupinfos.answers)
+                    foreach (var answer in matchupinfos.Answers)
                     {
                         if (!listChampionIdBans.Contains(answer.ChampionId))
                             listChampion.Add(new Champion()
@@ -645,9 +666,9 @@ namespace FirstAPI.DbContext
                     }
                 }
             }
-            if (listMatchupInfos.Item3.answers != null)
+            if (listMatchupInfos.Item3.Answers != null)
             {
-                foreach (var answer in listMatchupInfos.Item3.answers)
+                foreach (var answer in listMatchupInfos.Item3.Answers)
                 {
                     if (!listChampionIdBans.Contains(answer.ChampionId))
                         listChampion.Add(new Champion()

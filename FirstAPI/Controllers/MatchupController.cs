@@ -104,13 +104,26 @@ namespace FirstAPI.Controllers
             return PartialView("SearchResults", listMatchupInfos.Item1);
         }
 
+        [HttpPost]
+        public ActionResult UpdateSearchResultsBestAnswers(Guid playerId, string championId)
+        {
+            var matchupDal = new DALMatchup();
+            Stopwatch s = new Stopwatch();
+            var guidChampionId = Guid.Parse(championId);
+            s.Start();
+            var listMatchupInfos = matchupDal.getAllMatchupByBestAnswer(playerId, guidChampionId);
+            s.Stop();
+            ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;
+            return PartialView("SearchResults", listMatchupInfos.Item1);
+        }
+
         //[HttpPost]
         //public ActionResult AutomaticSearchResults(Guid playerId, MatchupInfos matchupInfos)
         //{
         //    var calculationDal = new DALCalculation();
         //    Stopwatch s = new Stopwatch();
         //    s.Start();
-        //    matchupInfos.playerId = playerId;
+        //    matchupInfos.PlayerId = playerId;
         //    var listMatchupInfos = calculationDal.GetEstimatedAnswersByMatchupParam(matchupInfos);
         //    s.Stop();
         //    //ViewBag.CalculationTime = listMatchupInfos.Item2 / 1000d;

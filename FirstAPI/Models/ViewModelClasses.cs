@@ -1,6 +1,7 @@
 ﻿using FirstAPI.DbContext;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -8,9 +9,9 @@ namespace FirstAPI.Models
 {
     public class MatchupInfos
     {
-        public Guid playerId { get; set; }
-        public Guid matchupId { get; set; }
-        public Guid matchupResponseId { get; set; }
+        public Guid PlayerId { get; set; }
+        public Guid MatchupId { get; set; }
+        public Guid MatchupResponseId { get; set; }
         public Guid AllyTop { get; set; }
         public string AllyTopName { get { return convertGUIDtoString(AllyTop); } set { AllyTopName = value; } }
         public Guid AllyJungle { get; set; }
@@ -22,26 +23,50 @@ namespace FirstAPI.Models
         public Guid AllySupport { get; set; }
         public string AllySupportName { get { return convertGUIDtoString(AllySupport); } set { AllySupportName = value; } }
 
-        public Guid EnnemyTop { get; set; }
-        public string EnnemyTopName { get { return convertGUIDtoString(EnnemyTop); } set { EnnemyTopName = value; } }
-        public Guid EnnemyJungle { get; set; }
-        public string EnnemyJungleName { get { return convertGUIDtoString(EnnemyJungle); } set { EnnemyJungleName = value; } }
-        public Guid EnnemyMid { get; set; }
-        public string EnnemyMidName { get { return convertGUIDtoString(EnnemyMid); } set { EnnemyMidName = value; } }
+        public Guid EnemyTop { get; set; }
+        public string EnemyTopName { get { return convertGUIDtoString(EnemyTop); } set { EnemyTopName = value; } }
+        public Guid EnemyJungle { get; set; }
+        public string EnemyJungleName { get { return convertGUIDtoString(EnemyJungle); } set { EnemyJungleName = value; } }
+        public Guid EnemyMid { get; set; }
+        public string EnemyMidName { get { return convertGUIDtoString(EnemyMid); } set { EnemyMidName = value; } }
 
-        public Guid EnnemyAdc { get; set; }
-        public string EnnemyAdcName { get { return convertGUIDtoString(EnnemyAdc); } set { EnnemyAdcName = value; } }
+        public Guid EnemyAdc { get; set; }
+        public string EnemyAdcName { get { return convertGUIDtoString(EnemyAdc); } set { EnemyAdcName = value; } }
 
-        public Guid EnnemySupport { get; set; }
-        public string EnnemySupportName { get { return convertGUIDtoString(EnnemySupport); } set { EnnemySupportName = value; } }
+        public Guid EnemySupport { get; set; }
+        public string EnemySupportName { get { return convertGUIDtoString(EnemySupport); } set { EnemySupportName = value; } }
 
         public string PatchVersion { get; set; }
 
-        public List<MatchupAnswer> answers { get; set; }
+        public List<MatchupAnswer> Answers { get; set; }
 
         private string convertGUIDtoString(Guid id)
         {
             return ((List<Champion>)System.Web.HttpContext.Current.Session["GlobalChampions"]).Where(x => x.ChampionId == id).FirstOrDefault()?.ChampionName;
+        }
+
+        public MatchupInfos DuplicateMe(MatchupInfos matchupInfos)
+        {
+            MatchupInfos newMatchupInfo = new Models.MatchupInfos();
+            newMatchupInfo.AllyTop = matchupInfos.AllyTop;
+            newMatchupInfo.AllyJungle = matchupInfos.AllyJungle;
+            newMatchupInfo.AllyMid = matchupInfos.AllyMid;
+            newMatchupInfo.AllyAdc = matchupInfos.AllyAdc;
+            newMatchupInfo.AllySupport = matchupInfos.AllySupport;
+            newMatchupInfo.EnemyTop = matchupInfos.EnemyTop;
+            newMatchupInfo.EnemyJungle = matchupInfos.EnemyJungle;
+            newMatchupInfo.EnemyMid = matchupInfos.EnemyMid;
+            newMatchupInfo.EnemyAdc = matchupInfos.EnemyAdc;
+            newMatchupInfo.EnemySupport = matchupInfos.EnemySupport;
+            newMatchupInfo.PlayerId = matchupInfos.PlayerId;
+            newMatchupInfo.PatchVersion = matchupInfos.PatchVersion;
+            if (String.IsNullOrEmpty(matchupInfos.PatchVersion) || matchupInfos.PatchVersion != ConfigurationManager.AppSettings["PatchVersion"])
+            {
+                newMatchupInfo.PatchVersion = ConfigurationManager.AppSettings["PatchVersion"];
+            }
+            newMatchupInfo.Answers = new List<MatchupAnswer>();
+            newMatchupInfo.Answers.AddRange(matchupInfos.Answers);
+            return newMatchupInfo;
         }
     }
 
@@ -60,11 +85,11 @@ namespace FirstAPI.Models
 
     public class DraftInfos : MatchupInfos
     {
-        public bool FlexEnnemyTop { get; set; }
-        public bool FlexEnnemyJungle { get; set; }
-        public bool FlexEnnemyMid { get; set; }
-        public bool FlexEnnemyAdc { get; set; }
-        public bool FlexEnnemySupport { get; set; }
+        public bool FlexEnemyTop { get; set; }
+        public bool FlexEnemyJungle { get; set; }
+        public bool FlexEnemyMid { get; set; }
+        public bool FlexEnemyAdc { get; set; }
+        public bool FlexEnemySupport { get; set; }
 
         public bool FlexAllyTop { get; set; }
         public bool FlexAllyJungle { get; set; }
@@ -78,11 +103,11 @@ namespace FirstAPI.Models
         public Guid AllyBan4 { get; set; }
         public Guid AllyBan5 { get; set; }
 
-        public Guid EnnemyBan1 { get; set; }
-        public Guid EnnemyBan2 { get; set; }
-        public Guid EnnemyBan3 { get; set; }
-        public Guid EnnemyBan4 { get; set; }
-        public Guid EnnemyBan5 { get; set; }
+        public Guid EnemyBan1 { get; set; }
+        public Guid EnemyBan2 { get; set; }
+        public Guid EnemyBan3 { get; set; }
+        public Guid EnemyBan4 { get; set; }
+        public Guid EnemyBan5 { get; set; }
 
 
         private string convertGUIDtoString(Guid id)

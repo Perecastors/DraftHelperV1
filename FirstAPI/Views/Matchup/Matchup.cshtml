@@ -1,12 +1,12 @@
 ﻿@model FirstAPI.Models.MatchupInfos
 
-
-
 @{
     SelectList listChamp = FirstAPI.WebHelperTools.SelectListHelper.getAllChampions();
     ViewBag.Title = ViewBag.Nickname + " - Edit Answer";
+
 }
 <p></p>
+@Html.Hidden("PatchVersion", Model.PatchVersion)
 <div class="row" style="width:95%;margin-left:56px">
     <div class="row">
         <div id="draftArea">
@@ -83,26 +83,26 @@
                 @Html.Partial("MyChampionsList", (List<FirstAPI.DbContext.Champion>)ViewBag.MyChampList)
             </div>
             <div class="col-md-3">
-                <div id="ennemy1" class="selectChamp">
-                    <strong>Top ennemy :</strong><br />
-                    @Html.DropDownList("EnnemyTop", listChamp, new { @id = "EnnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                <div id="Enemy1" class="selectChamp">
+                    <strong>Top Enemy :</strong><br />
+                    @Html.DropDownList("EnemyTop", listChamp, new { @id = "EnemyTop", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                 </div>
-                <div id="ennemy2" class="selectChamp">
-                    <strong>Jungle ennemy :</strong><br />
-                    @Html.DropDownList("EnnemyJungle", listChamp, new { @id = "EnnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                <div id="Enemy2" class="selectChamp">
+                    <strong>Jungle Enemy :</strong><br />
+                    @Html.DropDownList("EnemyJungle", listChamp, new { @id = "EnemyJungle", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                 </div>
-                <div id="ennemy3" class="selectChamp">
-                    <strong>Mid ennemy :</strong><br />
-                    @Html.DropDownList("EnnemyMid", listChamp, new { @id = "EnnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                <div id="Enemy3" class="selectChamp">
+                    <strong>Mid Enemy :</strong><br />
+                    @Html.DropDownList("EnemyMid", listChamp, new { @id = "EnemyMid", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                 </div>
-                <div id="ennemy4" class="selectChamp">
-                    <strong>Adc ennemy :</strong><br />
-                    @Html.DropDownList("EnnemyAdc", listChamp, new { @id = "EnnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                <div id="Enemy4" class="selectChamp">
+                    <strong>Adc Enemy :</strong><br />
+                    @Html.DropDownList("EnemyAdc", listChamp, new { @id = "EnemyAdc", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                 </div>
-                <div id="ennemy5" class="selectChamp">
-                    <strong>Support ennemy :</strong>
+                <div id="Enemy5" class="selectChamp">
+                    <strong>Support Enemy :</strong>
                     <br />
-                    @Html.DropDownList("EnnemySupport", listChamp, new { @id = "EnnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
+                    @Html.DropDownList("EnemySupport", listChamp, new { @id = "EnemySupport", @class = "ddChamp", style = "width:100%;", autocomplete = "off" })
                 </div>
             </div>
         </div>
@@ -163,12 +163,12 @@
                     }
                 </tr>
                 <tr class="displayChoices">
-                    <td style="width:100px;height: 55px;"><strong>Ennemy Team</strong></td>
-                    <td id="displayEnnemyTop"></td>
-                    <td id="displayEnnemyJungle"></td>
-                    <td id="displayEnnemyMid"></td>
-                    <td id="displayEnnemyAdc"></td>
-                    <td id="displayEnnemySupport"></td>
+                    <td style="width:100px;height: 55px;"><strong>Enemy Team</strong></td>
+                    <td id="displayEnemyTop"></td>
+                    <td id="displayEnemyJungle"></td>
+                    <td id="displayEnemyMid"></td>
+                    <td id="displayEnemyAdc"></td>
+                    <td id="displayEnemySupport"></td>
                 </tr>
             </table>
             <div style="width:621px">
@@ -281,13 +281,13 @@
             }
         });
 
-        @if(Model.answers?.Count > 0)
+        @if(Model.Answers?.Count > 0)
         {
             <text>
             function fillAnswers() {
                 var matchupinfos = new Object();
                 matchupinfos = @(Html.Raw(Json.Encode(Model)));
-                var answers = matchupinfos.answers;
+                var answers = matchupinfos.Answers;
                 for(var i=0; i < answers.length ;i++){
                     addAnswer(answers[i].ChampionId,answers[i].ChampionName);
                     $("#img" + answers[i].ChampionName).addClass("selectedChampion");
@@ -300,11 +300,11 @@
                 $("#img" + matchupinfos.AllyMidName).addClass("selectedChampion");
                 $("#img" + matchupinfos.AllyAdcName).addClass("selectedChampion");
                 $("#img" + matchupinfos.AllySupportName).addClass("selectedChampion");
-                $("#img" + matchupinfos.EnnemyTopName).addClass("selectedChampion");
-                $("#img" + matchupinfos.EnnemyJungleName).addClass("selectedChampion");
-                $("#img" + matchupinfos.EnnemyMidName).addClass("selectedChampion");
-                $("#img" + matchupinfos.EnnemyAdcName).addClass("selectedChampion");
-                $("#img" + matchupinfos.EnnemySupportName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnemyTopName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnemyJungleName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnemyMidName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnemyAdcName).addClass("selectedChampion");
+                $("#img" + matchupinfos.EnemySupportName).addClass("selectedChampion");
             }
             fillAnswers();
             </text>
@@ -339,11 +339,12 @@
         var allyAdc = $("#AllyAdc").val();
         var allySupport = $("#AllySupport").val();
 
-        var ennemyTop = $("#EnnemyTop").val();
-        var ennemyJungle = $("#EnnemyJungle").val();
-        var ennemyMid = $("#EnnemyMid").val();
-        var ennemyAdc = $("#EnnemyAdc").val();
-        var ennemySupport = $("#EnnemySupport").val();
+        var EnemyTop = $("#EnemyTop").val();
+        var EnemyJungle = $("#EnemyJungle").val();
+        var EnemyMid = $("#EnemyMid").val();
+        var EnemyAdc = $("#EnemyAdc").val();
+        var EnemySupport = $("#EnemySupport").val();
+        var patchVersion = $("#PatchVersion").val();
 
         //Creation object to post
         var objA = new Object();
@@ -354,12 +355,13 @@
         objA.AllyMid = allyMid;
         objA.AllyAdc = allyAdc;
         objA.AllySupport = allySupport;
-        objA.EnnemyTop = ennemyTop;
-        objA.EnnemyJungle = ennemyJungle;
-        objA.EnnemyMid = ennemyMid;
-        objA.EnnemyAdc = ennemyAdc;
-        objA.EnnemySupport = ennemySupport;
-        objA.answers = new Array();
+        objA.EnemyTop = EnemyTop;
+        objA.EnemyJungle = EnemyJungle;
+        objA.EnemyMid = EnemyMid;
+        objA.EnemyAdc = EnemyAdc;
+        objA.EnemySupport = EnemySupport;
+        objA.PatchVersion = patchVersion;
+        objA.Answers = new Array();
 
         //recup les answers guid
         //recup les commentaires
@@ -368,7 +370,7 @@
             var answer = new Object();
             answer.ChampionId = arrayAnswers[i].lastElementChild.getAttribute('value');
             answer.Comments = arrayAnswers[i].children[1].value;
-            objA.answers.push(answer);
+            objA.Answers.push(answer);
         }
 
         var objs = JSON.stringify(objA);

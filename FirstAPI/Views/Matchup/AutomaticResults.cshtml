@@ -2,7 +2,7 @@
 
 @{ 
     var myResult = new List<FirstAPI.Models.MatchupInfos>();
-    if (Model.answers?.Count > 0)
+    if (Model.Answers?.Count > 0)
     {
         myResult.Add(Model);
     }
@@ -21,9 +21,12 @@
                             Ally Team
                         </div>
                         <div class="col-md-3 text-center">
-                            Ennemy Team
+                            Enemy Team
                         </div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-md-1 text-center">
+                            Patch Version
+                        </div>
+                        <div class="col-md-5 text-center">
                             Possible Answers <small style="font-size:12px">(Based on informations you have recorded)</small>
                         </div>
                     </div>
@@ -146,10 +149,10 @@
                     </div>
                     <div class="col-md-3">
                         <div class="col-md-2">
-                            @if (!string.IsNullOrEmpty(matchupInfos.EnnemyTopName))
+                            @if (!string.IsNullOrEmpty(matchupInfos.EnemyTopName))
                     {
                                 <text>
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyTopName).png" ; />
+                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyTopName).png" ; />
                                 </text>
                             }
                             else
@@ -160,10 +163,10 @@
                             }
                         </div>
                         <div class="col-md-2">
-                            @if (!string.IsNullOrEmpty(matchupInfos.EnnemyJungleName))
+                            @if (!string.IsNullOrEmpty(matchupInfos.EnemyJungleName))
                     {
                                 <text>
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyJungleName).png" ; />
+                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyJungleName).png" ; />
                                 </text>
                             }
                             else
@@ -174,10 +177,10 @@
                             }
                         </div>
                         <div class="col-md-2">
-                            @if (!string.IsNullOrEmpty(matchupInfos.EnnemyMidName))
+                            @if (!string.IsNullOrEmpty(matchupInfos.EnemyMidName))
                     {
                                 <text>
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyMidName).png" ; />
+                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyMidName).png" ; />
                                 </text>
                             }
                             else
@@ -188,10 +191,10 @@
                             }
                         </div>
                         <div class="col-md-2">
-                            @if (!string.IsNullOrEmpty(matchupInfos.EnnemyAdcName))
+                            @if (!string.IsNullOrEmpty(matchupInfos.EnemyAdcName))
                     {
                                 <text>
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyAdcName).png" ; />
+                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyAdcName).png" ; />
                                 </text>
                             }
                             else
@@ -202,10 +205,10 @@
                             }
                         </div>
                         <div class="col-md-2">
-                            @if (!string.IsNullOrEmpty(matchupInfos.EnnemySupportName))
+                            @if (!string.IsNullOrEmpty(matchupInfos.EnemySupportName))
                     {
                                 <text>
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemySupportName).png" ; />
+                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemySupportName).png" ; />
                                 </text>
                             }
                             else
@@ -216,18 +219,19 @@
                             }
                         </div>
                     </div>
+
                     <div class="col-md-5 text-center">
                         @{
                             string champName;
                         }
-                        @foreach (var answer in matchupInfos.answers)
+                        @foreach (var answer in matchupInfos.Answers)
                         {
                             champName = ((List<FirstAPI.DbContext.Champion>
                                 )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
                             if (string.IsNullOrEmpty(answer.Comments) && false)
                             {
                                 <text>
-                                    <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
+                                    <div class="automaticAnswers" id="@(answer.ChampionId)" style="display:inline">
                                         <img class="tooltipComment imgAnswer" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
                                         <div id="commentId-@(answer.MatchupCommentId)-@(answer.ChampionId)" class="hidden">
                                             <div style="width:180px;">
@@ -240,7 +244,7 @@
                             else
                             {
                                 <text>
-                                <div class="col-md-1 automaticAnswers" id="@(answer.ChampionId)">
+                                <div class="automaticAnswers" id="@(answer.ChampionId)">
                                     <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
                                 </div>
                                 </text>

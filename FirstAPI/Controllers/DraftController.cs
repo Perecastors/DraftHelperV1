@@ -26,7 +26,7 @@ namespace FirstAPI.Controllers
             var jungler = dal.getPlayerByName("Zokato");
             var mid = dal.getPlayerByName("Decay");
             var adc = dal.getPlayerByName("Neylan");
-            var support = dal.getPlayerByName("Chypriote");
+            var support = dal.getPlayerByName("Dee");
 
             var listAnswerTop = matchupDal.getAnswersForDraftByPlayer(toplaner.PlayerId, draftInfos);
             var listAnswerungle = matchupDal.getAnswersForDraftByPlayer(jungler.PlayerId, draftInfos);

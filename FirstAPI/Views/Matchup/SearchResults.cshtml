@@ -3,7 +3,7 @@
 @{
     var myResult = new List<FirstAPI.Models.MatchupInfos>();
     var automaticResults = (FirstAPI.Models.MatchupInfos)ViewBag.AutomaticResults;
-    if (automaticResults.answers?.Count() > 0)
+    if (automaticResults?.Answers?.Count() > 0)
     {
         myResult.Add(automaticResults);
     }
@@ -29,9 +29,12 @@
             Ally Team
         </div>
         <div class="col-md-3 text-center">
-            Ennemy Team
+            Enemy Team
         </div>
-        <div class="col-md-6 text-center">
+        <div class="col-md-1 text-center">
+            Patch Version
+        </div>
+        <div class="col-md-5 text-center">
             Best Answers
         </div>
     </div>
@@ -70,7 +73,9 @@
                     Support
                 </span>
             </div>
-            <div class="col-md-5 text-center">
+            <div class="col-md-1 text-center">
+            </div>
+            <div class="col-md-4 text-center">
                 @*<div class="col-md-2 text-center">
                         Picks
                     </div>
@@ -157,10 +162,10 @@
             </div>
             <div class="col-md-3">
                 <div class="col-md-2">
-                    @if (!string.IsNullOrEmpty(matchupInfos.EnnemyTopName))
+                    @if (!string.IsNullOrEmpty(matchupInfos.EnemyTopName))
                     {
                         <text>
-                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyTopName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyTopName).png" ; />
                         </text>
                     }
                     else
@@ -171,10 +176,10 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (!string.IsNullOrEmpty(matchupInfos.EnnemyJungleName))
+                    @if (!string.IsNullOrEmpty(matchupInfos.EnemyJungleName))
                     {
                         <text>
-                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyJungleName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyJungleName).png" ; />
                         </text>
                     }
                     else
@@ -185,10 +190,10 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (!string.IsNullOrEmpty(matchupInfos.EnnemyMidName))
+                    @if (!string.IsNullOrEmpty(matchupInfos.EnemyMidName))
                     {
                         <text>
-                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyMidName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyMidName).png" ; />
                         </text>
                     }
                     else
@@ -199,10 +204,10 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (!string.IsNullOrEmpty(matchupInfos.EnnemyAdcName))
+                    @if (!string.IsNullOrEmpty(matchupInfos.EnemyAdcName))
                     {
                         <text>
-                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemyAdcName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemyAdcName).png" ; />
                         </text>
                     }
                     else
@@ -213,10 +218,10 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (!string.IsNullOrEmpty(matchupInfos.EnnemySupportName))
+                    @if (!string.IsNullOrEmpty(matchupInfos.EnemySupportName))
                     {
                         <text>
-                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnnemySupportName).png" ; />
+                            <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(matchupInfos.EnemySupportName).png" ; />
                         </text>
                     }
                     else
@@ -227,16 +232,20 @@
                     }
                 </div>
             </div>
-            <div class="col-md-5 text-center">
+            <div class="col-md-1">
+                <div class="col-md-1 col-md-offset-2">
+                    @(matchupInfos.PatchVersion)
+                </div>
+            </div>
+            <div class="col-md-4">
                 @{
                     string champName;
                 }
-                @foreach (var answer in matchupInfos.answers)
+                @foreach (var answer in matchupInfos.Answers)
                 {
                     champName = ((List<FirstAPI.DbContext.Champion>
                         )Session["GlobalChampions"]).Where(x => x.ChampionId == answer.ChampionId).FirstOrDefault().ChampionName;
                     <text>
-                        <div class="col-md-1">
                             @if (!String.IsNullOrEmpty(answer.Comments))
                             {
                                 <img class="tooltipComment imgAnswer" id="tooltipComment-@(answer.MatchupCommentId)-@(answer.ChampionId)" data-id="@(answer.MatchupCommentId)-@(answer.ChampionId)" src="http://ddragon.leagueoflegends.com/cdn/8.16.1/img/champion/@(champName).png" ; />
@@ -250,13 +259,12 @@
                             {
                                 <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
                             }
-                        </div>
                     </text>
                 }
             </div>
             <div class="col-md-1">
-                <span style="cursor:pointer" onclick="editMatchup('@(matchupInfos.matchupId)')">Edit</span> |
-                <span style="cursor:pointer" onclick="deleteMatchup('@(matchupInfos.matchupId)','@(matchupInfos.matchupResponseId)')">Delete</span>
+                <span style="cursor:pointer" onclick="editMatchup('@(matchupInfos.MatchupId)')">Edit</span> |
+                <span style="cursor:pointer" onclick="deleteMatchup('@(matchupInfos.MatchupId)','@(matchupInfos.MatchupResponseId)')">Delete</span>
             </div>
         </div>
         <hr />
