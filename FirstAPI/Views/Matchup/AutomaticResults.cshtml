@@ -1,6 +1,6 @@
 ﻿@model FirstAPI.Models.MatchupInfos
 
-@{ 
+@{
     var myResult = new List<FirstAPI.Models.MatchupInfos>();
     if (Model.Answers?.Count > 0)
     {
@@ -65,13 +65,16 @@
                                 Support
                             </span>
                         </div>
+                        <div class="col-md-1">
+
+                        </div>
                         <div class="col-md-5 text-center">
                             @*<div class="col-md-2 text-center">
-                    Picks
-                </div>
-                <div class="col-md-2 text-center">
-                    Comments
-                </div>*@
+                                    Picks
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    Comments
+                                </div>*@
                         </div>
                     </div>
                     <hr />
@@ -219,8 +222,10 @@
                             }
                         </div>
                     </div>
-
-                    <div class="col-md-5 text-center">
+                    <div class="col-md-1 text-center">
+                        @matchupInfos.PatchVersion
+                    </div>
+                    <div class="col-md-3">
                         @{
                             string champName;
                         }
@@ -244,19 +249,18 @@
                             else
                             {
                                 <text>
-                                <div class="automaticAnswers" id="@(answer.ChampionId)">
-                                    <img class="imgAnswer" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
-                                </div>
+                                    <img class="imgAnswer automaticAnswers" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champName).png" ; />
                                 </text>
-    }
+                            }
 
-}
-                    <input type="button" value="Create and edit this Matchup" onclick="javascript: createThisMatchup();" />
+                        }
+                        
                     </div>
-
+                    <div class="col-md-1">
+                        <input type="button" value="Create and Edit Matchup" onclick="javascript: createThisMatchup();" />
+                    </div>
                 </fieldset>
             </div>
         </div>
-                        }
-                    }
-                    
+                                }
+                            }

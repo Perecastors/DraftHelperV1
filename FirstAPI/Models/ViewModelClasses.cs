@@ -65,7 +65,10 @@ namespace FirstAPI.Models
                 newMatchupInfo.PatchVersion = ConfigurationManager.AppSettings["PatchVersion"];
             }
             newMatchupInfo.Answers = new List<MatchupAnswer>();
-            newMatchupInfo.Answers.AddRange(matchupInfos.Answers);
+            if(matchupInfos.Answers?.Count() > 0)
+            {
+                newMatchupInfo.Answers.AddRange(matchupInfos.Answers);
+            }
             return newMatchupInfo;
         }
     }
