@@ -108,7 +108,7 @@ namespace FirstAPI.DbContext
                 var listMatchupComment = db.MatchupComments.Where(x => x.PlayerId == playerId).ToList();
                 Stopwatch t0 = new Stopwatch();
                 t0.Start();
-                var listMatchups = listMatchup.OrderByDescending(x=> x.PatchVersion).ThenBy(x => x.CreationDate).Take(200).ToList();
+                var listMatchups = listMatchup.OrderByDescending(x => x.CreationDate).ThenBy(x=> x.PatchVersion).Take(200).ToList();
                 time = t0.ElapsedMilliseconds;
                 listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, listMatchupComment);
                 if (!isPerfectMatch)
@@ -134,7 +134,7 @@ namespace FirstAPI.DbContext
                 var listMatchupResponses = db.MatchupResponses.Where(x => x.ChampionId == championId);
                 var listMatchups = (from m in db.Matchups.Where(x => x.PlayerId == playerId)
                                     join mr in listMatchupResponses on m.MatchupResponseId equals mr.MatchupResponseId
-                                    select m).OrderByDescending(x => x.PatchVersion).ThenBy(x => x.CreationDate).ToList();
+                                    select m).OrderByDescending(x => x.CreationDate).ThenBy(x => x.PatchVersion).ToList();
 
                 listMatchupInfos = ConvertMatchupsToMatchupInfos(listMatchups, new List<MatchupComment>());
             }
