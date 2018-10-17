@@ -32,7 +32,10 @@ namespace FirstAPI.DbContext
             listMatchup = listMatchup.Where(x => x.EnemyMid == matchupInfos.EnemyMid);
             listMatchup = listMatchup.Where(x => x.EnemyAdc == matchupInfos.EnemyAdc);
             listMatchup = listMatchup.Where(x => x.EnemySupport == matchupInfos.EnemySupport);
-            listMatchup = listMatchup.Where(x => x.PatchVersion == matchupInfos.PatchVersion);
+            if(matchupInfos.PatchVersion != null)
+            {
+                listMatchup = listMatchup.Where(x => x.PatchVersion == matchupInfos.PatchVersion);
+            }
             if (listMatchup.Count() > 0)
                 return true;
 
