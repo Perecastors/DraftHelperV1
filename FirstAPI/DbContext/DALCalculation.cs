@@ -628,7 +628,10 @@ namespace FirstAPI.DbContext
                 {
                     var matchupAnswer = new MatchupAnswer();
                     matchupAnswer.ChampionId = matchupResponse.ChampionId;
-                    automaticMatchupInfo.Answers.Add(matchupAnswer);
+                    if(!automaticMatchupInfo.Answers.Where(x => x.ChampionId == matchupResponse.ChampionId).Any())
+                    {
+                        automaticMatchupInfo.Answers.Add(matchupAnswer);
+                    }
                 }
                 automaticMatchupInfo.Answers = automaticMatchupInfo.Answers.OrderBy(x => x.ChampionName).ToList();
             }
