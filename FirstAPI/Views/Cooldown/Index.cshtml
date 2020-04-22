@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Cooldown";
+}
+
+<h2>Tableau cooldown</h2>
+
+<div class="col-md-12">
+    @Html.Label("What champion do you want to see its cooldowns ? ")
+</div>
+<br />
+@using (Html.BeginForm("Index", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
+{
+    <div class="form-inline">
+        <div class="col-md-12">
+            <div class="container-fluid">
+                @Html.DropDownList("listChamp", (SelectList)FirstAPI.WebHelperTools.SelectListHelper.getAllChampions2(), new { @Multiple = "multiple", @id = "e2_2", style = "width:20%;" })
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+$(document).ready(function(){
+
+    function formatState(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
+        var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  '+ state.element.text +'</strong></span>');
+        return $state;
+    }
+
+    $("#e2_2").select2({
+        placeholder: "Select a champion",
+        templateResult: formatState,
+        maximumSelectionSize: 1,
+    });
+
+    $('#e2_2').on('select2:select', function (e) {
+        $("#AddChampForm").submit();
+    });
+
+    $('#e2_2').on('select2:open', function (e) {
+        console.log("open");
+        setTimeout(function () { $(".select2-dropdown--below").css('width', '1110px'); }, 100);
+
+    });
+
+});
+</script>
+<style>
+
+    #select2-e2_2-results {
+        display: flex;
+    }
+
+    .select2-results__group {
+        text-align: center;
+    }
+
+    .select2-results__options--nested {
+        font-size: 12px;
+        width: 140px;
+    }
+
+    select2-dropdown select2-dropdown--below {
+        width: 1110px;
+    }
+
+    .select2-results__options--nested:last-child {
+        width: 136px;
+    }
+</style>

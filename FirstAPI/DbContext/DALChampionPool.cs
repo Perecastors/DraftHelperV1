@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace FirstAPI.DbContext
@@ -85,6 +87,16 @@ namespace FirstAPI.DbContext
                 result = db.SaveChanges();
             }
 
+            return result;
+        }
+
+        public Champion GetChampionByChampionId(Guid championId)
+        {
+            if (championId == Guid.Empty)
+                return null;
+
+            var result = db.Champions.Where(x => x.ChampionId == championId).FirstOrDefault();
+           
             return result;
         }
     }

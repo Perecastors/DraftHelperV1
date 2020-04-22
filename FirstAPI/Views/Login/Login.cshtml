@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     <br/>
     <form class="login">
-        @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "login-input", @placeholder= "Nickname" } })<br/>
+        @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "login-input", @placeholder= "Nickname lol" } })<br/>
         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "login-input", @placeholder = "Password" ,@type="password" } })<br/>
         <input type="submit" value="Connect" class="login-button">
     </form>

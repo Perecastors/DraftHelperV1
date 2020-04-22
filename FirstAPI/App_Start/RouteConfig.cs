@@ -14,6 +14,12 @@ namespace FirstAPI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Cooldown",
+                url: "Cooldown/{action}/{playerId}",
+                defaults: new { controller = "Cooldown", action = "Index", playerId = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Tag",
                 url: "Tag/{action}/{playerId}",
                 defaults: new { controller = "Tag", action = "Tag", playerId = UrlParameter.Optional }

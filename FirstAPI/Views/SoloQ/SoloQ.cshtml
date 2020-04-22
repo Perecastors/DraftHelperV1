@@ -24,10 +24,11 @@
     });
 
     function displayLastSoloQs(nbGames) {
-        $.get("https://euw1.api.riotgames.com/lol/match/v3/matchlists/by-account/@(Model.AccountId)?endIndex="+ nbGames+"&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])",
+        $.get("https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/@(Model.AccountId)?endIndex="+ nbGames+"&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])",
         function (data, status, xhr) {
             $(".matchInfos").html("");
             console.log(status);
+            console.log(data);
             computeListMatchInfos(data.matches);
         });
     }
@@ -39,7 +40,7 @@
     }
 
     function computeMatchDetails(gameId) {
-        var url = "https://euw1.api.riotgames.com/lol/match/v3/matches/" + gameId + "?api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])";
+        var url = "https://euw1.api.riotgames.com/lol/match/v4/matches/" + gameId + "?api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])";
         $.get(url,
         function (data, status, xhr) {
             console.log(status);
@@ -83,6 +84,7 @@
 
     function getChampionNameByRiotId(championRiotId) {
         var champNameList = JSON.parse('@(Html.Raw(ViewBag.ChampionList))'); @*//"@(((List<FirstAPI.DbContext.Champion>)Session["GlobalChampions"]).ToArray())";*@
+        console.log(champNameList);
         for (var i = 0; i < champNameList.length; i++) {
             if (champNameList[i].ChampionRiotId.toString() == championRiotId.toString()) {
                 return champNameList[i].ChampionName;

@@ -1,6 +1,7 @@
 ﻿<ul class="nav navbar-nav">
     <li>@Html.ActionLink("Champion Pool", "ChampionPool", "ChampionPool", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</li>
-    <li>@Html.ActionLink("Matchups", "SearchMatchup", "Matchup", new { area = "",playerId=HttpContext.Current.User.Identity.Name }, null)</li>
-    @*<li>@Html.ActionLink("SoloQ History", "SoloQ", "SoloQ", new { area = "",playerId=HttpContext.Current.User.Identity.Name }, null)</li>*@
+    <li>@Html.ActionLink("Matchups", "SearchMatchup", "Matchup", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</li>
+    <li>@Html.ActionLink("SoloQ History", "SoloQ", "SoloQ", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</li>
     <li>@Html.ActionLink("Tags", "Tag", "Tag", new { area = "", playerId = HttpContext.Current.User.Identity.Name }, null)</li>
+    <li>@Html.ActionLink("Cooldown", "Index", "Cooldown", new { area = "" }, null)</li>
 </ul>
