@@ -14,7 +14,7 @@ namespace FirstAPI.Controllers
     public class CooldownController : Controller
     {
         // GET: Cooldown
-        public ActionResult Index()
+        public ActionResult Cooldown()
         {
             //ViewBag.ListChampions = SelectListHelper.getAllChampions();
             
@@ -22,7 +22,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(FormCollection form)
+        public ActionResult Cooldown(FormCollection form)
         {
             var champId = form["listChamp"];
             string champName = new DALChampionPool().GetChampionByChampionId(Guid.Parse(champId)).ChampionName;

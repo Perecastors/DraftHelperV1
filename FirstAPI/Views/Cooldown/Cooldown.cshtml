@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Cooldown";
+   
 }
 
 
@@ -12,7 +13,7 @@
     @Html.Label("What champion do you want to see its cooldowns ? ")
 </div>
 <br />
-@using (Html.BeginForm("Index", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
+@using (Html.BeginForm("Cooldown", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
 {
     <div class="form-inline">
         <div class="col-md-12">
@@ -35,14 +36,14 @@
         <table class="table table-striped table-bordered hoverTable" >
             <thead>
                 <tr>
-                    <th>CDR %</th>
+                    <th> </th>
                     <th style="text-align:center" colspan="@nbQspell"><img class="imgSpell" src="@Model.spells[0].image.full" /> <b>@Model.spells[0].name</b></th>
                     <th style="text-align:center" colspan="@nbWspell"><img class="imgSpell" src="@Model.spells[1].image.full" /> <b>@Model.spells[1].name</b></th>
                     <th style="text-align:center" colspan="@nbEspell"><img class="imgSpell" src="@Model.spells[2].image.full" /> <b>@Model.spells[2].name</b></th>
-                    <th style="text-align:center" colspan="@nbRspell"><img class="imgSpell" src="@Model.spells[3].image.full" /> <b>@Model.spells[3].name</b></th>
+                    <th style="text-align:center;min-width:130px;" colspan="@nbRspell"><img class="imgSpell" src="@Model.spells[3].image.full" /> <b>@Model.spells[3].name</b></th>
                 </tr>
                 <tr>
-                    <th> Spell Level </th>
+                    <th></th>
                     @for (int i = 0; i < nbQspell; i++)
                     {
                         <th style="text-align:center">@("Q"+(i+1))</th>
@@ -244,8 +245,7 @@ $(document).ready(function(){
         max-width: 1400px;
     }
 
-
-    .hoverTable {
+    /*.hoverTable {
         width: 100%;
         border-collapse: collapse;
     }
@@ -254,14 +254,10 @@ $(document).ready(function(){
         padding: 7px;
         border: #4e95f4 1px solid;
     }
-    /* Define the default color for all the table rows */
-    .hoverTable tr {
-    }
-        /* Define the hover highlight color for the table row */
+ 
+        // Define the hover highlight color for the table row 
         .hoverTable tr:hover {
-            background-color: #ffff99;
-        }
-
-
+            background-color: #ffff99 !important;
+        }*/
 
 </style>

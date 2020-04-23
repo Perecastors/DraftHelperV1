@@ -491,7 +491,8 @@
     <Content Include="Views\Backend\Index.cshtml" />
     <Content Include="Views\Tag\Tag.cshtml" />
     <Content Include="Views\Tag\AddTag.cshtml" />
-    <Content Include="Views\Cooldown\Index.cshtml" />
+    <Content Include="Views\Cooldown\Cooldown.cshtml" />
+    <Content Include="Views\Shared\NavbarAnonymous.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

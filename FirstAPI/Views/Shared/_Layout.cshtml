@@ -26,14 +26,19 @@
                 @if (HttpContext.Current.User.Identity.Name == "0445149d-89f8-47d5-905c-8b27268971ab")//compte admin
                 {
                     @Html.Partial("NavbarAdmin")
-                }else
+                }
+                else if (!String.IsNullOrEmpty(HttpContext.Current.User.Identity.Name) && !String.IsNullOrEmpty((string)Session["Nickname"]))
                 {
                     @Html.Partial("NavbarPlayer")
                 }
+                else
+                {
+                    @Html.Partial("NavbarAnonymous")
+                    }
 
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    <div class="nav navbar-nav navbar-right" >@Html.ActionLink("Logout : " + Session["Nickname"], "Logout", "Login", new { area = "" }, new {@class= "navbar-brand" ,@style="font-size:16px" }) </div>
+                    <div class="nav navbar-nav navbar-right">@Html.ActionLink("Logout : " + Session["Nickname"], "Logout", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "font-size:16px" }) </div>
                 }
             </div>
         </div>
