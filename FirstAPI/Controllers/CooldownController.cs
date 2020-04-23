@@ -1,4 +1,5 @@
 ﻿using FirstAPI.DbContext;
+using FirstAPI.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -34,8 +35,39 @@ namespace FirstAPI.Controllers
                 json = obj.SelectToken("data").Last.Last.ToString();
             }
             var championInfo = JsonConvert.DeserializeObject<ChampionJsonToObject>(json);
-            return View();
+            ChampionSpellInfosViewModel csvm = CreateChampionSpellInfoViewModel(championInfo);
+            return View(csvm);
         }
+
+        private ChampionSpellInfosViewModel CreateChampionSpellInfoViewModel(ChampionJsonToObject obj)
+        {
+            ChampionSpellInfosViewModel csvm = new ChampionSpellInfosViewModel();
+            csvm.id = obj.id;
+            csvm.key = obj.key;
+            csvm.name = obj.name;
+            csvm.title = obj.title;
+            csvm.spells = new List<Models.Spells>();
+            foreach (var item in obj.spells)
+            {
+                var spell = new Models.Spells();
+                spell.cooldown = new decimal[item.cooldown.Length];
+                for(int i = 0; i < item.cooldown.Length; i++)
+                {
+                    string frenchNumber = item.cooldown[i].Replace('.', ',');
+                    spell.cooldown[i] = decimal.Parse(frenchNumber);
+                }
+                spell.cooldownBurn = item.cooldownBurn;
+                spell.name = item.name;
+                spell.tooltip = item.tooltip;
+                spell.image = new Models.Image();
+                spell.image.full = item.image.full;
+                spell.image.sprite = item.image.sprite;
+                csvm.spells.Add(spell);
+            };
+            
+            return csvm;
+        }
+
 
         [Serializable]
         public class ChampionJsonToObject
@@ -45,12 +77,27 @@ namespace FirstAPI.Controllers
             public string name { get; set; }
             public string title { get; set; }
             public List<Spells> spells { get; set; }
+
         }
 
         public class Spells
         {
             public string cooldownBurn { get; set; }
+            public string name { get; set; }
+            public string tooltip { get; set; }
             public String[] cooldown { get; set; }
+            public Image image { get; set; }
+        }
+
+        public class Image
+        {
+            private string _full;
+            public string full
+            {
+                get { return ConfigurationManager.AppSettings["UrlSpellChamp"] + _full; }
+                set { _full = value; }
+            }
+            public string sprite { get; set; }
         }
     }
 }

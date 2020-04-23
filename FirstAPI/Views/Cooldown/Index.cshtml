@@ -1,10 +1,13 @@
-﻿
+﻿@model FirstAPI.Models.ChampionSpellInfosViewModel
+
 @{
     ViewBag.Title = "Cooldown";
 }
 
-<h2>Tableau cooldown</h2>
 
+<br />
+<br />
+<br />
 <div class="col-md-12">
     @Html.Label("What champion do you want to see its cooldowns ? ")
 </div>
@@ -20,6 +23,165 @@
     </div>
 }
 
+<h3 style="text-align:center">Tableau cooldown</h3>
+<br />
+@{ if (Model != null)
+    {
+        int nbQspell = Model.spells[0].cooldown.Length;
+        int nbWspell = Model.spells[1].cooldown.Length;
+        int nbEspell = Model.spells[2].cooldown.Length;
+        int nbRspell = Model.spells[3].cooldown.Length;
+
+        <table class="table table-striped table-bordered hoverTable" >
+            <thead>
+                <tr>
+                    <th>CDR %</th>
+                    <th style="text-align:center" colspan="@nbQspell"><img class="imgSpell" src="@Model.spells[0].image.full" /> <b>@Model.spells[0].name</b></th>
+                    <th style="text-align:center" colspan="@nbWspell"><img class="imgSpell" src="@Model.spells[1].image.full" /> <b>@Model.spells[1].name</b></th>
+                    <th style="text-align:center" colspan="@nbEspell"><img class="imgSpell" src="@Model.spells[2].image.full" /> <b>@Model.spells[2].name</b></th>
+                    <th style="text-align:center" colspan="@nbRspell"><img class="imgSpell" src="@Model.spells[3].image.full" /> <b>@Model.spells[3].name</b></th>
+                </tr>
+                <tr>
+                    <th> Spell Level </th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <th style="text-align:center">@("Q"+(i+1))</th>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <th style="text-align:center">@("W"+ (i + 1))</th>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <th style="text-align:center">@("E"+ (i + 1))</th>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <th style="text-align:center">@("R"+ (i + 1))</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="text-align:center">
+                    <th scope="row">0 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@Model.spells[0].cooldown[i]</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@Model.spells[1].cooldown[i]</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@Model.spells[2].cooldown[i]</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@Model.spells[3].cooldown[i]</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">10 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@((Model.spells[0].cooldown[i] * 90 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@((Model.spells[1].cooldown[i] * 90 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@((Model.spells[2].cooldown[i] * 90 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@((Model.spells[3].cooldown[i] * 90 )/ 100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">20 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@((Model.spells[0].cooldown[i] * 80 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@((Model.spells[1].cooldown[i] * 80 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@((Model.spells[2].cooldown[i] * 80 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@((Model.spells[3].cooldown[i] * 80 )/ 100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">30 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@((Model.spells[0].cooldown[i] * 70 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@((Model.spells[1].cooldown[i] * 70 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@((Model.spells[2].cooldown[i] * 70 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@((Model.spells[3].cooldown[i] * 70 )/ 100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">40 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@((Model.spells[0].cooldown[i]* 60 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@((Model.spells[1].cooldown[i]* 60 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@((Model.spells[2].cooldown[i]* 60 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@((Model.spells[3].cooldown[i]* 60 )/ 100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">45 %</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td>@((Model.spells[0].cooldown[i]* 65 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td>@((Model.spells[1].cooldown[i]* 65 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td>@((Model.spells[2].cooldown[i]* 65 )/ 100)</td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        <td>@((Model.spells[3].cooldown[i]* 65 )/ 100)</td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    } }
+
+
+
 <script>
 $(document).ready(function(){
 
@@ -33,7 +195,7 @@ $(document).ready(function(){
     }
 
     $("#e2_2").select2({
-        placeholder: "Select a champion",
+    placeholder: "Select a champion",
         templateResult: formatState,
         maximumSelectionSize: 1,
     });
@@ -72,4 +234,34 @@ $(document).ready(function(){
     .select2-results__options--nested:last-child {
         width: 136px;
     }
+
+    .imgSpell {
+        height: 35px;
+        margin-right: 5px;
+    }
+
+    .container {
+        max-width: 1400px;
+    }
+
+
+    .hoverTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .hoverTable td {
+        padding: 7px;
+        border: #4e95f4 1px solid;
+    }
+    /* Define the default color for all the table rows */
+    .hoverTable tr {
+    }
+        /* Define the hover highlight color for the table row */
+        .hoverTable tr:hover {
+            background-color: #ffff99;
+        }
+
+
+
 </style>

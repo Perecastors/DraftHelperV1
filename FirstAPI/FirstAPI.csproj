@@ -350,6 +350,7 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ChampionSpellInfos.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RoleList.cs" />
     <Compile Include="Models\ViewModelClasses.cs" />
