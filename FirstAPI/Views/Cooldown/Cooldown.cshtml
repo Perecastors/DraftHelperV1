@@ -24,8 +24,8 @@
     </div>
 }
 
-<h3 style="text-align:center">Tableau cooldown</h3>
-<br />
+
+<br /><br />
 @{ if (Model != null)
     {
         int nbQspell = Model.spells[0].cooldown.Length;
@@ -162,19 +162,99 @@
                     <th scope="row">45 %</th>
                     @for (int i = 0; i < nbQspell; i++)
                     {
-                        <td>@((Model.spells[0].cooldown[i]* 65 )/ 100)</td>
+                        <td>@((Model.spells[0].cooldown[i]* 55 )/ 100)</td>
                     }
                     @for (int i = 0; i < nbWspell; i++)
                     {
-                        <td>@((Model.spells[1].cooldown[i]* 65 )/ 100)</td>
+                        <td>@((Model.spells[1].cooldown[i]* 55 )/ 100)</td>
                     }
                     @for (int i = 0; i < nbEspell; i++)
                     {
-                        <td>@((Model.spells[2].cooldown[i]* 65 )/ 100)</td>
+                        <td>@((Model.spells[2].cooldown[i]* 55 )/ 100)</td>
                     }
                     @for (int i = 0; i < nbRspell; i++)
                     {
-                        <td>@((Model.spells[3].cooldown[i]* 65 )/ 100)</td>
+                        <td>@((Model.spells[3].cooldown[i]* 55 )/ 100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">+ 1 Cloud drake (-10 % on ult)</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        decimal ult = Model.spells[3].cooldown[i] * 55 / 100;
+                        <td>@(ult*90/100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">+ 2 Cloud drake (-20 % on ultimate)</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        decimal ult = Model.spells[3].cooldown[i] * 55 / 100;
+                        <td>@(ult*80/100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">+ 3 Cloud drake (-30% on ultimate)</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        decimal ult = Model.spells[3].cooldown[i] * 55 / 100;
+                        <td>@(ult*70/100)</td>
+                    }
+                </tr>
+                <tr style="text-align:center">
+                    <th scope="row">+ 4 Cloud drake (-40 % on ultimate)</th>
+                    @for (int i = 0; i < nbQspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbWspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbEspell; i++)
+                    {
+                        <td></td>
+                    }
+                    @for (int i = 0; i < nbRspell; i++)
+                    {
+                        decimal ult = Model.spells[3].cooldown[i] * 55 / 100;
+                        <td>@(ult*60/100)</td>
                     }
                 </tr>
             </tbody>

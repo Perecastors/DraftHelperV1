@@ -24,13 +24,15 @@
     });
 
     function displayLastSoloQs(nbGames) {
+        console.log("calling api matchlist");
         $.get("https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/@(Model.AccountId)?endIndex="+ nbGames+"&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])",
         function (data, status, xhr) {
             $(".matchInfos").html("");
             console.log(status);
             console.log(data);
             computeListMatchInfos(data.matches);
-        });
+            });
+        console.log("end calling");
     }
 
     function computeListMatchInfos(listMatch) {
