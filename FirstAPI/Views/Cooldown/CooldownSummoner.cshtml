@@ -1,0 +1,135 @@
+﻿@model List<FirstAPI.Models.SummonerInfosViewModel>
+
+@{
+    ViewBag.Title = "Summoners Cooldowns";
+}
+<br />
+<br />
+<h4>Summoners Cooldown</h4>
+<table class="table table-striped table-bordered ">
+    <thead>
+        <tr>
+            <th></th>
+            @foreach (var summoner in Model.OrderByDescending(x => x.cooldown))
+            {
+                <th style="text-align:center;">
+                    <img src="@summoner.image" style="height:40px;" />
+                    <br />
+                    @summoner.name
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>0%</strong></td>
+            @{
+                TimeSpan t;
+                foreach (var summoner in Model.OrderByDescending(x => x.cooldown))
+                {
+                    t = TimeSpan.FromSeconds(summoner.cooldown);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+
+            }
+        </tr>
+        <tr>
+            <td><strong>5% ( <img style="height:25px" src="~/Content/Cosmic_Insight_rune.png" /> )</strong></td>
+            @{
+                foreach (var summoner in Model.OrderByDescending(x => x.cooldown))
+                {
+                    t = TimeSpan.FromSeconds(summoner.cooldown * .95);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+
+            }
+        </tr>
+        <tr>
+            <td><strong>10% ( <img style="height:25px" src="http://ddragon.leagueoflegends.com/cdn/10.8.1/img/item/3158.png" /> )</strong></td>
+            @{
+                foreach (var summoner in Model.OrderByDescending(x => x.cooldown))
+                {
+                    t = TimeSpan.FromSeconds(summoner.cooldown * .90);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+
+            }
+        </tr>
+        <tr>
+            <td><strong>15% ( <img style="height:25px" src="~/Content/Cosmic_Insight_rune.png" />+<img style="height:25px" src="http://ddragon.leagueoflegends.com/cdn/10.8.1/img/item/3158.png" /> )</strong></td>
+            @{
+                foreach (var summoner in Model.OrderByDescending(x => x.cooldown))
+                {
+                    t = TimeSpan.FromSeconds(summoner.cooldown * .85);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+            }
+        </tr>
+    </tbody>
+</table>
+
+<br />
+<br />
+<h4>Tp cooldowns</h4>
+
+<table class="table table-striped table-bordered ">
+    <thead>
+        <tr>
+            <th>Level</th>
+            @for (int i = 0; i < 18; i++)
+            {
+                <th style="text-align:center">@(i + 1)</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Value</strong></td>
+            @{
+                double initialTpCdInSeconds = 430.588;
+                double calculatedCdTp;
+                for (int i = 0; i < 18; i++)
+                {
+                    calculatedCdTp = initialTpCdInSeconds - 10.588 * (i + 1);
+                    t = TimeSpan.FromSeconds(calculatedCdTp);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+            }
+        </tr>
+    </tbody>
+</table>

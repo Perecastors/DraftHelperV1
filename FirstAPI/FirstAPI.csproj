@@ -350,9 +350,10 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ChampionSpellInfos.cs" />
+    <Compile Include="Models\ChampionSpellInfosViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RoleList.cs" />
+    <Compile Include="Models\SummonerInfosViewModel.cs" />
     <Compile Include="Models\ViewModelClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -364,6 +365,7 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\clickhere-uparrow-blue.png" />
+    <Content Include="Content\Cosmic_Insight_rune.png" />
     <Content Include="Content\loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -491,8 +493,9 @@
     <Content Include="Views\Backend\Index.cshtml" />
     <Content Include="Views\Tag\Tag.cshtml" />
     <Content Include="Views\Tag\AddTag.cshtml" />
-    <Content Include="Views\Cooldown\Cooldown.cshtml" />
+    <Content Include="Views\Cooldown\CooldownChampion.cshtml" />
     <Content Include="Views\Shared\NavbarAnonymous.cshtml" />
+    <Content Include="Views\Cooldown\CooldownSummoner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

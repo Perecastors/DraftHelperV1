@@ -14,7 +14,7 @@ namespace FirstAPI.Controllers
     public class CooldownController : Controller
     {
         // GET: Cooldown
-        public ActionResult Cooldown()
+        public ActionResult CooldownChampion()
         {
             //ViewBag.ListChampions = SelectListHelper.getAllChampions();
             
@@ -22,7 +22,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Cooldown(FormCollection form)
+        public ActionResult CooldownChampion(FormCollection form)
         {
             var champId = form["listChamp"];
             string champName = new DALChampionPool().GetChampionByChampionId(Guid.Parse(champId)).ChampionName;
@@ -30,13 +30,28 @@ namespace FirstAPI.Controllers
             using (WebClient wc = new WebClient())
             {
                 var url = ConfigurationManager.AppSettings["UrlChamp"] + champName + ".json";
-                var json2 = wc.DownloadString(url);
-                var obj = JObject.Parse(json2);
+                var stringJson = wc.DownloadString(url);
+                var obj = JObject.Parse(stringJson);
                 json = obj.SelectToken("data").Last.Last.ToString();
             }
             var championInfo = JsonConvert.DeserializeObject<ChampionJsonToObject>(json);
             ChampionSpellInfosViewModel csvm = CreateChampionSpellInfoViewModel(championInfo);
             return View(csvm);
+        }
+
+        public ActionResult CooldownSummoner()
+        {
+            string json = "";
+            using (WebClient wc = new WebClient())
+            {
+                var url = ConfigurationManager.AppSettings["UrlSummoner"];
+                var stringJson = wc.DownloadString(url);
+                var obj = JObject.Parse(stringJson);
+                json = obj.SelectToken("data").ToString();
+            }
+            var summonerInfos = JsonConvert.DeserializeObject<SummonerInfoToObject>(json);
+            List<SummonerInfosViewModel> lsivm = CreateSummonerInfosViewModel(summonerInfos);
+            return View(lsivm);
         }
 
         private ChampionSpellInfosViewModel CreateChampionSpellInfoViewModel(ChampionJsonToObject obj)
@@ -68,6 +83,67 @@ namespace FirstAPI.Controllers
             return csvm;
         }
 
+        //Tu peux m'insulter quand tu verras que je ne saurais pas faire de reflexion d'objet
+        private List<SummonerInfosViewModel> CreateSummonerInfosViewModel(SummonerInfoToObject obj)
+        {
+            List<SummonerInfosViewModel> lsivm = new List<SummonerInfosViewModel>();
+            SummonerInfosViewModel sivm = new SummonerInfosViewModel();
+
+            sivm.cooldown = Double.Parse(obj.SummonerBarrier.cooldown[0]);
+            sivm.name = obj.SummonerBarrier.name;
+            sivm.image = obj.SummonerBarrier.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerBoost.cooldown[0]);
+            sivm.name = obj.SummonerBoost.name;
+            sivm.image = obj.SummonerBoost.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerDot.cooldown[0]);
+            sivm.name = obj.SummonerDot.name;
+            sivm.image = obj.SummonerDot.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerExhaust.cooldown[0]);
+            sivm.name = obj.SummonerExhaust.name;
+            sivm.image = obj.SummonerExhaust.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerFlash.cooldown[0]);
+            sivm.name = obj.SummonerFlash.name;
+            sivm.image = obj.SummonerFlash.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerHaste.cooldown[0]);
+            sivm.name = obj.SummonerHaste.name;
+            sivm.image = obj.SummonerHaste.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerHeal.cooldown[0]);
+            sivm.name = obj.SummonerHeal.name;
+            sivm.image = obj.SummonerHeal.Image.full;
+            lsivm.Add(sivm);
+
+            sivm = new SummonerInfosViewModel();
+            sivm.cooldown = Double.Parse(obj.SummonerSmite.cooldown[0]);
+            sivm.name = obj.SummonerSmite.name;
+            sivm.image = obj.SummonerSmite.Image.full;
+            lsivm.Add(sivm);
+
+            //sivm = new SummonerInfosViewModel();
+            //sivm.cooldown = Decimal.Parse(obj.SummonerTeleport.cooldown[0]);
+            //sivm.name = obj.SummonerTeleport.name;
+            //sivm.image = obj.SummonerTeleport.Image.full;
+            //lsivm.Add(sivm);
+
+            return lsivm;
+        } 
 
         [Serializable]
         public class ChampionJsonToObject
@@ -86,10 +162,21 @@ namespace FirstAPI.Controllers
             public string name { get; set; }
             public string tooltip { get; set; }
             public String[] cooldown { get; set; }
-            public Image image { get; set; }
+            public ChampionImage image { get; set; }
         }
 
-        public class Image
+        public class ChampionImage
+        {
+            private string _full;
+            public string full
+            {
+                get { return ConfigurationManager.AppSettings["UrlImgChamp"] + _full; }
+                set { _full = value; }
+            }
+            public string sprite { get; set; }
+        }
+
+        public class SummonerImage
         {
             private string _full;
             public string full
@@ -98,6 +185,28 @@ namespace FirstAPI.Controllers
                 set { _full = value; }
             }
             public string sprite { get; set; }
+        }
+
+        public class SummonerInfoToObject
+        {
+            public SummonerObject SummonerBarrier { get; set; }
+            public SummonerObject SummonerBoost { get; set; }//cleanse
+            public SummonerObject SummonerDot { get; set; }//ignite
+            public SummonerObject SummonerExhaust { get; set; }
+            public SummonerObject SummonerFlash { get; set; }
+            [JsonIgnore]
+            public SummonerObject SummonerTeleport { get; set; }
+            public SummonerObject SummonerSmite { get; set; }
+            public SummonerObject SummonerHeal { get; set; }
+            public SummonerObject SummonerHaste { get; set; }
+
+        }
+
+        public class SummonerObject
+        {
+            public string name { get; set; }
+            public string[] cooldown { get; set; }
+            public SummonerImage Image { get; set; }
         }
     }
 }

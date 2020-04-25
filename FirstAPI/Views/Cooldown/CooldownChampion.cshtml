@@ -1,26 +1,26 @@
 ﻿@model FirstAPI.Models.ChampionSpellInfosViewModel
 
 @{
-    ViewBag.Title = "Cooldown";
-   
+    ViewBag.Title = "Cooldown Champion";
+
 }
 
 
+<a href="@Url.Action("CooldownSummoner","Cooldown")">Cooldown Summoner</a>
+
+<br />
+    
 <br />
 <br />
-<br />
-<div class="col-md-12">
+    <h4>Champions' cooldowns</h4>
     @Html.Label("What champion do you want to see its cooldowns ? ")
-</div>
 <br />
 @using (Html.BeginForm("Cooldown", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
 {
     <div class="form-inline">
-        <div class="col-md-12">
             <div class="container-fluid">
                 @Html.DropDownList("listChamp", (SelectList)FirstAPI.WebHelperTools.SelectListHelper.getAllChampions2(), new { @Multiple = "multiple", @id = "e2_2", style = "width:20%;" })
             </div>
-        </div>
     </div>
 }
 
