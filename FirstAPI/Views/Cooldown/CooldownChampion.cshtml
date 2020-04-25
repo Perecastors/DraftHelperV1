@@ -6,7 +6,7 @@
 }
 
 
-<a href="@Url.Action("CooldownSummoner","Cooldown")">Cooldown Summoner</a>
+<a href="@Url.Action("CooldownSummoner")">Cooldown Summoner</a>
 
 <br />
     
@@ -15,7 +15,7 @@
     <h4>Champions' cooldowns</h4>
     @Html.Label("What champion do you want to see its cooldowns ? ")
 <br />
-@using (Html.BeginForm("Cooldown", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
+@using (Html.BeginForm("CooldownChampion", "Cooldown", FormMethod.Post, new { @id = "AddChampForm" }))
 {
     <div class="form-inline">
             <div class="container-fluid">

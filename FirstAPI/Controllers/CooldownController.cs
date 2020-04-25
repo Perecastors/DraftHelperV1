@@ -170,7 +170,7 @@ namespace FirstAPI.Controllers
             private string _full;
             public string full
             {
-                get { return ConfigurationManager.AppSettings["UrlImgChamp"] + _full; }
+                get { return ConfigurationManager.AppSettings["UrlSpellChamp"] + _full; }
                 set { _full = value; }
             }
             public string sprite { get; set; }
