@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Summoners Cooldowns";
 }
+
+<br />
+<br />
+<a href="@Url.Action("CooldownChampion")">Go to Cooldown Champion</a>
+
 <br />
 <br />
 <h4>Summoners Cooldown</h4>
@@ -112,7 +117,7 @@
     </thead>
     <tbody>
         <tr>
-            <td><strong>Value</strong></td>
+            <td><strong>0 %</strong></td>
             @{
                 double initialTpCdInSeconds = 430.588;
                 double calculatedCdTp;
@@ -131,5 +136,67 @@
                 }
             }
         </tr>
+        <tr>
+            <td><strong>5% ( <img style="height:25px" src="~/Content/Cosmic_Insight_rune.png" /> )</strong></td>
+            @{
+                for (int i = 0; i < 18; i++)
+                {
+                    calculatedCdTp = initialTpCdInSeconds - 10.588 * (i + 1);
+                    t = TimeSpan.FromSeconds(calculatedCdTp*.95);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+
+            }
+        </tr>
+        <tr>
+            <td><strong>10% ( <img style="height:25px" src="http://ddragon.leagueoflegends.com/cdn/10.8.1/img/item/3158.png" /> )</strong></td>
+            @{
+                for (int i = 0; i < 18; i++)
+                {
+                    calculatedCdTp = initialTpCdInSeconds - 10.588 * (i + 1);
+                    t = TimeSpan.FromSeconds(calculatedCdTp * .90);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+
+            }
+        </tr>
+        <tr>
+            <td><strong>15% ( <img style="height:25px" src="~/Content/Cosmic_Insight_rune.png" />+<img style="height:25px" src="http://ddragon.leagueoflegends.com/cdn/10.8.1/img/item/3158.png" /> )</strong></td>
+            @{
+                for (int i = 0; i < 18; i++)
+                {
+                    calculatedCdTp = initialTpCdInSeconds - 10.588 * (i + 1);
+                    t = TimeSpan.FromSeconds(calculatedCdTp * .85);
+                    if (t.Seconds != 0)
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds)</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">@string.Format("{0:D1}", t.Minutes)</td>
+                    }
+                }
+            }
+        </tr>
     </tbody>
 </table>
+
+<style>
+    .container {
+        max-width: 1400px;
+    }
+</style>

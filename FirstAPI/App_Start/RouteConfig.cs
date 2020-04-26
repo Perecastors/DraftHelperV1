@@ -15,13 +15,13 @@ namespace FirstAPI
 
             routes.MapRoute(
                 name: "CooldownSummoner",
-                url: "CooldownChampion/{action}/{playerId}",
+                url: "CooldownSummoner/{playerId}",
                 defaults: new { controller = "Cooldown", action = "CooldownSummoner", playerId = UrlParameter.Optional }
             );
 
             routes.MapRoute(
                 name: "CooldownChampion",
-                url: "CooldownChampion/{action}/{playerId}",
+                url: "CooldownChampion/{playerId}",
                 defaults: new { controller = "Cooldown", action = "CooldownChampion", playerId = UrlParameter.Optional }
             );
 
