@@ -1,24 +1,28 @@
 ﻿@model FirstAPI.Models.PerformancesViewModel
 
-<strong>Victory</strong> : @Model.nbVictory - <strong>Defeat :</strong> @Model.nbDefeat
+<strong>Victory</strong> : @Model.nbVictory &nbsp;&nbsp;&nbsp;&nbsp; <strong>Defeat :</strong> @Model.nbDefeat
 
 <table id="tablePerf" style="margin-top:5px;margin-bottom:5px;">
     <thead>
         <tr>
+            <th>K / D / A</th>
             <th> Cs diff at 10min</th>
             <th> Cs diff at 20min</th>
             <th> Gold at 10min</th>
             <th> Gold at 20min</th>
+            <th> Opponent </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var timeline in Model.timelines)
         {
             <tr>
+                <td>@timeline.kills / @timeline.deaths / @timeline.assists</td>
                 <td>@(String.Format("{0:0.##}",timeline.csDiffPerMinDeltas.firstPartTime))</td>
                 <td>@(String.Format("{0:0.##}", timeline.csDiffPerMinDeltas.secondPartTime))</td>
                 <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.firstPartTime))</td>
                 <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.secondPartTime))</td>
+                <td>@timeline.opponentName</td>
             </tr>
         }
     </tbody>

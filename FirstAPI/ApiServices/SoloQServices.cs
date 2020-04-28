@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 
 namespace FirstAPI.ApiServices
@@ -19,6 +20,7 @@ namespace FirstAPI.ApiServices
             string json = "";
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = Encoding.UTF8;
                 var url = ConfigurationManager.AppSettings["UrlMatchlist"] + accountId + "?queue=420&endIndex=" + nbGamesToGet + "&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
                 var stringJson = wc.DownloadString(url);
                 var obj = JObject.Parse(stringJson);
@@ -34,6 +36,7 @@ namespace FirstAPI.ApiServices
             string json = "";
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = Encoding.UTF8;
                 var url = ConfigurationManager.AppSettings["UrlMatch"] + gameId + "?&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
                 var stringJson = wc.DownloadString(url);
                 var obj = JObject.Parse(stringJson);
@@ -49,6 +52,7 @@ namespace FirstAPI.ApiServices
             string json = "";
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = Encoding.UTF8;
                 var url = ConfigurationManager.AppSettings["UrlTimelineMatch"] + gameId + "?&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
                 var stringJson = wc.DownloadString(url);
                 var obj = JObject.Parse(stringJson);

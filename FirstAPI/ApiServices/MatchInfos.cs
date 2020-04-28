@@ -72,6 +72,7 @@ namespace FirstAPI.ApiServices
         public class Player
         {
             public string accountId { get; set; }
+            public string summonerName { get; set; }
         }
     }
 

@@ -30,16 +30,58 @@ namespace FirstAPI.ApiServices
             return teamId;
         }
 
+        public string GetOpponentNameByOpponentId(MatchInfos matchInfos,Player player)
+        {
+            int teamId = GetPlayerTeam(matchInfos, player);
+            int opponentTeamId = teamId == 100 ? 200 : 100;
+            string playerRole = GlobalVar.getRoleById(player.Role);
+            int opponentParticipantId=0;
+            if (playerRole == "MID")
+            {
+                playerRole = "MIDDLE";
+            }
+            else if (playerRole == "SUPPORT")
+            {
+                playerRole = "BOTTOM";
+                string playerLane = "DUO_SUPPORT";
+                opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
+            }
+            else if (playerRole == "BOTTOM")
+            {
+                string playerLane = "DUO_CARRY";
+                opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
+            }
+            else
+            {
+                opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
+            }
+
+            return matchInfos.participantIdentities.Where(x => x.participantId == opponentParticipantId).Select(x => x.player.summonerName).FirstOrDefault();
+        }
+
         public int GetOpponentChampionId(MatchInfos matchInfos,Player player)
         {
             int teamId = GetPlayerTeam(matchInfos, player);
             int opponentTeamId = teamId == 100 ? 200 : 100;
             string playerRole = GlobalVar.getRoleById(player.Role);
+            int opponentChampionId = 0;
             if (playerRole == "MID")
             {
                 playerRole = "MIDDLE";
+            } else if (playerRole == "SUPPORT")
+            {
+                playerRole = "BOTTOM";
+                string playerLane = "DUO_SUPPORT";
+                opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
+            } else if (playerRole == "BOTTOM")
+            {
+                string playerLane = "DUO_CARRY";
+                opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
             }
-            int opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId== opponentTeamId).Select(x => x.championId).FirstOrDefault();
+            else
+            {
+                opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
+            }
             return opponentChampionId;
         }
 

@@ -14,8 +14,8 @@ namespace FirstAPI.Models
             List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
             SoloQServices sq = new SoloQServices();
             PerformanceServices ps = new PerformanceServices();
-            string playerRole = GlobalVar.getRoleById(player.Role);
-            List<Match> games = matches.Where(x => x.lane.ToUpper()== playerRole).ToList();
+            
+            List<Match> games = GetListMatchByRole(matches,player);
             List<int> listChampions = games.Select(x => x.championId).Distinct().ToList();
             foreach (var championId in listChampions)
             {
@@ -41,6 +41,11 @@ namespace FirstAPI.Models
                     {
                         var participant = matchInfo.participants.Where(x => x.championId == championId).FirstOrDefault();
                         var tvm = BuildTimelineViewModel(participant.timeline);
+                        int participantId = ps.GetParticipantId(matchInfo, player);
+                        tvm.kills = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.kills;
+                        tvm.deaths = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.deaths;
+                        tvm.assists = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.assists;
+                        tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfo, player);
                         pvm.timelines.Add(tvm);
                         if(ps.DidPlayerWin(matchInfo, player))
                         {
@@ -55,6 +60,22 @@ namespace FirstAPI.Models
                 }
             }
             return lpvm;
+        }
+
+        private List<Match> GetListMatchByRole(List<Match> matches, Player player)
+        {
+            List<Match> games = new List<Match>();
+            string playerRole = GlobalVar.getRoleById(player.Role);
+            if (playerRole == "SUPPORT")
+            {
+                games = matches.Where(x => x.lane.ToUpper() == "BOTTOM").ToList();
+            }
+            else
+            {
+                games = matches.Where(x => x.lane.ToUpper()== playerRole).ToList();
+            }
+
+            return games;
         }
 
         public TimelineViewModel BuildTimelineViewModel(Timeline timeline)

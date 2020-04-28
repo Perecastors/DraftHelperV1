@@ -144,6 +144,10 @@ namespace FirstAPI.Models
         public int participantId { get; set; }
         public string role { get; set; }
         public string lane { get; set; }
+        public int kills { get; set; }
+        public int deaths { get; set; }
+        public int assists { get; set; }
+        public string opponentName { get; set; }
         public CreepsPerMinDeltasViewModel creepsPerMinDeltas { get; set; }
         public XpDiffPerMinDeltasViewModel xpDiffPerMinDeltas { get; set; }
         public GoldPerMinDeltasViewModel goldPerMinDeltas { get; set; }
