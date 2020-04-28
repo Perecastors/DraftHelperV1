@@ -68,6 +68,8 @@ namespace FirstAPI.ApiServices
             if (playerRole == "MID")
             {
                 playerRole = "MIDDLE";
+                opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
+
             } else if (playerRole == "SUPPORT")
             {
                 playerRole = "BOTTOM";
