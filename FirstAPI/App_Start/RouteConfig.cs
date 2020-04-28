@@ -26,6 +26,12 @@ namespace FirstAPI
             );
 
             routes.MapRoute(
+                name: "Performances",
+                url: "Performances/{action}/{playerId}",
+                defaults: new { controller = "Performances", action = "Performances", playerId = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Tag",
                 url: "Tag/{action}/{playerId}",
                 defaults: new { controller = "Tag", action = "Tag", playerId = UrlParameter.Optional }

@@ -20,11 +20,12 @@ namespace FirstAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Player player = new DAL().Login(viewModel.Nickname, viewModel.Password);
+                var dal = new DAL();
+                Player player = dal.Login(viewModel.Nickname, viewModel.Password);
                 if (player != null)
                 {
-                    Session["GlobalChampions"] = new DAL().getAllChampions();
-                    Session["Nickname"] = new DAL().getPlayerById(player.PlayerId).Nickname;
+                    Session["GlobalChampions"] = dal.getAllChampions();
+                    Session["Nickname"] = dal.getPlayerById(player.PlayerId).Nickname;
                     FormsAuthentication.SetAuthCookie(player.PlayerId.ToString(), false);
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);

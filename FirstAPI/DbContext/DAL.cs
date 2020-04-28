@@ -51,10 +51,10 @@ namespace FirstAPI.DbContext
             return listChampions;
         }
 
-        public string getChampionNameById(Guid id)
+        public string getChampionNameById(int id)
         {
             string championName;
-            championName= db.Champions.Where(x => x.ChampionId == id).FirstOrDefault()?.ChampionName;
+            championName= db.Champions.Where(x => x.ChampionRiotId == id.ToString()).FirstOrDefault()?.ChampionName;
             return championName;
         }
 

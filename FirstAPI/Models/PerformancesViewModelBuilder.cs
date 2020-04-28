@@ -1,0 +1,101 @@
+﻿using FirstAPI.ApiServices;
+using FirstAPI.DbContext;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace FirstAPI.Models
+{
+    public class PerformancesViewModelBuilder
+    {
+        public List<PerformancesViewModel> BuildPerformanceViewModel(List<Match> matches,Player player)
+        {
+            List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
+            SoloQServices sq = new SoloQServices();
+            PerformanceServices ps = new PerformanceServices();
+            string playerRole = GlobalVar.getRoleById(player.Role);
+            List<Match> games = matches.Where(x => x.lane.ToUpper()== playerRole).ToList();
+            List<int> listChampions = games.Select(x => x.championId).Distinct().ToList();
+            foreach (var championId in listChampions)
+            {
+                List<Match> listMatch = games.Where(x => x.championId == championId).ToList();
+                List<MatchInfos> listMatchInfos = new List<MatchInfos>();
+                foreach (var game in listMatch)
+                {
+                    MatchInfos matchInfos = sq.GetMatchInfo(game.gameId.ToString());
+                    listMatchInfos.Add(matchInfos);
+                }
+                
+                List<int> listOpponentChampionId = ps.GetListOpponentChampionId(listMatchInfos, player);
+                foreach (var opponentChampionId in listOpponentChampionId)
+                {
+                    PerformancesViewModel pvm = new PerformancesViewModel();
+                    pvm.championId = championId;
+                    var lmatchInfos = ps.GetListMatchInfosByOpponentChampionId(listMatchInfos, player, opponentChampionId);
+                    pvm.timelines = new List<TimelineViewModel>();
+                    pvm.nbDefeat = 0;
+                    pvm.nbVictory = 0;
+                    pvm.enemyChampionId = opponentChampionId;
+                    foreach (var matchInfo in lmatchInfos)
+                    {
+                        var participant = matchInfo.participants.Where(x => x.championId == championId).FirstOrDefault();
+                        var tvm = BuildTimelineViewModel(participant.timeline);
+                        pvm.timelines.Add(tvm);
+                        if(ps.DidPlayerWin(matchInfo, player))
+                        {
+                            pvm.nbVictory++;
+                        }
+                        else
+                        {
+                            pvm.nbDefeat++;
+                        }
+                    }
+                    lpvm.Add(pvm);
+                }
+            }
+            return lpvm;
+        }
+
+        public TimelineViewModel BuildTimelineViewModel(Timeline timeline)
+        {
+            TimelineViewModel tvm = new TimelineViewModel();
+
+            tvm.creepsPerMinDeltas = new CreepsPerMinDeltasViewModel();
+            tvm.creepsPerMinDeltas.firstPartTime = timeline.creepsPerMinDeltas?.firstPartTime;
+            tvm.creepsPerMinDeltas.secondPartTime = timeline.creepsPerMinDeltas?.secondPartTime;
+
+            tvm.csDiffPerMinDeltas = new CsDiffPerMinDeltasViewModel();
+            tvm.csDiffPerMinDeltas.firstPartTime = timeline.csDiffPerMinDeltas?.firstPartTime;
+            tvm.csDiffPerMinDeltas.secondPartTime = timeline.csDiffPerMinDeltas?.secondPartTime;
+
+            tvm.goldPerMinDeltas = new GoldPerMinDeltasViewModel();
+            tvm.goldPerMinDeltas.firstPartTime = timeline.goldPerMinDeltas?.firstPartTime;
+            tvm.goldPerMinDeltas.secondPartTime = timeline.goldPerMinDeltas?.secondPartTime;
+
+            tvm.damageTakenDiffPerMinDeltas = new DamageTakenDiffPerMinDeltasViewModel();
+            tvm.damageTakenDiffPerMinDeltas.firstPartTime = timeline.damageTakenDiffPerMinDeltas?.firstPartTime;
+            tvm.damageTakenDiffPerMinDeltas.secondPartTime = timeline.damageTakenDiffPerMinDeltas?.secondPartTime;
+
+            tvm.damageTakenPerMinDeltas = new DamageTakenPerMinDeltasViewModel();
+            tvm.damageTakenPerMinDeltas.firstPartTime = timeline.damageTakenPerMinDeltas?.firstPartTime;
+            tvm.damageTakenPerMinDeltas.secondPartTime = timeline.damageTakenPerMinDeltas?.secondPartTime;
+
+            tvm.xpDiffPerMinDeltas = new XpDiffPerMinDeltasViewModel();
+            tvm.xpDiffPerMinDeltas.firstPartTime = timeline.xpDiffPerMinDeltas?.firstPartTime;
+            tvm.xpDiffPerMinDeltas.secondPartTime = timeline.xpDiffPerMinDeltas?.secondPartTime;
+
+            tvm.XpPerMinDeltas = new XpPerMinDeltasViewModel();
+            tvm.XpPerMinDeltas.firstPartTime = timeline.XpPerMinDeltas?.firstPartTime;
+            tvm.XpPerMinDeltas.secondPartTime = timeline.XpPerMinDeltas?.secondPartTime;
+
+            tvm.lane = timeline.lane;
+            tvm.role = timeline.role;
+            tvm.participantId = timeline.participantId;
+
+
+            return tvm;
+
+        }
+    }
+}

@@ -227,6 +227,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiServices\GlobalVar.cs" />
+    <Compile Include="ApiServices\PerformanceServices.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MatchupController.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
+    <Compile Include="Controllers\PerformancesController.cs" />
     <Compile Include="Controllers\SoloQController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -352,12 +355,18 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChampionSpellInfosViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\PerformancesViewModel.cs" />
+    <Compile Include="Models\PerformancesViewModelBuilder.cs" />
     <Compile Include="Models\RoleList.cs" />
+    <Compile Include="Models\SoloQViewModel.cs" />
+    <Compile Include="Models\SoloQViewModelBuilder.cs" />
     <Compile Include="Models\SummonerInfosViewModel.cs" />
     <Compile Include="Models\ViewModelClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="ApiServices\MatchInfos.cs" />
+    <Compile Include="ApiServices\SoloQServices.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebHelperTools\SelectListHelper.cs" />
     <Compile Include="WebHelperTools\StringExtension.cs" />
@@ -489,13 +498,16 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Shared\NavbarAdmin.cshtml" />
     <Content Include="Views\Shared\NavbarPlayer.cshtml" />
-    <Content Include="Views\SoloQ\SoloQ.cshtml" />
+    <Content Include="Views\SoloQ\SoloQ2.cshtml" />
     <Content Include="Views\Backend\Index.cshtml" />
     <Content Include="Views\Tag\Tag.cshtml" />
     <Content Include="Views\Tag\AddTag.cshtml" />
     <Content Include="Views\Cooldown\CooldownChampion.cshtml" />
     <Content Include="Views\Shared\NavbarAnonymous.cshtml" />
     <Content Include="Views\Cooldown\CooldownSummoner.cshtml" />
+    <Content Include="Views\SoloQ\ListSoloQ.cshtml" />
+    <Content Include="Views\Performances\Performances.cshtml" />
+    <Content Include="Views\Performances\PerformanceStat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
