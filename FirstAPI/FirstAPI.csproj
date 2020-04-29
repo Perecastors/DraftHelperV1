@@ -309,6 +309,7 @@
     <Compile Include="DbContext\DAL.cs" />
     <Compile Include="DbContext\DALCalculation.cs" />
     <Compile Include="DbContext\DALChampionPool.cs" />
+    <Compile Include="DbContext\DALSoloQ.cs" />
     <Compile Include="DbContext\DALTag.cs" />
     <Compile Include="DbContext\DatabaseEntities.cs" />
     <Compile Include="DbContext\Matchup.cs">
@@ -511,6 +512,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="SoloQFiles\MatchInfos\" />
+    <Folder Include="SoloQFiles\Timelines\" />
     <Folder Include="Views\MyBase\" />
   </ItemGroup>
   <ItemGroup>

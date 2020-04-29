@@ -46,14 +46,17 @@ namespace FirstAPI.Models
                         tvm.deaths = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.deaths;
                         tvm.assists = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.assists;
                         tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfo, player);
+                        tvm.timestamp = matchInfo.gameCreation;
                         pvm.timelines.Add(tvm);
                         if(ps.DidPlayerWin(matchInfo, player))
                         {
                             pvm.nbVictory++;
+                            tvm.win = true;
                         }
                         else
                         {
                             pvm.nbDefeat++;
+                            tvm.win = false;
                         }
                     }
                     lpvm.Add(pvm);

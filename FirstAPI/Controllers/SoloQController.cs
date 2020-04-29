@@ -22,9 +22,9 @@ namespace FirstAPI.Controllers
             var serializer = new JavaScriptSerializer();
             var player = dal.getPlayerById(playerId);
             //ViewBag.ChampionList = serializer.Serialize(((List<Champion>)(Session["GlobalChampions"])));
-            s.GetSoloQHistories(player.AccountId);
-            s.GetMatchInfo();
-            s.GetTimeLineMatchInfo();
+            //s.GetSoloQHistories(player.AccountId);
+            //s.GetMatchInfo();
+            //s.GetTimeLineMatchInfo();
             return View(player);
 
         }

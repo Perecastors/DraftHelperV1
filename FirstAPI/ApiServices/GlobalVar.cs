@@ -39,6 +39,17 @@ namespace FirstAPI.ApiServices
             var dal = new DAL();
             return dal.getChampionNameById(championId);
         }
+
+        public static string ConvertTimestampToDatetime(long timestamp)
+        {
+            string datetime = "";
+            double timestamp2 = timestamp / 1000;
+            DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            dt = dt.AddSeconds(timestamp2).ToLocalTime();
+            datetime = dt.ToString("g");
+
+            return datetime;
+        }
     }
 
 }

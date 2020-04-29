@@ -18,7 +18,7 @@ namespace FirstAPI.Controllers
             SoloQServices sq = new SoloQServices();
             var dal = new DAL();
             var player = dal.getPlayerById(playerId);
-            var matches = sq.GetSoloQHistories(player.AccountId,20);
+            var matches = sq.GetSoloQHistories(player.AccountId,40);
             List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
             if(player != null)
             {

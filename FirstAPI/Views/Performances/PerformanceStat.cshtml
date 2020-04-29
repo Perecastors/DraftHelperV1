@@ -5,6 +5,7 @@
 <table id="tablePerf" style="margin-top:5px;margin-bottom:5px;">
     <thead>
         <tr>
+            <th>Date</th>
             <th>K / D / A</th>
             <th> Cs diff at 10min</th>
             <th> Cs diff at 20min</th>
@@ -16,7 +17,8 @@
     <tbody>
         @foreach (var timeline in Model.timelines)
         {
-            <tr>
+            <tr class="@(timeline.win ? "victory":"defeat") timeline">
+                <td>@(GlobalVar.ConvertTimestampToDatetime(timeline.timestamp))</td>
                 <td>@timeline.kills / @timeline.deaths / @timeline.assists</td>
                 <td>@(String.Format("{0:0.##}",timeline.csDiffPerMinDeltas.firstPartTime))</td>
                 <td>@(String.Format("{0:0.##}", timeline.csDiffPerMinDeltas.secondPartTime))</td>
@@ -33,4 +35,22 @@
         padding-left: 5px;
         padding-right: 5px;
     }
+
+    #tablePerf > td {
+        border: solid 1px #000;
+    }
+
+    .victory {
+        background-color: #d5ff80;
+    }
+
+    .defeat {
+        background-color: #ffae9d;
+    }
+
+    .timeline > td{
+        padding:3px 10px;
+        width:133px;
+    }
+
 </style>

@@ -50,6 +50,12 @@ namespace FirstAPI.ApiServices
             {
                 string playerLane = "DUO_CARRY";
                 opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
+                if (opponentParticipantId ==0) // if thoses lines code below , change it also in method "GetOpponentChampionId"
+                {
+                    playerLane = "SOLO";
+                    playerRole = "BOTTOM";
+                    opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
+                }
             }
             else
             {
@@ -79,6 +85,12 @@ namespace FirstAPI.ApiServices
             {
                 string playerLane = "DUO_CARRY";
                 opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
+                if (opponentChampionId == 0)// if thoses lines code below , change it also in method "GetOpponentNameByOpponentId"
+                {
+                    playerLane = "SOLO";
+                    playerRole = "BOTTOM";
+                    opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
+                }
             }
             else
             {
