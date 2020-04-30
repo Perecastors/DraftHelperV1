@@ -281,4 +281,10 @@ namespace FirstAPI.ApiServices
         public int x { get; set; }
         public int y { get; set; }
     }
+
+    public class Summoner
+    {
+        [JsonProperty("name")]
+        public string summonerName { get; set; }
+    }
 }

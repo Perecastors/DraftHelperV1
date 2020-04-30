@@ -122,8 +122,19 @@ namespace FirstAPI.ApiServices
                 if (matchInfo.participants.Where(x => x.championId ==opponentChampionId).Any())
                 {
                     lmatchInfos.Add(matchInfo);
+                  
                 }
             }
+
+            //for (int i = matches.Count-1; i>=0 ; i--)
+            //{
+            //    if (matches[i].participants.Where(x => x.championId == opponentChampionId).Any())
+            //    {
+            //        lmatchInfos.Add(matches[i]);
+            //        matches.Remove(matches[i]);
+            //    }
+            //}
+           
             return lmatchInfos;
         }
 

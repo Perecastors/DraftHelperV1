@@ -11,6 +11,7 @@ namespace FirstAPI.Models
         public int enemyChampionId { get; set; }
         public int nbVictory { get; set; }
         public int nbDefeat { get; set; }
+        public string summonerName { get; set; }
         public List<TimelineViewModel> timelines { get; set; }
         //public List<CreepsPerMinDeltasViewModel> listCreepsPerMinDeltasViewModel { get; set; }
         //public List<CsDiffPerMinDeltasViewModel> listCsPerMinDeltasViewModel { get; set; }

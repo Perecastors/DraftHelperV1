@@ -383,6 +383,7 @@
     <Content Include="Content\erase.png" />
     <Content Include="Content\Multi-Column-Select.css" />
     <Content Include="Content\perecastorIcon.png" />
+    <Content Include="Content\opgg.png" />
     <Content Include="DbContext\ApiDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ApiDB.edmx</DependentUpon>

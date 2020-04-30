@@ -10,32 +10,32 @@ namespace FirstAPI.Models
     public class SoloQViewModelBuilder
     {
 
-        public List<MatchViewModel> BuildSoloQHistories(List<Match> matches)
-        {
-            List<MatchViewModel> lmvm = new List<MatchViewModel>();
-            SoloQServices sqs = new SoloQServices();
-            foreach (var match in matches)
-            {
-                MatchViewModel mvm = new MatchViewModel();
-                mvm.championId = match.championId;
-                mvm.lane = match.lane;
-                mvm.timestamp = match.timestamp;
-                mvm.role = match.role;
-                mvm.lane = match.lane;
+        //public List<MatchViewModel> BuildSoloQHistories(List<Match> matches)
+        //{
+        //    List<MatchViewModel> lmvm = new List<MatchViewModel>();
+        //    SoloQServices sqs = new SoloQServices();
+        //    foreach (var match in matches)
+        //    {
+        //        MatchViewModel mvm = new MatchViewModel();
+        //        mvm.championId = match.championId;
+        //        mvm.lane = match.lane;
+        //        mvm.timestamp = match.timestamp;
+        //        mvm.role = match.role;
+        //        mvm.lane = match.lane;
 
-                mvm.matchInfo = new MatchInfosViewModel();
-                MatchInfos matchInfo = sqs.GetMatchInfo(match.gameId.ToString());
-                mvm.matchInfo.gameCreation = matchInfo.gameCreation;
-                mvm.matchInfo.gameDuration = matchInfo.gameDuration;
+        //        mvm.matchInfo = new MatchInfosViewModel();
+        //        MatchInfos matchInfo = sqs.GetMatchInfo(match.gameId.ToString());
+        //        mvm.matchInfo.gameCreation = matchInfo.gameCreation;
+        //        mvm.matchInfo.gameDuration = matchInfo.gameDuration;
 
-                Participant participant = matchInfo.participants.Where(x => x.championId == match.championId).FirstOrDefault();
-                mvm.participant = BuildParticipantViewModel(participant);
-                mvm.participant.stats = BuildStatsViewModel(participant.stats);
-                lmvm.Add(mvm);
-            }
+        //        Participant participant = matchInfo.participants.Where(x => x.championId == match.championId).FirstOrDefault();
+        //        mvm.participant = BuildParticipantViewModel(participant);
+        //        mvm.participant.stats = BuildStatsViewModel(participant.stats);
+        //        lmvm.Add(mvm);
+        //    }
 
-            return lmvm;
-        }
+        //    return lmvm;
+        //}
 
         public MatchInfosViewModel BuildMatchInfosViewModel(MatchInfos matchInfos)
         {

@@ -150,6 +150,7 @@ namespace FirstAPI.Models
         public string opponentName { get; set; }
         public long timestamp { get; set; }
         public bool win { get; set; }
+        public long gameId { get; set; }
         public CreepsPerMinDeltasViewModel creepsPerMinDeltas { get; set; }
         public XpDiffPerMinDeltasViewModel xpDiffPerMinDeltas { get; set; }
         public GoldPerMinDeltasViewModel goldPerMinDeltas { get; set; }

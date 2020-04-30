@@ -12,6 +12,7 @@
             <th> Gold at 10min</th>
             <th> Gold at 20min</th>
             <th> Opponent </th>
+            <th> GameId </th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
                 <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.firstPartTime))</td>
                 <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.secondPartTime))</td>
                 <td>@timeline.opponentName</td>
+                <td>@timeline.gameId</td>
             </tr>
         }
     </tbody>

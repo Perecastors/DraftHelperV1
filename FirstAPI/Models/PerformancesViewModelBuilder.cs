@@ -20,13 +20,7 @@ namespace FirstAPI.Models
             foreach (var championId in listChampions)
             {
                 List<Match> listMatch = games.Where(x => x.championId == championId).ToList();
-                List<MatchInfos> listMatchInfos = new List<MatchInfos>();
-                foreach (var game in listMatch)
-                {
-                    MatchInfos matchInfos = sq.GetMatchInfo(game.gameId.ToString());
-                    listMatchInfos.Add(matchInfos);
-                }
-                
+                List<MatchInfos> listMatchInfos = sq.GetListMatchInfos(listMatch);
                 List<int> listOpponentChampionId = ps.GetListOpponentChampionId(listMatchInfos, player);
                 foreach (var opponentChampionId in listOpponentChampionId)
                 {
@@ -47,6 +41,7 @@ namespace FirstAPI.Models
                         tvm.assists = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.assists;
                         tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfo, player);
                         tvm.timestamp = matchInfo.gameCreation;
+                        tvm.gameId = matchInfo.gameId;
                         pvm.timelines.Add(tvm);
                         if(ps.DidPlayerWin(matchInfo, player))
                         {
@@ -80,6 +75,8 @@ namespace FirstAPI.Models
 
             return games;
         }
+
+        
 
         public TimelineViewModel BuildTimelineViewModel(Timeline timeline)
         {
