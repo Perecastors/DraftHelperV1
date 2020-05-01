@@ -8,7 +8,7 @@ namespace FirstAPI.Models
     public class PerformancesViewModel
     {
         public int championId { get; set; }
-        public int enemyChampionId { get; set; }
+        public int opponentChampionId { get; set; }
         public int nbVictory { get; set; }
         public int nbDefeat { get; set; }
         public string summonerName { get; set; }

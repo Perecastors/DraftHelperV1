@@ -114,6 +114,33 @@ namespace FirstAPI.ApiServices
             return lchampionId;
         }
 
+        public List<TestObject> GetListOpponentChampionIdWtihListMatch(List<MatchInfos> matches, Player player)
+        {
+            List<TestObject> ltest = new List<TestObject>();
+            foreach (var matchInfos in matches)
+            {
+                TestObject testObject = new TestObject();
+                int opponentChampionId = GetOpponentChampionId(matchInfos, player);
+                if(opponentChampionId != 0)
+                {
+                    testObject = ltest.Where(x => x.opponentChampionId == opponentChampionId).FirstOrDefault();
+                    if (testObject == null)
+                    {
+                        testObject = new TestObject();
+                        testObject.opponentChampionId = opponentChampionId;
+                        testObject.listMatch = new List<MatchInfos>();
+                    }
+                    testObject.listMatch.Add(matchInfos);
+                }
+                if (testObject.opponentChampionId != 0 && !ltest.Where(x => x.opponentChampionId == opponentChampionId).Any())
+                {
+                    ltest.Add(testObject);
+                }
+            }
+
+            return ltest;
+        }
+
         public List<MatchInfos> GetListMatchInfosByOpponentChampionId(List<MatchInfos> matches, Player player,int opponentChampionId)
         {
             List<MatchInfos> lmatchInfos = new List<MatchInfos>();
@@ -138,5 +165,10 @@ namespace FirstAPI.ApiServices
             return lmatchInfos;
         }
 
+    }
+
+    public class TestObject {
+        public int opponentChampionId { get; set; }
+        public List<MatchInfos> listMatch { get; set; }
     }
 }
