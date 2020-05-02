@@ -97,7 +97,7 @@ namespace FirstAPI.ApiServices
         }
 
         //timelanes = liste de frames ?? => apparament oui
-        public List<Frame> GetTimeLinesMatchInfos(string gameId)
+        public List<Frame> GetTimeLinesMatchInfos(string gameId= "4521496705")
         {
             //4521496705 => gameId exemple
             string json = "";
@@ -115,8 +115,9 @@ namespace FirstAPI.ApiServices
             }
             var obj = JObject.Parse(json);
             json = obj.SelectToken("frames").ToString();
-            var timelines = JsonConvert.DeserializeObject<List<Frame>>(json);
-            return timelines;
+            var timelinesJson = JsonConvert.DeserializeObject<List<FrameJson>>(json);
+            var timeline = BuildListFrame(timelinesJson);//=> dans le json : c'est pas une liste de participantframe: cette méthode me permet de reconstruire l'objet
+            return timeline;
         }
 
         public string GetNicknameByAccountId(string accountId)
@@ -132,6 +133,35 @@ namespace FirstAPI.ApiServices
             }
             var summoner = JsonConvert.DeserializeObject<Summoner>(json);
             return summoner.summonerName;
+        }
+
+        public List<Frame> BuildListFrame(List<FrameJson> frameJsons)
+        {
+            List<Frame> frames = new List<Frame>();
+            foreach (var frame in frameJsons)
+            {
+                Frame newFrame = new Frame();
+                newFrame.timestamp = frame.timestamp;
+
+                newFrame.events = new List<Event>();
+                newFrame.events.AddRange(frame.events);
+
+                newFrame.participantFrames = new List<ParticipantFrame>();
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame1);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame2);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame3);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame4);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame5);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame6);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame7);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame8);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame9);
+                newFrame.participantFrames.Add(frame.participantFrames.participantFrame10);
+
+                frames.Add(newFrame);
+            }
+
+            return frames;
         }
     }
 

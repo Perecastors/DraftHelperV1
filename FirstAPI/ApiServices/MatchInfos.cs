@@ -221,9 +221,40 @@ namespace FirstAPI.ApiServices
 
     public class Frame
     {
-        //public ParticipantFrame[] participantFrames { get; set; } //=> dans le json : c'est pas une liste de participantframe: il faudra modifier le json pour que ca marche bien
+        public List<ParticipantFrame> participantFrames { get; set; } //=> dans le json : c'est pas une liste de participantframe: il faudra modifier le json pour que ca marche bien
         public List<Event> events { get; set; }
         public long timestamp { get; set; }
+    }
+
+    public class FrameJson
+    {
+        public PartcipantFrameJson participantFrames { get; set; } //=> dans le json : c'est pas une liste de participantframe: il faudra modifier le json pour que ca marche bien
+        public List<Event> events { get; set; }
+        public long timestamp { get; set; }
+    }
+
+    public class PartcipantFrameJson
+    {
+        [JsonProperty("1")]
+        public ParticipantFrame participantFrame1 { get; set; }
+        [JsonProperty("2")]
+        public ParticipantFrame participantFrame2 { get; set; }
+        [JsonProperty("3")]
+        public ParticipantFrame participantFrame3 { get; set; }
+        [JsonProperty("4")]
+        public ParticipantFrame participantFrame4 { get; set; }
+        [JsonProperty("5")]
+        public ParticipantFrame participantFrame5 { get; set; }
+        [JsonProperty("6")]
+        public ParticipantFrame participantFrame6 { get; set; }
+        [JsonProperty("7")]
+        public ParticipantFrame participantFrame7 { get; set; }
+        [JsonProperty("8")]
+        public ParticipantFrame participantFrame8 { get; set; }
+        [JsonProperty("9")]
+        public ParticipantFrame participantFrame9 { get; set; }
+        [JsonProperty("10")]
+        public ParticipantFrame participantFrame10 { get; set; }
     }
 
     public class ParticipantFrame

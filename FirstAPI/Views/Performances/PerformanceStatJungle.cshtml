@@ -1,0 +1,58 @@
+﻿@model FirstAPI.Models.PerformancesViewModel
+
+<strong>Victory</strong> : @Model.nbVictory &nbsp;&nbsp;&nbsp;&nbsp; <strong>Defeat :</strong> @Model.nbDefeat
+
+<table id="tablePerf" style="margin-top:5px;margin-bottom:5px;">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>K / D / A</th>
+            <th> Cs diff at 10min</th>
+            <th> Cs diff at 20min</th>
+            <th> Gold at 10min</th>
+            <th> Gold at 20min</th>
+            <th> Opponent </th>
+            <th> GameId </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var timeline in Model.timelines)
+        {
+            <tr class="@(timeline.win ? "victory":"defeat") timeline">
+                <td>@(GlobalVar.ConvertTimestampToDatetime(timeline.timestamp))</td>
+                <td>@timeline.kills / @timeline.deaths / @timeline.assists</td>
+                <td>@(String.Format("{0:0.##}",timeline.csDiffPerMinDeltas.firstPartTime))</td>
+                <td>@(String.Format("{0:0.##}", timeline.csDiffPerMinDeltas.secondPartTime))</td>
+                <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.firstPartTime))</td>
+                <td>@(String.Format("{0:0.##}", timeline.goldPerMinDeltas.secondPartTime))</td>
+                <td>@timeline.opponentName</td>
+                <td>@timeline.gameId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    #tablePerf > thead > tr > th {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #tablePerf > td {
+        border: solid 1px #000;
+    }
+
+    .victory {
+        background-color: #d5ff80;
+    }
+
+    .defeat {
+        background-color: #ffae9d;
+    }
+
+    .timeline > td{
+        padding:3px 10px;
+        width:133px;
+    }
+
+</style>

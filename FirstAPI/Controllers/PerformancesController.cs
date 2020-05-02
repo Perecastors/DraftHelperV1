@@ -11,7 +11,6 @@ namespace FirstAPI.Controllers
 {
     public class PerformancesController : Controller
     {
-        // GET: Performances
         public ActionResult Performances(Guid playerId)
         {
             PerformancesViewModelBuilder builder = new PerformancesViewModelBuilder();
@@ -25,6 +24,7 @@ namespace FirstAPI.Controllers
                 lpvm = builder.BuildPerformanceViewModel2(matches, player);
                 var nickname = sq.GetNicknameByAccountId(player.AccountId);
                 ViewBag.SummonerName = nickname;
+                ViewBag.Role = player.Role;
 
             }
             return View(lpvm);

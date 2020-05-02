@@ -229,6 +229,7 @@
   <ItemGroup>
     <Compile Include="ApiServices\GlobalVar.cs" />
     <Compile Include="ApiServices\PerformanceServices.cs" />
+    <Compile Include="ApiServices\TimelineServices.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -509,7 +510,11 @@
     <Content Include="Views\Cooldown\CooldownSummoner.cshtml" />
     <Content Include="Views\SoloQ\ListSoloQ.cshtml" />
     <Content Include="Views\Performances\Performances.cshtml" />
-    <Content Include="Views\Performances\PerformanceStat.cshtml" />
+    <Content Include="Views\Performances\PerformanceStatTop.cshtml" />
+    <Content Include="Views\Performances\PerformanceStatJungle.cshtml" />
+    <Content Include="Views\Performances\PerformanceStatMid.cshtml" />
+    <Content Include="Views\Performances\PerformanceStatAdc.cshtml" />
+    <Content Include="Views\Performances\PerformanceStatSupport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

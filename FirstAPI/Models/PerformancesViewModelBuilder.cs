@@ -9,56 +9,6 @@ namespace FirstAPI.Models
 {
     public class PerformancesViewModelBuilder
     {
-        public List<PerformancesViewModel> BuildPerformanceViewModel(List<Match> matches, Player player)
-        {
-            List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
-            SoloQServices sq = new SoloQServices();
-            PerformanceServices ps = new PerformanceServices();
-
-            List<Match> games = GetListMatchByRole(matches, player);
-            List<int> listChampions = games.Select(x => x.championId).Distinct().ToList();
-            foreach (var championId in listChampions)
-            {
-                List<Match> listMatch = games.Where(x => x.championId == championId).ToList();
-                List<MatchInfos> listMatchInfos = sq.GetListMatchInfos(listMatch);
-                List<int> listOpponentChampionId = ps.GetListOpponentChampionId(listMatchInfos, player);
-                foreach (var opponentChampionId in listOpponentChampionId)
-                {
-                    PerformancesViewModel pvm = new PerformancesViewModel();
-                    pvm.championId = championId;
-                    var lmatchInfos = ps.GetListMatchInfosByOpponentChampionId(listMatchInfos, player, opponentChampionId);
-                    pvm.timelines = new List<TimelineViewModel>();
-                    pvm.nbDefeat = 0;
-                    pvm.nbVictory = 0;
-                    pvm.opponentChampionId = opponentChampionId;
-                    foreach (var matchInfo in lmatchInfos)
-                    {
-                        var participant = matchInfo.participants.Where(x => x.championId == championId).FirstOrDefault();
-                        var tvm = BuildTimelineViewModel(matchInfo, player);
-                        int participantId = ps.GetParticipantId(matchInfo, player);
-                        tvm.kills = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.kills;
-                        tvm.deaths = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.deaths;
-                        tvm.assists = matchInfo.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.assists;
-                        tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfo, player);
-                        tvm.timestamp = matchInfo.gameCreation;
-                        tvm.gameId = matchInfo.gameId;
-                        pvm.timelines.Add(tvm);
-                        if (ps.DidPlayerWin(matchInfo, player))
-                        {
-                            pvm.nbVictory++;
-                            tvm.win = true;
-                        }
-                        else
-                        {
-                            pvm.nbDefeat++;
-                            tvm.win = false;
-                        }
-                    }
-                    lpvm.Add(pvm);
-                }
-            }
-            return lpvm;
-        }
 
         private List<Match> GetListMatchByRole(List<Match> matches, Player player)
         {
@@ -83,7 +33,11 @@ namespace FirstAPI.Models
             TimelineViewModel tvm = new TimelineViewModel();
             PerformanceServices ps = new PerformanceServices();
             int participantId = ps.GetParticipantId(matchInfos, player);
+
             var timeline = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().timeline;
+            tvm.participantId = timeline.participantId;
+
+
 
             tvm.kills = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.kills;
             tvm.deaths = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.deaths;
@@ -91,7 +45,6 @@ namespace FirstAPI.Models
             tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfos, player);
             tvm.timestamp = matchInfos.gameCreation;
             tvm.gameId = matchInfos.gameId;
-
 
             tvm.creepsPerMinDeltas = new CreepsPerMinDeltasViewModel();
             tvm.creepsPerMinDeltas.firstPartTime = timeline.creepsPerMinDeltas?.firstPartTime;
@@ -143,14 +96,14 @@ namespace FirstAPI.Models
                 List<Match> listMatch = games.Where(x => x.championId == championId).ToList();
                 List<MatchInfos> listMatchInfos = sq.GetListMatchInfos(listMatch);
 
-                var ltestobj = ps.GetListOpponentChampionIdWtihListMatch(listMatchInfos, player);
-                foreach (var testObj in ltestobj)
+                var lMatchupHistory = ps.GetListOpponentChampionIdWtihListMatch(listMatchInfos, player);
+                foreach (var matchupHistory in lMatchupHistory)
                 {
                     PerformancesViewModel pvm = new PerformancesViewModel();
                     pvm.championId = championId;
                     pvm.timelines = new List<TimelineViewModel>();
-                    pvm.opponentChampionId = testObj.opponentChampionId;
-                    foreach (var matchInfos in testObj.listMatch)
+                    pvm.opponentChampionId = matchupHistory.opponentChampionId;
+                    foreach (var matchInfos in matchupHistory.listMatch)
                     {
                         var timeline = BuildTimelineViewModel(matchInfos, player);
 
@@ -164,8 +117,6 @@ namespace FirstAPI.Models
                             pvm.nbDefeat++;
                             timeline.win = false;
                         }
-
-                        
 
                         pvm.timelines.Add(timeline);
                     }

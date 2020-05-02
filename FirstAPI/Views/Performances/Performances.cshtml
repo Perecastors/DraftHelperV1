@@ -4,51 +4,71 @@
     ViewBag.Title = "Performances";
 }
 
-    <h2>Performances <a href="https://euw.op.gg/summoner/userName=@ViewBag.SummonerName" style="height:69px;" target="_blank"><img src="~/Content/opgg.png" /></a></h2> 
+<h2>Performances <a href="https://euw.op.gg/summoner/userName=@ViewBag.SummonerName" style="height:69px;" target="_blank"><img src="~/Content/opgg.png" /></a></h2>
 
-
-<table class="table-bordered table-striped" style="min-width: 1500px;">
-    <thead>
-        <tr>
-            <th>
-                My champion
-            </th>
-            <th style="text-align:center">
-                Stats
-            </th>
-            <th style="text-align:center">
-                Ennemy Champion
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var perf in Model)
-        {
-            <tr rowspan="@(perf.nbVictory+perf.nbDefeat+1)">
-                <td style="text-align:center">
-                    <img class="imgChamp" src="@(ConfigurationManager.AppSettings["UrlImgChamp"] + GlobalVar.getChampionNameById(perf.championId)+".png")" /><br />
-                    @(GlobalVar.getChampionNameById(perf.championId) + " ("+perf.championId+")")
-                </td>
-                <td style="text-align:center">
-                    @Html.Partial("PerformanceStat", perf)
-                </td>
-                <td style="text-align:center">
-                    <img class="imgChamp" src="@(ConfigurationManager.AppSettings["UrlImgChamp"] + GlobalVar.getChampionNameById(perf.opponentChampionId)+".png")" /><br />
-                    @(GlobalVar.getChampionNameById(perf.opponentChampionId) + " ("+perf.opponentChampionId + ")")
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+@{if (Model != null && Model.Count > 0)
+    {
+        <table class="table-bordered table-striped" style="min-width: 1500px;">
+            <thead>
+                <tr>
+                    <th>
+                        My champion
+                    </th>
+                    <th style="text-align:center">
+                        Stats
+                    </th>
+                    <th style="text-align:center">
+                        Ennemy Champion
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var perf in Model)
+                {
+                    <tr rowspan="@(perf.nbVictory + perf.nbDefeat + 1)">
+                        <td style="text-align:center">
+                            <img class="imgChamp" src="@(ConfigurationManager.AppSettings["UrlImgChamp"] + GlobalVar.getChampionNameById(perf.championId) + ".png")" /><br />
+                            @(GlobalVar.getChampionNameById(perf.championId) + " (" + perf.championId + ")")
+                        </td>
+                        <td style="text-align:center">
+                            @{
+                                switch ((int)ViewBag.Role)
+                                {
+                                    case 1:
+                                        Html.Partial("PerformanceStatTop", perf);
+                                        break;
+                                    case 2:
+                                        Html.Partial("PerformanceStatJungle", perf);
+                                        break;
+                                    case 3:
+                                        Html.Partial("PerformanceStatMid", perf);
+                                        break;
+                                    case 4:
+                                        Html.Partial("PerformanceStatAdc", perf);
+                                        break;
+                                    case 5:
+                                        Html.Partial("PerformanceStatSupport", perf);
+                                        break;
+                                }}
+                        </td>
+                        <td style="text-align:center">
+                            <img class="imgChamp" src="@(ConfigurationManager.AppSettings["UrlImgChamp"] + GlobalVar.getChampionNameById(perf.opponentChampionId) + ".png")" /><br />
+                            @(GlobalVar.getChampionNameById(perf.opponentChampionId) + " (" + perf.opponentChampionId + ")")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
 <style>
     .imgChamp {
         height: 50px;
-        margin-top:10px;
+        margin-top: 10px;
     }
 
-    table > thead > tr >th {
-        text-align:center;
+    table > thead > tr > th {
+        text-align: center;
     }
 
     table > tbody > tr > td {
@@ -60,6 +80,6 @@
     }
 
     .container {
-        margin-left:200px;
+        margin-left: 200px;
     }
 </style>

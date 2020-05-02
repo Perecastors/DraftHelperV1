@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /FirstAPI/SoloQFiles/MatchInfos
+/FirstAPI/SoloQFiles/Timelines

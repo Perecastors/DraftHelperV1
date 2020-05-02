@@ -114,27 +114,27 @@ namespace FirstAPI.ApiServices
             return lchampionId;
         }
 
-        public List<TestObject> GetListOpponentChampionIdWtihListMatch(List<MatchInfos> matches, Player player)
+        public List<MatchupHistory> GetListOpponentChampionIdWtihListMatch(List<MatchInfos> matches, Player player)
         {
-            List<TestObject> ltest = new List<TestObject>();
+            List<MatchupHistory> ltest = new List<MatchupHistory>();
             foreach (var matchInfos in matches)
             {
-                TestObject testObject = new TestObject();
+                MatchupHistory matchupHistory = new MatchupHistory();
                 int opponentChampionId = GetOpponentChampionId(matchInfos, player);
                 if(opponentChampionId != 0)
                 {
-                    testObject = ltest.Where(x => x.opponentChampionId == opponentChampionId).FirstOrDefault();
-                    if (testObject == null)
+                    matchupHistory = ltest.Where(x => x.opponentChampionId == opponentChampionId).FirstOrDefault();
+                    if (matchupHistory == null)
                     {
-                        testObject = new TestObject();
-                        testObject.opponentChampionId = opponentChampionId;
-                        testObject.listMatch = new List<MatchInfos>();
+                        matchupHistory = new MatchupHistory();
+                        matchupHistory.opponentChampionId = opponentChampionId;
+                        matchupHistory.listMatch = new List<MatchInfos>();
                     }
-                    testObject.listMatch.Add(matchInfos);
+                    matchupHistory.listMatch.Add(matchInfos);
                 }
-                if (testObject.opponentChampionId != 0 && !ltest.Where(x => x.opponentChampionId == opponentChampionId).Any())
+                if (matchupHistory.opponentChampionId != 0 && !ltest.Where(x => x.opponentChampionId == opponentChampionId).Any())
                 {
-                    ltest.Add(testObject);
+                    ltest.Add(matchupHistory);
                 }
             }
 
@@ -153,21 +153,12 @@ namespace FirstAPI.ApiServices
                 }
             }
 
-            //for (int i = matches.Count-1; i>=0 ; i--)
-            //{
-            //    if (matches[i].participants.Where(x => x.championId == opponentChampionId).Any())
-            //    {
-            //        lmatchInfos.Add(matches[i]);
-            //        matches.Remove(matches[i]);
-            //    }
-            //}
-           
             return lmatchInfos;
         }
 
     }
 
-    public class TestObject {
+    public class MatchupHistory {
         public int opponentChampionId { get; set; }
         public List<MatchInfos> listMatch { get; set; }
     }
