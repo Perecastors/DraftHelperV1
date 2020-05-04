@@ -21,7 +21,7 @@ namespace FirstAPI.Controllers
             List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
             if(player != null)
             {
-                lpvm = builder.BuildPerformanceViewModel2(matches, player);
+                lpvm = builder.BuildPerformanceViewModel(matches, player);
                 var nickname = sq.GetNicknameByAccountId(player.AccountId);
                 ViewBag.SummonerName = nickname;
                 ViewBag.Role = player.Role;

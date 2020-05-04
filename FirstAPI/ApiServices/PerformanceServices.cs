@@ -8,7 +8,7 @@ namespace FirstAPI.ApiServices
 {
     public class PerformanceServices
     {
-        public bool DidPlayerWin(MatchInfos matchInfos,Player player)
+        public bool DidPlayerWin(MatchInfos matchInfos, Player player)
         {
             int teamId = GetPlayerTeam(matchInfos, player);
             string hasWin = matchInfos.teams.Where(x => x.teamId == teamId).Select(x => x.win).FirstOrDefault();
@@ -17,28 +17,29 @@ namespace FirstAPI.ApiServices
             return false;
         }
 
-        public int GetParticipantId(MatchInfos matchInfos,Player player)
+        public int GetParticipantId(MatchInfos matchInfos, Player player)
         {
             int participantId = matchInfos.participantIdentities.Where(x => x.player.accountId == player.AccountId).Select(x => x.participantId).FirstOrDefault();
             return participantId;
         }
 
-        public int GetPlayerTeam(MatchInfos matchInfos,Player player)
+        public int GetPlayerTeam(MatchInfos matchInfos, Player player)
         {
             int participantId = GetParticipantId(matchInfos, player);
             int teamId = matchInfos.participants.Where(x => x.participantId == participantId).Select(x => x.teamId).FirstOrDefault();
             return teamId;
         }
 
-        public string GetOpponentNameByOpponentId(MatchInfos matchInfos,Player player)
+        public Tuple<string,int> GetOpponentNameByOpponentId(MatchInfos matchInfos, Player player)
         {
             int teamId = GetPlayerTeam(matchInfos, player);
             int opponentTeamId = teamId == 100 ? 200 : 100;
             string playerRole = GlobalVar.getRoleById(player.Role);
-            int opponentParticipantId=0;
+            int opponentParticipantId = 0;
             if (playerRole == "MID")
             {
                 playerRole = "MIDDLE";
+                opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
             }
             else if (playerRole == "SUPPORT")
             {
@@ -50,7 +51,7 @@ namespace FirstAPI.ApiServices
             {
                 string playerLane = "DUO_CARRY";
                 opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
-                if (opponentParticipantId ==0) // if thoses lines code below , change it also in method "GetOpponentChampionId"
+                if (opponentParticipantId == 0) // if thoses lines code below , change it also in method "GetOpponentChampionId"
                 {
                     playerLane = "SOLO";
                     playerRole = "BOTTOM";
@@ -62,10 +63,10 @@ namespace FirstAPI.ApiServices
                 opponentParticipantId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.participantId).FirstOrDefault();
             }
 
-            return matchInfos.participantIdentities.Where(x => x.participantId == opponentParticipantId).Select(x => x.player.summonerName).FirstOrDefault();
+            return new Tuple<string, int>(matchInfos.participantIdentities.Where(x => x.participantId == opponentParticipantId).Select(x => x.player.summonerName).FirstOrDefault(),opponentParticipantId);
         }
 
-        public int GetOpponentChampionId(MatchInfos matchInfos,Player player)
+        public int GetOpponentChampionId(MatchInfos matchInfos, Player player)
         {
             int teamId = GetPlayerTeam(matchInfos, player);
             int opponentTeamId = teamId == 100 ? 200 : 100;
@@ -76,12 +77,14 @@ namespace FirstAPI.ApiServices
                 playerRole = "MIDDLE";
                 opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
 
-            } else if (playerRole == "SUPPORT")
+            }
+            else if (playerRole == "SUPPORT")
             {
                 playerRole = "BOTTOM";
                 string playerLane = "DUO_SUPPORT";
                 opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
-            } else if (playerRole == "BOTTOM")
+            }
+            else if (playerRole == "BOTTOM")
             {
                 string playerLane = "DUO_CARRY";
                 opponentChampionId = matchInfos.participants.Where(x => x.timeline.lane == playerRole && x.timeline.role == playerLane && x.teamId == opponentTeamId).Select(x => x.championId).FirstOrDefault();
@@ -99,13 +102,13 @@ namespace FirstAPI.ApiServices
             return opponentChampionId;
         }
 
-        public List<int> GetListOpponentChampionId(List<MatchInfos> matches,Player player)
+        public List<int> GetListOpponentChampionId(List<MatchInfos> matches, Player player)
         {
             List<int> lchampionId = new List<int>();
             foreach (var matchInfo in matches)
             {
                 int opponentChampionId = GetOpponentChampionId(matchInfo, player);
-                if (opponentChampionId!= 0 && !lchampionId.Contains(opponentChampionId))
+                if (opponentChampionId != 0 && !lchampionId.Contains(opponentChampionId))
                 {
                     lchampionId.Add(opponentChampionId);
                 }
@@ -121,7 +124,7 @@ namespace FirstAPI.ApiServices
             {
                 MatchupHistory matchupHistory = new MatchupHistory();
                 int opponentChampionId = GetOpponentChampionId(matchInfos, player);
-                if(opponentChampionId != 0)
+                if (opponentChampionId != 0)
                 {
                     matchupHistory = ltest.Where(x => x.opponentChampionId == opponentChampionId).FirstOrDefault();
                     if (matchupHistory == null)
@@ -141,15 +144,15 @@ namespace FirstAPI.ApiServices
             return ltest;
         }
 
-        public List<MatchInfos> GetListMatchInfosByOpponentChampionId(List<MatchInfos> matches, Player player,int opponentChampionId)
+        public List<MatchInfos> GetListMatchInfosByOpponentChampionId(List<MatchInfos> matches, Player player, int opponentChampionId)
         {
             List<MatchInfos> lmatchInfos = new List<MatchInfos>();
             foreach (var matchInfo in matches)
             {
-                if (matchInfo.participants.Where(x => x.championId ==opponentChampionId).Any())
+                if (matchInfo.participants.Where(x => x.championId == opponentChampionId).Any())
                 {
                     lmatchInfos.Add(matchInfo);
-                  
+
                 }
             }
 
@@ -158,7 +161,8 @@ namespace FirstAPI.ApiServices
 
     }
 
-    public class MatchupHistory {
+    public class MatchupHistory
+    {
         public int opponentChampionId { get; set; }
         public List<MatchInfos> listMatch { get; set; }
     }

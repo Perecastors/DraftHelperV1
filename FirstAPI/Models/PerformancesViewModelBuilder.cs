@@ -32,17 +32,20 @@ namespace FirstAPI.Models
         {
             TimelineViewModel tvm = new TimelineViewModel();
             PerformanceServices ps = new PerformanceServices();
+            TimelineServices ts = new TimelineServices();
+            SoloQServices sq = new SoloQServices();
             int participantId = ps.GetParticipantId(matchInfos, player);
+            var opponent = ps.GetOpponentNameByOpponentId(matchInfos, player);
+            var oppponentParticipantId = opponent.Item2;
+            var frames = sq.GetTimeLinesMatchInfos(matchInfos.gameId.ToString());
 
             var timeline = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().timeline;
             tvm.participantId = timeline.participantId;
 
-
-
             tvm.kills = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.kills;
             tvm.deaths = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.deaths;
             tvm.assists = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().stats.assists;
-            tvm.opponentName = ps.GetOpponentNameByOpponentId(matchInfos, player);
+            tvm.opponentName = opponent.Item1;
             tvm.timestamp = matchInfos.gameCreation;
             tvm.gameId = matchInfos.gameId;
 
@@ -51,8 +54,14 @@ namespace FirstAPI.Models
             tvm.creepsPerMinDeltas.secondPartTime = timeline.creepsPerMinDeltas?.secondPartTime;
 
             tvm.csDiffPerMinDeltas = new CsDiffPerMinDeltasViewModel();
-            tvm.csDiffPerMinDeltas.firstPartTime = timeline.csDiffPerMinDeltas?.firstPartTime;
-            tvm.csDiffPerMinDeltas.secondPartTime = timeline.csDiffPerMinDeltas?.secondPartTime;
+
+            //results are not working well or bad calculated
+            //tvm.csDiffPerMinDeltas.firstPartTime = timeline.csDiffPerMinDeltas?.firstPartTime;
+            //tvm.csDiffPerMinDeltas.secondPartTime = timeline.csDiffPerMinDeltas?.secondPartTime;
+
+            tvm.csDiffPerMinDeltas.fiveMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 5);
+            tvm.csDiffPerMinDeltas.tenMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 10);
+            tvm.csDiffPerMinDeltas.fifteenMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 15);
 
             tvm.goldPerMinDeltas = new GoldPerMinDeltasViewModel();
             tvm.goldPerMinDeltas.firstPartTime = timeline.goldPerMinDeltas?.firstPartTime;
@@ -67,8 +76,13 @@ namespace FirstAPI.Models
             tvm.damageTakenPerMinDeltas.secondPartTime = timeline.damageTakenPerMinDeltas?.secondPartTime;
 
             tvm.xpDiffPerMinDeltas = new XpDiffPerMinDeltasViewModel();
-            tvm.xpDiffPerMinDeltas.firstPartTime = timeline.xpDiffPerMinDeltas?.firstPartTime;
-            tvm.xpDiffPerMinDeltas.secondPartTime = timeline.xpDiffPerMinDeltas?.secondPartTime;
+            //tvm.xpDiffPerMinDeltas.firstPartTime = timeline.xpDiffPerMinDeltas?.firstPartTime;
+            //tvm.xpDiffPerMinDeltas.secondPartTime = timeline.xpDiffPerMinDeltas?.secondPartTime;
+
+            tvm.xpDiffPerMinDeltas.fiveMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 5);
+            tvm.xpDiffPerMinDeltas.tenMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 10);
+            tvm.xpDiffPerMinDeltas.fifteenMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 15);
+
 
             tvm.XpPerMinDeltas = new XpPerMinDeltasViewModel();
             tvm.XpPerMinDeltas.firstPartTime = timeline.XpPerMinDeltas?.firstPartTime;
@@ -83,7 +97,7 @@ namespace FirstAPI.Models
 
         }
 
-        public List<PerformancesViewModel> BuildPerformanceViewModel2(List<Match> matches, Player player)
+        public List<PerformancesViewModel> BuildPerformanceViewModel(List<Match> matches, Player player)
         {
             List<PerformancesViewModel> lpvm = new List<PerformancesViewModel>();
             SoloQServices sq = new SoloQServices();

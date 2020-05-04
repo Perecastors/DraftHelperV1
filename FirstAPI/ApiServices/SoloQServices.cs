@@ -41,7 +41,8 @@ namespace FirstAPI.ApiServices
             if (string.IsNullOrEmpty(json))
             {
                 int retry = 0;
-                while(retry < 4) { 
+                while (retry < 4)
+                {
                     try
                     {
                         using (WebClient wc = new WebClient())
@@ -53,10 +54,11 @@ namespace FirstAPI.ApiServices
                             dsq.SaveMatchInfos(json, gameId);
                             break;
                         }
-                    }catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         string e = ex.Message;
-                        if(e.ToLower().Contains("too many"))
+                        if (e.ToLower().Contains("too many"))
                         {
                             Thread.Sleep(2000);
                             retry++;
@@ -86,7 +88,7 @@ namespace FirstAPI.ApiServices
             foreach (var game in listMatch)
             {
                 MatchInfos matchInfos = GetMatchInfo(game.gameId.ToString());
-                if(nbGames % 20==0)
+                if (nbGames % 20 == 0)
                 {
                     Thread.Sleep(1000);
                 }
@@ -97,7 +99,7 @@ namespace FirstAPI.ApiServices
         }
 
         //timelanes = liste de frames ?? => apparament oui
-        public List<Frame> GetTimeLinesMatchInfos(string gameId= "4521496705")
+        public List<Frame> GetTimeLinesMatchInfos(string gameId = "4521496705")
         {
             //4521496705 => gameId exemple
             string json = "";
@@ -105,12 +107,39 @@ namespace FirstAPI.ApiServices
             json = dsq.GetTimelinesMatchInfos(gameId);
             if (string.IsNullOrEmpty(json))
             {
-                using (WebClient wc = new WebClient())
+                int retry = 0;
+                while (retry < 4)
                 {
-                    wc.Encoding = Encoding.UTF8;
-                    var url = ConfigurationManager.AppSettings["UrlTimelineMatch"] + gameId + "?&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
-                    json = wc.DownloadString(url);
-                    dsq.SaveTimelinesMatchInfos(json,gameId);
+                    try
+                    {
+                        using (WebClient wc = new WebClient())
+                        {
+                            wc.Encoding = Encoding.UTF8;
+                            var url = ConfigurationManager.AppSettings["UrlTimelineMatch"] + gameId + "?&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
+                            json = wc.DownloadString(url);
+                            Thread.Sleep(100);
+                            dsq.SaveTimelinesMatchInfos(json, gameId);
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string e = ex.Message;
+                        if (e.ToLower().Contains("too many"))
+                        {
+                            Thread.Sleep(2000);
+                            retry++;
+                        }
+                        if (e.ToLower().Contains("504"))
+                        {
+                            Thread.Sleep(2000);
+                            retry++;
+                        }
+                        if (retry == 3)
+                        {
+                            throw;
+                        }
+                    }
                 }
             }
             var obj = JObject.Parse(json);

@@ -35,19 +35,19 @@
                                 switch ((int)ViewBag.Role)
                                 {
                                     case 1:
-                                        Html.Partial("PerformanceStatTop", perf);
+                                        @Html.Partial("PerformanceStatTop", perf);
                                         break;
                                     case 2:
-                                        Html.Partial("PerformanceStatJungle", perf);
+                                        @Html.Partial("PerformanceStatJungle", perf);
                                         break;
                                     case 3:
-                                        Html.Partial("PerformanceStatMid", perf);
+                                        @Html.Partial("PerformanceStatMid", perf);
                                         break;
                                     case 4:
-                                        Html.Partial("PerformanceStatAdc", perf);
+                                        @Html.Partial("PerformanceStatAdc", perf);
                                         break;
                                     case 5:
-                                        Html.Partial("PerformanceStatSupport", perf);
+                                        @Html.Partial("PerformanceStatSupport", perf);
                                         break;
                                 }}
                         </td>
@@ -82,4 +82,29 @@
     .container {
         margin-left: 200px;
     }
+
+    /*************/
+
+    #tablePerf > thead > tr > th {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #tablePerf > td {
+        border: solid 1px #000;
+    }
+
+    .victory {
+        background-color: #d5ff80;
+    }
+
+    .defeat {
+        background-color: #ffae9d;
+    }
+
+    .timeline > td {
+        padding: 3px 10px;
+        width: 133px;
+    }
+
 </style>

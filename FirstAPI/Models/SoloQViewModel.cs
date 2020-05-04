@@ -165,12 +165,16 @@ namespace FirstAPI.Models
     {
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
+
+      
+
     }
 
     public class XpPerMinDeltasViewModel
     {
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
+
     }
 
     public class GoldPerMinDeltasViewModel
@@ -183,12 +187,22 @@ namespace FirstAPI.Models
     {
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
+
+        public double? fiveMin { get; set; }
+        public double? tenMin { get; set; }
+        public double? fifteenMin { get; set; }
+
     }
 
     public class XpDiffPerMinDeltasViewModel
     {
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
+
+        public Tuple<double?,int> fiveMin { get; set; }
+        public Tuple<double?, int> tenMin { get; set; }
+        public Tuple<double?, int> fifteenMin { get; set; }
+        
     }
 
     public class DamageTakenPerMinDeltasViewModel
