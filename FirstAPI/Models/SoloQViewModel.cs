@@ -151,6 +151,10 @@ namespace FirstAPI.Models
         public long timestamp { get; set; }
         public bool win { get; set; }
         public long gameId { get; set; }
+        public int spell1Id { get; set; }
+        public int spell2Id { get; set; }
+        public int opponentSpell1Id { get; set; }
+        public int opponentSpell2Id { get; set; }
         public CreepsPerMinDeltasViewModel creepsPerMinDeltas { get; set; }
         public XpDiffPerMinDeltasViewModel xpDiffPerMinDeltas { get; set; }
         public GoldPerMinDeltasViewModel goldPerMinDeltas { get; set; }
@@ -158,16 +162,14 @@ namespace FirstAPI.Models
         public DamageTakenDiffPerMinDeltasViewModel damageTakenDiffPerMinDeltas { get; set; }
         public DamageTakenPerMinDeltasViewModel damageTakenPerMinDeltas { get; set; }
         public XpPerMinDeltasViewModel XpPerMinDeltas { get; set; }
+        public DeathCountViewModel deathCount { get; set; }
 
     }
 
     public class CreepsPerMinDeltasViewModel
     {
         public double? firstPartTime { get; set; }
-        public double? secondPartTime { get; set; }
-
-      
-
+        public double? secondPartTime { get; set; }  
     }
 
     public class XpPerMinDeltasViewModel
@@ -215,6 +217,16 @@ namespace FirstAPI.Models
     {
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
+    }
+
+    public class DeathCountViewModel
+    {
+        public int? fiveMin { get; set; }
+        public int? tenMin { get; set; }
+        public int? fifteenMin { get; set; }
+        public int? twentyMin { get; set; }
+        public int? twentyFiveMin { get; set; }
+        public int? thirtyMin { get; set; }
     }
 
     public class FrameViewModel

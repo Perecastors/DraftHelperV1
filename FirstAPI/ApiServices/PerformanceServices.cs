@@ -23,6 +23,18 @@ namespace FirstAPI.ApiServices
             return participantId;
         }
 
+        public Participant GetParticipantById(MatchInfos matchInfos, int participantId)
+        {
+            var participant = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault();
+            return participant;
+        }
+
+        public Tuple<int,int> GetSummonerSpellsByParticipantId(MatchInfos matchInfos, int participantId)
+        {
+            var participant = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault();
+            return new Tuple<int, int>(participant.spell1Id, participant.spell2Id);
+        }
+
         public int GetPlayerTeam(MatchInfos matchInfos, Player player)
         {
             int participantId = GetParticipantId(matchInfos, player);

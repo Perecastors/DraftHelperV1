@@ -34,7 +34,7 @@ namespace FirstAPI.ApiServices
             return srole;
         }
 
-        public static string getChampionNameById(int championId)
+        public static string GetChampionNameById(int championId)
         {
             var dal = new DAL();
             return dal.getChampionNameById(championId);
@@ -49,6 +49,14 @@ namespace FirstAPI.ApiServices
             datetime = dt.ToString("g");
 
             return datetime;
+        }
+
+        public static string GetUrlSummonerImageByKey(int key)
+        {
+            var sq = new SoloQServices();
+            var spell = sq.GetSummonersByIdKey(key).Image.full;
+            return spell;
+            
         }
     }
 

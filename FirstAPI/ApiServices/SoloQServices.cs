@@ -149,13 +149,44 @@ namespace FirstAPI.ApiServices
             return timeline;
         }
 
+        public SummonerObject GetSummonersByIdKey(int key)
+        {
+            string json;
+            using (WebClient wc = new WebClient())
+            {
+                var url = ConfigurationManager.AppSettings["UrlSummoner"];
+                var stringJson = wc.DownloadString(url);
+                var obj = JObject.Parse(stringJson);
+                json = obj.SelectToken("data").ToString();
+            }
+            var summonerInfos = JsonConvert.DeserializeObject<SummonerInfoToObject>(json);
+            var summoner = ConvertSummonerObjectsToList(summonerInfos);
+            return summoner.Where(x => x.key == key.ToString()).FirstOrDefault();
+        }
+
+        private List<SummonerObject> ConvertSummonerObjectsToList(SummonerInfoToObject obj)
+        {
+            List<SummonerObject> list = new List<SummonerObject>();
+            list.Add(obj.SummonerBarrier);
+            list.Add(obj.SummonerBoost);
+            list.Add(obj.SummonerDot);
+            list.Add(obj.SummonerExhaust);
+            list.Add(obj.SummonerFlash);
+            list.Add(obj.SummonerHaste);
+            list.Add(obj.SummonerHeal);
+            list.Add(obj.SummonerSmite);
+            list.Add(obj.SummonerTeleport);
+
+            return list;
+        }
+
         public string GetNicknameByAccountId(string accountId)
         {
             string json = "";
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.UTF8;
-                var url = ConfigurationManager.AppSettings["UrlSummoner"] + accountId + "?api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
+                var url = ConfigurationManager.AppSettings["UrlSummonerAccount"] + accountId + "?api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
                 var stringJson = wc.DownloadString(url);
                 var obj = JObject.Parse(stringJson);
                 json = obj.ToString();

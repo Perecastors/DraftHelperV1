@@ -35,8 +35,11 @@ namespace FirstAPI.Models
             TimelineServices ts = new TimelineServices();
             SoloQServices sq = new SoloQServices();
             int participantId = ps.GetParticipantId(matchInfos, player);
+            var participant = ps.GetParticipantById(matchInfos, participantId);
+
             var opponent = ps.GetOpponentNameByOpponentId(matchInfos, player);
             var oppponentParticipantId = opponent.Item2;
+            var opponantParticipant = ps.GetParticipantById(matchInfos, oppponentParticipantId);
             var frames = sq.GetTimeLinesMatchInfos(matchInfos.gameId.ToString());
 
             var timeline = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault().timeline;
@@ -48,6 +51,13 @@ namespace FirstAPI.Models
             tvm.opponentName = opponent.Item1;
             tvm.timestamp = matchInfos.gameCreation;
             tvm.gameId = matchInfos.gameId;
+
+            var spell = ps.GetSummonerSpellsByParticipantId(matchInfos, participantId);
+            var opponentSpell = ps.GetSummonerSpellsByParticipantId(matchInfos, oppponentParticipantId);
+            tvm.spell1Id = spell.Item1;
+            tvm.spell2Id = spell.Item2;
+            tvm.opponentSpell1Id = opponentSpell.Item1;
+            tvm.opponentSpell2Id = opponentSpell.Item2;
 
             tvm.creepsPerMinDeltas = new CreepsPerMinDeltasViewModel();
             tvm.creepsPerMinDeltas.firstPartTime = timeline.creepsPerMinDeltas?.firstPartTime;
@@ -87,6 +97,14 @@ namespace FirstAPI.Models
             tvm.XpPerMinDeltas = new XpPerMinDeltasViewModel();
             tvm.XpPerMinDeltas.firstPartTime = timeline.XpPerMinDeltas?.firstPartTime;
             tvm.XpPerMinDeltas.secondPartTime = timeline.XpPerMinDeltas?.secondPartTime;
+
+            tvm.deathCount = new DeathCountViewModel();
+            tvm.deathCount.fiveMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 0, 5);
+            tvm.deathCount.tenMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 5, 10);
+            tvm.deathCount.fifteenMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 10, 15);
+            tvm.deathCount.twentyMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 15, 20);
+            tvm.deathCount.twentyFiveMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 20, 25);
+            //tvm.deathCount.thirtyMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 25, 30);
 
             tvm.lane = timeline.lane;
             tvm.role = timeline.role;

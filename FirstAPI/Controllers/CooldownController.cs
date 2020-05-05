@@ -1,4 +1,5 @@
-﻿using FirstAPI.DbContext;
+﻿using FirstAPI.ApiServices;
+using FirstAPI.DbContext;
 using FirstAPI.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -136,6 +137,7 @@ namespace FirstAPI.Controllers
             sivm.image = obj.SummonerSmite.Image.full;
             lsivm.Add(sivm);
 
+            // summoner TP : les données ne sont pas suffisantes dans le json pour calculer correctement les cooldown
             //sivm = new SummonerInfosViewModel();
             //sivm.cooldown = Decimal.Parse(obj.SummonerTeleport.cooldown[0]);
             //sivm.name = obj.SummonerTeleport.name;
@@ -176,37 +178,8 @@ namespace FirstAPI.Controllers
             public string sprite { get; set; }
         }
 
-        public class SummonerImage
-        {
-            private string _full;
-            public string full
-            {
-                get { return ConfigurationManager.AppSettings["UrlSpellChamp"] + _full; }
-                set { _full = value; }
-            }
-            public string sprite { get; set; }
-        }
+       
 
-        public class SummonerInfoToObject
-        {
-            public SummonerObject SummonerBarrier { get; set; }
-            public SummonerObject SummonerBoost { get; set; }//cleanse
-            public SummonerObject SummonerDot { get; set; }//ignite
-            public SummonerObject SummonerExhaust { get; set; }
-            public SummonerObject SummonerFlash { get; set; }
-            [JsonIgnore]
-            public SummonerObject SummonerTeleport { get; set; }
-            public SummonerObject SummonerSmite { get; set; }
-            public SummonerObject SummonerHeal { get; set; }
-            public SummonerObject SummonerHaste { get; set; }
-
-        }
-
-        public class SummonerObject
-        {
-            public string name { get; set; }
-            public string[] cooldown { get; set; }
-            public SummonerImage Image { get; set; }
-        }
+        
     }
 }
