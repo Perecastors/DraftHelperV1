@@ -31,8 +31,22 @@ namespace FirstAPI.ApiServices
 
         public Tuple<int,int> GetSummonerSpellsByParticipantId(MatchInfos matchInfos, int participantId)
         {
-            var participant = matchInfos.participants.Where(x => x.participantId == participantId).FirstOrDefault();
+            var participant = GetParticipantById(matchInfos, participantId);
             return new Tuple<int, int>(participant.spell1Id, participant.spell2Id);
+        }
+
+        public int GetPrimaryRune(MatchInfos matchInfos,int participantId)
+        {
+            var participant = GetParticipantById(matchInfos, participantId);
+            var primaryKey = participant.stats.perk0;
+            return primaryKey;
+        }
+
+        public int GetPrimaryStyleRune(MatchInfos matchInfos, int participantId)
+        {
+            var participant = GetParticipantById(matchInfos, participantId);
+            var primaryKeyStyle = participant.stats.perkPrimaryStyle;
+            return primaryKeyStyle;
         }
 
         public int GetPlayerTeam(MatchInfos matchInfos, Player player)

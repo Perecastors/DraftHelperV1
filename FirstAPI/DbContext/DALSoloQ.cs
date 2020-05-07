@@ -68,5 +68,35 @@ namespace FirstAPI.DbContext
             }
             return json;
         }
+
+        public void SaveRunesJson(string json,string patchVersion)
+        {
+            string firstFolderLocation = AppDomain.CurrentDomain.BaseDirectory + "SoloQFiles";
+            string secondFolderLocation = AppDomain.CurrentDomain.BaseDirectory + "SoloQFiles" + Path.DirectorySeparatorChar + "Runes";
+            string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "SoloQFiles" + Path.DirectorySeparatorChar + "Runes" + Path.DirectorySeparatorChar + patchVersion);
+            if (!Directory.Exists(firstFolderLocation))
+            {
+                Directory.CreateDirectory(firstFolderLocation);
+            }
+            if (!Directory.Exists(secondFolderLocation))
+            {
+                Directory.CreateDirectory(secondFolderLocation);
+            }
+            StreamWriter sw = new StreamWriter(location);
+            sw.WriteLine(json);
+            sw.Close();
+        }
+
+        public string GetRunesJson(string patchVersion)
+        {
+            string json = "";
+            string location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "SoloQFiles" + Path.DirectorySeparatorChar + "Runes" + Path.DirectorySeparatorChar + patchVersion);
+            if (File.Exists(location))
+            {
+                StreamReader sr = new StreamReader(location);
+                json = sr.ReadToEnd();
+            }
+            return json;
+        }
     }
 }

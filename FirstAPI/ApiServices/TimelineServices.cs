@@ -26,7 +26,7 @@ namespace FirstAPI.ApiServices
             return result;
         }
 
-        public Tuple<double?, int> getXpDiffByTimingMark(List<Frame> frames, int participantId, int opponentParticipantId, int timingMark)
+        public Tuple<double?, int,int> getXpDiffByTimingMark(List<Frame> frames, int participantId, int opponentParticipantId, int timingMark)
         {
             if (participantId == 0 || opponentParticipantId == 0)
                 return null;
@@ -41,7 +41,7 @@ namespace FirstAPI.ApiServices
             var participantLevel = participantFrame.level;
             var opposantParticipantLevel = opposantParticipantFrame.level;
 
-            var tuple = new Tuple<double?, int>(participantXp - opposantParticipantXp, participantLevel - opposantParticipantLevel);
+            var tuple = new Tuple<double?, int,int>(participantXp - opposantParticipantXp, participantLevel , opposantParticipantLevel);
 
             return tuple;
         }

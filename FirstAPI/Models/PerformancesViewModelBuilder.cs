@@ -59,6 +59,12 @@ namespace FirstAPI.Models
             tvm.opponentSpell1Id = opponentSpell.Item1;
             tvm.opponentSpell2Id = opponentSpell.Item2;
 
+            tvm.primaryKey = ps.GetPrimaryRune(matchInfos, participantId);
+            tvm.primaryKeyStyle = ps.GetPrimaryStyleRune(matchInfos, participantId);
+            tvm.opponentPrimaryKey = ps.GetPrimaryRune(matchInfos, oppponentParticipantId);
+            tvm.opponentPrimaryKeyStyle = ps.GetPrimaryStyleRune(matchInfos, oppponentParticipantId);
+
+            
             tvm.creepsPerMinDeltas = new CreepsPerMinDeltasViewModel();
             tvm.creepsPerMinDeltas.firstPartTime = timeline.creepsPerMinDeltas?.firstPartTime;
             tvm.creepsPerMinDeltas.secondPartTime = timeline.creepsPerMinDeltas?.secondPartTime;
@@ -72,6 +78,7 @@ namespace FirstAPI.Models
             tvm.csDiffPerMinDeltas.fiveMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 5);
             tvm.csDiffPerMinDeltas.tenMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 10);
             tvm.csDiffPerMinDeltas.fifteenMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 15);
+            tvm.csDiffPerMinDeltas.twentyMin = ts.getCsDiffByTimingMark(frames, participantId, oppponentParticipantId, 20);
 
             tvm.goldPerMinDeltas = new GoldPerMinDeltasViewModel();
             tvm.goldPerMinDeltas.firstPartTime = timeline.goldPerMinDeltas?.firstPartTime;
@@ -92,7 +99,7 @@ namespace FirstAPI.Models
             tvm.xpDiffPerMinDeltas.fiveMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 5);
             tvm.xpDiffPerMinDeltas.tenMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 10);
             tvm.xpDiffPerMinDeltas.fifteenMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 15);
-
+            tvm.xpDiffPerMinDeltas.twentyMin = ts.getXpDiffByTimingMark(frames, participantId, oppponentParticipantId, 20);
 
             tvm.XpPerMinDeltas = new XpPerMinDeltasViewModel();
             tvm.XpPerMinDeltas.firstPartTime = timeline.XpPerMinDeltas?.firstPartTime;

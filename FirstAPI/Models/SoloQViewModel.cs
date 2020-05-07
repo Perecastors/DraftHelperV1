@@ -155,6 +155,10 @@ namespace FirstAPI.Models
         public int spell2Id { get; set; }
         public int opponentSpell1Id { get; set; }
         public int opponentSpell2Id { get; set; }
+        public int primaryKey { get; set; }
+        public int primaryKeyStyle { get; set; }
+        public int opponentPrimaryKeyStyle { get; set; }
+        public int opponentPrimaryKey { get; set; }
         public CreepsPerMinDeltasViewModel creepsPerMinDeltas { get; set; }
         public XpDiffPerMinDeltasViewModel xpDiffPerMinDeltas { get; set; }
         public GoldPerMinDeltasViewModel goldPerMinDeltas { get; set; }
@@ -193,6 +197,7 @@ namespace FirstAPI.Models
         public double? fiveMin { get; set; }
         public double? tenMin { get; set; }
         public double? fifteenMin { get; set; }
+        public double? twentyMin { get; set; }
 
     }
 
@@ -201,10 +206,11 @@ namespace FirstAPI.Models
         public double? firstPartTime { get; set; }
         public double? secondPartTime { get; set; }
 
-        public Tuple<double?,int> fiveMin { get; set; }
-        public Tuple<double?, int> tenMin { get; set; }
-        public Tuple<double?, int> fifteenMin { get; set; }
-        
+        public Tuple<double?,int,int> fiveMin { get; set; }
+        public Tuple<double?, int, int> tenMin { get; set; }
+        public Tuple<double?, int, int> fifteenMin { get; set; }
+        public Tuple<double?, int, int> twentyMin { get; set; }
+
     }
 
     public class DamageTakenPerMinDeltasViewModel

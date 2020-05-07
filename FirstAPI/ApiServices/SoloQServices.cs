@@ -1,4 +1,5 @@
 ﻿using FirstAPI.DbContext;
+using FirstAPI.ApiServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -30,6 +31,29 @@ namespace FirstAPI.ApiServices
             }
             var matches = JsonConvert.DeserializeObject<List<Match>>(json);
             return matches;
+        }
+
+        public AllRunes GetRunes()
+        {
+            string json = "";
+            DALSoloQ dsq = new DALSoloQ();
+            json = dsq.GetRunesJson(ConfigurationManager.AppSettings["PatchVersion"]);
+            if (string.IsNullOrEmpty(json))
+            {
+                    using (WebClient wc = new WebClient())
+                    {
+                        wc.Encoding = Encoding.UTF8;
+                        var url = ConfigurationManager.AppSettings["UrlRunes"].Replace("[patchversion]", ConfigurationManager.AppSettings["PatchVersion"]);
+                        json = wc.DownloadString(url);
+                        Thread.Sleep(100);
+                        //dsq.SaveRunesJson(json, patchVersion);
+                    }
+            }
+            var obj = JArray.Parse(json);
+            json = obj.ToString();
+            var runes = JsonConvert.DeserializeObject<SlotsJson[]>(json);
+            var arunes = BuildAllRunes(runes);
+            return arunes;
         }
 
         public MatchInfos GetMatchInfo(string gameId)
@@ -222,6 +246,34 @@ namespace FirstAPI.ApiServices
             }
 
             return frames;
+        }
+
+        public AllRunes BuildAllRunes(SlotsJson[] slots)
+        {
+            AllRunes runes = new AllRunes();
+            runes.slots = new List<Slots>();
+            for (int i = 0; i < slots.Length; i++)
+            {
+                Slots slot = new Slots();
+                slot.id = slots[i].id;
+                slot.key = slots[i].key;
+                slot.runes = new List<Rune>();
+                for (int j = 0; j < slots[i].slots.Length; j++)
+                {
+                    
+                    for (int k = 0; k < slots[i].slots[j].runes.Length; k++)
+                    {
+                        Rune rune = new Rune();
+                        rune.icon = slots[i].slots[j].runes[k].icon;
+                        rune.id = slots[i].slots[j].runes[k].id;
+                        rune.key = slots[i].slots[j].runes[k].key;
+                        slot.runes.Add(rune);
+                    }
+                    
+                }
+                runes.slots.Add(slot);
+            }
+            return runes;
         }
     }
 

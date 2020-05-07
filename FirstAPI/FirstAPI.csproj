@@ -229,6 +229,7 @@
   <ItemGroup>
     <Compile Include="ApiServices\GlobalVar.cs" />
     <Compile Include="ApiServices\PerformanceServices.cs" />
+    <Compile Include="ApiServices\Runes.cs" />
     <Compile Include="ApiServices\Summoner.cs" />
     <Compile Include="ApiServices\TimelineServices.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Controllers\SoloQController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\WinratesController.cs" />
     <Compile Include="DbContext\ApiDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -365,6 +367,7 @@
     <Compile Include="Models\SoloQViewModelBuilder.cs" />
     <Compile Include="Models\SummonerInfosViewModel.cs" />
     <Compile Include="Models\ViewModelClasses.cs" />
+    <Compile Include="Models\WinratesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -516,6 +519,7 @@
     <Content Include="Views\Performances\PerformanceStatMid.cshtml" />
     <Content Include="Views\Performances\PerformanceStatAdc.cshtml" />
     <Content Include="Views\Performances\PerformanceStatSupport.cshtml" />
+    <Content Include="Views\Winrates\Winrates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

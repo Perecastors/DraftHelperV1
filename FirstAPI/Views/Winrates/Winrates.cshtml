@@ -1,0 +1,49 @@
+﻿@model FirstAPI.Models.WinratesViewModel
+
+@{
+    ViewBag.Title = "Winrates";
+}
+
+<br />
+<br />
+
+<p>
+    <strong>Total Number of games :</strong> @Model.totalGames
+</p>
+<br />
+
+<table class="table-bordered table-striped">
+    <thead class="text-center">
+        <tr>
+            <th style="width:150px;text-align:center"></th>
+            <th style="width:125px;text-align:center">Blue Side</th>
+            <th style="width:125px;text-align:center">Red Side</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        <tr>
+            <td style="font-weight:bold">Number of games </td>
+            <td>@Model.blueSide.totalGames</td>
+            <td>@Model.redSide.totalGames</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold">Win </td>
+            <td>@Model.blueSide.nbWin</td>
+            <td>@Model.redSide.nbWin</td>
+        </tr>
+        <tr >
+            <td style="font-weight:bold">Loss </td>
+            <td>@Model.blueSide.nbLoss</td>
+            <td>@Model.redSide.nbLoss</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold">Winrate </td>
+            <td>@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWin)*100 / (decimal)Model.blueSide.totalGames)) %</td>
+            <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWin)*100 / (decimal)Model.redSide.totalGames)) %</td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+   
+</style>

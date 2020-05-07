@@ -1,6 +1,7 @@
 ﻿using FirstAPI.DbContext;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -57,6 +58,16 @@ namespace FirstAPI.ApiServices
             var spell = sq.GetSummonersByIdKey(key).Image.full;
             return spell;
             
+        }
+
+        public static string GetUrlImgRune(int keyStyle,int keyRune)
+        {
+            var sq = new SoloQServices();
+            var allRune = sq.GetRunes();
+            var runeTree = allRune.slots.Where(x => x.id == keyStyle).FirstOrDefault();
+            var icon = runeTree.runes.Where(x => x.id == keyRune).FirstOrDefault().icon;
+            var url = ConfigurationManager.AppSettings["UrlImgRunes"] + icon;
+            return url;
         }
     }
 
