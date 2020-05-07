@@ -75,7 +75,7 @@
 
     function displayMatchDetails(matchInfos) {
         var str = "<div class='matchInfo'>";
-        str = str + "<img style='height:55px' src='@(ConfigurationManager.AppSettings["UrlImgChamp"])/" + getChampionNameByRiotId(matchInfos.myChampionId) + ".png'>";
+        str = str + "<img style='height:55px' src='@(ConfigurationManager.AppSettings["UrlImgChamp"])" + getChampionNameByRiotId(matchInfos.myChampionId) + ".png'>";
         str = str + "<span style='margin-left:15px'> " + matchInfos.gameCreation + " </span>";
         str = str + "<span style='margin-left:15px'> " + matchInfos.gameDuration + " </span>";
         str = str + "</div>";

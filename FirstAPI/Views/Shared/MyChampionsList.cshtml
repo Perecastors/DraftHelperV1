@@ -19,7 +19,7 @@
         i++;
         <text>
             <span class="imgChampion">
-                <img alt="@(item.ChampionName)" data-id="@(item.ChampionId)" id="img@(item.ChampionName)" style="height:48px;margin-bottom:2px;" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(item.ChampionName).png" />
+                <img alt="@(item.ChampionName)" data-id="@(item.ChampionId)" id="img@(item.ChampionName)" style="height:48px;margin-bottom:2px;" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())@(item.ChampionName).png" />
             </span>
         </text>
         if (i % 20 == 0)

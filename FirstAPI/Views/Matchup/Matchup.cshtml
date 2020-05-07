@@ -210,7 +210,7 @@
                 return state.text;
             }
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            var $state = $('<span><img style="height:25px" src="' + baseUrl  + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
             return $state;
         }
 
@@ -227,7 +227,7 @@
             var champName = $('#' + e.currentTarget.id).select2('data')[0].text;
             var targetId = "#display" + e.currentTarget.id
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<img id="Compo-'+ champName +'" style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
+            var $state = $('<img id="Compo-'+ champName +'" style="height:48px" src="' + baseUrl + champName + '.png"/>');
 
             if (champName !== "") {
                 $(targetId).html($state);
@@ -272,7 +272,7 @@
             var champName = $('#' + e.id).select2('data')[0].text;
             var targetId = "#display" + e.id
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<img style="height:48px" src="' + baseUrl + '/' + champName + '.png"/>');
+            var $state = $('<img style="height:48px" src="' + baseUrl  + champName + '.png"/>');
 
             if (champName !== "") {
                 $(targetId).html($state);
@@ -315,7 +315,7 @@
 
     function addAnswer(champId, champName) {
         var text = "<div class='myAnswers' id='myAnswerIs" + champName + "'>";
-        text = text + "<img alt='" + champName + "' style='height:48px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/"+ champName + ".png' />";
+        text = text + "<img alt='" + champName + "' style='height:48px;' src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())"+ champName + ".png' />";
         text = text + "<textarea id='textarea_"+champName+"' placeholder=' Add informations about the matchup' style='width:100%;height:100%;resize: none;margin-left:10px;'></textarea>";
         text = text + "<span style='float:right;cursor:pointer;' onclick='javascript:deleteAnswer(event)'><img style='height:25px' src='/Content/close-button.jpg' /></span>"
         text = text + "<input id='hidden_" + champName + "' type='hidden' value='" + champId + "'>";

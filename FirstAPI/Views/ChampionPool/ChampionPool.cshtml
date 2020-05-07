@@ -22,7 +22,7 @@
                 i++;
             <text>
                 <div class="containerTest">
-                    <img class="imgChamp" style="height:48px" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(item.ChampionName).png" />
+                    <img class="imgChamp" style="height:48px" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())@(item.ChampionName).png" />
                     <a href="@Url.Action("DeleteChampion","ChampionPool",new {championId=item.ChampionId,playerId = ViewBag.PlayerId },null)"><img class="deleteChampIcon" src="~/Content/erase.png" /></a>
                 </div>
             </text>

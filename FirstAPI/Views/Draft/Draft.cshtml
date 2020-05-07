@@ -282,7 +282,7 @@
                 return state.text;
             }
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<span><img style="height:25px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            var $state = $('<span><img style="height:25px" src="' + baseUrl + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
             return $state;
         }
 
@@ -375,7 +375,7 @@
     function buildAnswer(str,answers) {
         $.each(answers, function (i, answer) {
             //str = str + "<div >"
-            str = str + "<img style='margin:2px;height:38px;' alt='" + answer.ChampionName + "'  src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/" + answer.ChampionName + ".png' />";
+            str = str + "<img style='margin:2px;height:38px;' alt='" + answer.ChampionName + "'  src='@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())" + answer.ChampionName + ".png' />";
             //str = str + "</div>"
         })
         return str;

@@ -227,7 +227,7 @@
                 return state.text;
             }
             var baseUrl = "@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())";
-            var $state = $('<span><img style="height:20px" src="' + baseUrl + '/' + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
+            var $state = $('<span><img style="height:20px" src="' + baseUrl + state.element.text + '.png"/><strong>  ' + state.element.text + '</strong></span>');
             return $state;
         }
 

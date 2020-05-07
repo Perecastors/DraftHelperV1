@@ -23,7 +23,7 @@
         @foreach (FirstAPI.DbContext.Champion champion in ViewBag.MyChampionPool)
         {
             j++;
-            <img class="champPoolImg" alt="@(champion.ChampionName)" onclick="addToTaglist(event)" id="@champion.ChampionId" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())/@(champion.ChampionName).png" />
+            <img class="champPoolImg" alt="@(champion.ChampionName)" onclick="addToTaglist(event)" id="@champion.ChampionId" src="@(ConfigurationManager.AppSettings["UrlImgChamp"].ToLower())@(champion.ChampionName).png" />
             if (j % 25 == 0)
             {
                 @Html.Raw("</div></div><div class='row'><div class='col-md-12'>")
@@ -100,7 +100,7 @@
         var test = $(target);
         if (test[0] === undefined) {
             var str = "<div class='containerTest' id='" + tagId + "-" + championId + "'>";
-            str = str + "<img class='champTagImg'  src='@(ConfigurationManager.AppSettings["UrlImgChamp"])/" + championName + ".png'> ";
+            str = str + "<img class='champTagImg'  src='@(ConfigurationManager.AppSettings["UrlImgChamp"])" + championName + ".png'> ";
             str = str + '<a href="javascript:void(0)" onclick="javascript:removeImgToList(\'' + tagId + '\',\'' + championId + '\');"><img class="deleteChampIcon" src="/Content/erase.png" /></a>';
             $("#tag-" + tagId).append(str);
         }
