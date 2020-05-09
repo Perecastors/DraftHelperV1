@@ -9,11 +9,9 @@
             <th>Date</th>
             <th>K / D / A</th>
             <th>Nb Death (0-5)(5-10)(10-15)(15-20)(20+)</th>
-            @*<th> Cs diff 5min</th>*@
-            <th> Cs diff <br />10min</th>
-            <th> Cs diff <br />15min</th>
-            <th> Cs diff <br />20min</th>
-            @*<th> Xp(lvl) Diff 5min</th>*@
+            <th>Ward put (0-10)(10-15)(15-20) + every 2min</th>
+            <th>Pink put (0-10)(10-15)(15-20) + every 2min</th>
+            <th>Ward destroyed (0-10)(10-15)(15-20) + every 2min</th>
             <th> Xp(lvl) Diff <br />10min</th>
             <th> Xp(lvl) Diff <br />15min</th>
             <th> Xp(lvl) Diff <br />20min</th>
@@ -25,31 +23,35 @@
     <tbody>
         @foreach (var timeline in Model.timelines)
         {
-            <tr class="@(timeline.win ? "victory":"defeat") timeline">
-                <td>
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlImgRune(timeline.primaryKeyStyle,timeline.primaryKey))" />
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.spell1Id))" />
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.spell2Id))" />
-                </td>
-                <td>@(GlobalVar.ConvertTimestampToDatetime(timeline.timestamp))</td>
-                <td>@timeline.kills / @timeline.deaths / @timeline.assists</td>
-                <td>@timeline.deathCount.fiveMin/@timeline.deathCount.tenMin/@timeline.deathCount.fifteenMin/@timeline.deathCount.twentyMin/@timeline.deathCount.twentyFiveMin</td>
-                @*<td>@(String.Format("{0:0.##}",timeline.csDiffPerMinDeltas.fiveMin))</td>*@
-                <td>@(String.Format("{0:0.##}",timeline.csDiffPerMinDeltas.tenMin))</td>
-                <td>@(String.Format("{0:0.##}", timeline.csDiffPerMinDeltas.fifteenMin))</td>
-                <td>@(String.Format("{0:0.##}", timeline.csDiffPerMinDeltas.twentyMin))</td>
-                @*<td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.fiveMin.Item1))(@(timeline.xpDiffPerMinDeltas.fiveMin.Item2)-(@timeline.xpDiffPerMinDeltas.fiveMin.Item3)) </td>*@
-                <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.tenMin.Item1))(@(timeline.xpDiffPerMinDeltas.tenMin.Item2)-@timeline.xpDiffPerMinDeltas.tenMin.Item3) </td>
-                <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.fifteenMin.Item1))(@(timeline.xpDiffPerMinDeltas.fifteenMin.Item2)-@timeline.xpDiffPerMinDeltas.fifteenMin.Item3) </td>
-                <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.twentyMin.Item1))(@(timeline.xpDiffPerMinDeltas.twentyMin.Item2)-@timeline.xpDiffPerMinDeltas.twentyMin.Item3) </td>
-                <td>
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.opponentSpell1Id))" />
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.opponentSpell2Id))" />
-                    <img class="imgSummoner" src="@(GlobalVar.GetUrlImgRune(timeline.opponentPrimaryKeyStyle,timeline.opponentPrimaryKey))" />
-                </td>
-                <td style="display:none">@timeline.opponentName</td>
-                <td style="display:none">game id : @timeline.gameId</td>
-            </tr>
+        <tr class="@(timeline.win ? "victory":"defeat") timeline">
+            <td>
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlImgRune(timeline.primaryKeyStyle,timeline.primaryKey))" />
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.spell1Id))" />
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.spell2Id))" />
+            </td>
+            <td>@(GlobalVar.ConvertTimestampToDatetime(timeline.timestamp))</td>
+            <td>@timeline.kills / @timeline.deaths / @timeline.assists</td>
+            <td>@timeline.deathCount.fiveMin/@timeline.deathCount.tenMin/@timeline.deathCount.fifteenMin/@timeline.deathCount.twentyMin/@timeline.deathCount.twentyFiveMin</td>
+            <td>
+                @timeline.wardPutCount.tenMin/@timeline.wardPutCount.fifteenMin/@timeline.wardPutCount.twentyMin/@timeline.wardPutCount.twentyTwoMin/@timeline.wardPutCount.twentyFourMin/@timeline.wardPutCount.twentySixMin/@timeline.wardPutCount.twentyEightMin/@timeline.wardPutCount.thirtyrMin
+            </td>
+            <td>
+                @timeline.pinkPutCount.tenMin/@timeline.pinkPutCount.fifteenMin/@timeline.pinkPutCount.twentyMin/@timeline.pinkPutCount.twentyTwoMin/@timeline.pinkPutCount.twentyFourMin/@timeline.pinkPutCount.twentySixMin/@timeline.pinkPutCount.twentyEightMin/@timeline.pinkPutCount.thirtyrMin
+            </td>
+            <td>
+                @timeline.wardDestroyedCount.tenMin/@timeline.wardDestroyedCount.fifteenMin/@timeline.wardDestroyedCount.twentyMin/@timeline.wardDestroyedCount.twentyTwoMin/@timeline.wardDestroyedCount.twentyFourMin/@timeline.wardDestroyedCount.twentySixMin/@timeline.wardDestroyedCount.twentyEightMin/@timeline.wardDestroyedCount.thirtyrMin
+            </td>
+            <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.tenMin.Item1))(@(timeline.xpDiffPerMinDeltas.tenMin.Item2)-@timeline.xpDiffPerMinDeltas.tenMin.Item3) </td>
+            <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.fifteenMin.Item1))(@(timeline.xpDiffPerMinDeltas.fifteenMin.Item2)-@timeline.xpDiffPerMinDeltas.fifteenMin.Item3) </td>
+            <td>@(String.Format("{0:0.##}", timeline.xpDiffPerMinDeltas.twentyMin.Item1))(@(timeline.xpDiffPerMinDeltas.twentyMin.Item2)-@timeline.xpDiffPerMinDeltas.twentyMin.Item3) </td>
+            <td>
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.opponentSpell1Id))" />
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlSummonerImageByKey(timeline.opponentSpell2Id))" />
+                <img class="imgSummoner" src="@(GlobalVar.GetUrlImgRune(timeline.opponentPrimaryKeyStyle,timeline.opponentPrimaryKey))" />
+            </td>
+            <td style="display:none">@timeline.opponentName</td>
+            <td style="display:none">game id : @timeline.gameId</td>
+        </tr>
         }
     </tbody>
 </table>

@@ -110,8 +110,44 @@ namespace FirstAPI.Models
             tvm.deathCount.tenMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 5, 10);
             tvm.deathCount.fifteenMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 10, 15);
             tvm.deathCount.twentyMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 15, 20);
-            tvm.deathCount.twentyFiveMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 20, 25);
+            tvm.deathCount.twentyFiveMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 20, 0);
             //tvm.deathCount.thirtyMin = ts.GetNbDeathBetweenTimingMark(frames, participantId, 25, 30);
+
+            if (player.Role == 5)
+            {
+                tvm.wardDestroyedCount = new WardDestroyedCountViewModel();
+
+                tvm.wardDestroyedCount.tenMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 0, 10);
+                tvm.wardDestroyedCount.fifteenMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 10, 15);
+                tvm.wardDestroyedCount.twentyMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 15, 20);
+                tvm.wardDestroyedCount.twentyTwoMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 20, 22);
+                tvm.wardDestroyedCount.twentyFourMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 22, 24);
+                tvm.wardDestroyedCount.twentySixMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 24, 26);
+                tvm.wardDestroyedCount.twentyEightMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 26, 28);
+                tvm.wardDestroyedCount.thirtyrMin = ts.GetNbWardDestroyedBetweenTimingMark(frames, participantId, 28, 30);
+
+                tvm.wardPutCount = new WardPutCountViewModel();
+
+                tvm.wardPutCount.tenMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 0, 10);
+                tvm.wardPutCount.fifteenMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 10, 15);
+                tvm.wardPutCount.twentyMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 15, 20);
+                tvm.wardPutCount.twentyTwoMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 20, 22);
+                tvm.wardPutCount.twentyFourMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 22, 24);
+                tvm.wardPutCount.twentySixMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 24, 26);
+                tvm.wardPutCount.twentyEightMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 26, 28);
+                tvm.wardPutCount.thirtyrMin = ts.GetNbWardPutBetweenTimingMark(frames, participantId, 28, 30);
+
+                tvm.pinkPutCount = new PinkPutCountViewModel();
+                tvm.pinkPutCount.tenMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 0, 10);
+                tvm.pinkPutCount.fifteenMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 10, 15);
+                tvm.pinkPutCount.twentyMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 15, 20);
+                tvm.pinkPutCount.twentyTwoMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 20, 22);
+                tvm.pinkPutCount.twentyFourMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 22, 24);
+                tvm.pinkPutCount.twentySixMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 24, 26);
+                tvm.pinkPutCount.twentyEightMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 26, 28);
+                tvm.pinkPutCount.thirtyrMin = ts.GetNbPinkPutBetweenTimingMark(frames, participantId, 28, 30);
+
+            }
 
             tvm.lane = timeline.lane;
             tvm.role = timeline.role;

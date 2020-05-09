@@ -167,7 +167,46 @@ namespace FirstAPI.Models
         public DamageTakenPerMinDeltasViewModel damageTakenPerMinDeltas { get; set; }
         public XpPerMinDeltasViewModel XpPerMinDeltas { get; set; }
         public DeathCountViewModel deathCount { get; set; }
+        public WardPutCountViewModel wardPutCount { get; set; }
+        public PinkPutCountViewModel pinkPutCount { get; set; }
+        public WardDestroyedCountViewModel wardDestroyedCount { get; set; }
 
+    }
+
+    public class WardPutCountViewModel
+    {
+        public int? tenMin { get; set; }
+        public int? fifteenMin { get; set; }
+        public int? twentyMin { get; set; }
+        public int? twentyTwoMin { get; set; }
+        public int? twentyFourMin { get; set; }
+        public int? twentySixMin { get; set; }
+        public int? twentyEightMin { get; set; }
+        public int? thirtyrMin { get; set; }
+    }
+
+    public class PinkPutCountViewModel
+    {
+        public int? tenMin { get; set; }
+        public int? fifteenMin { get; set; }
+        public int? twentyMin { get; set; }
+        public int? twentyTwoMin { get; set; }
+        public int? twentyFourMin { get; set; }
+        public int? twentySixMin { get; set; }
+        public int? twentyEightMin { get; set; }
+        public int? thirtyrMin { get; set; }
+    }
+
+    public class WardDestroyedCountViewModel
+    {
+        public int? tenMin { get; set; }
+        public int? fifteenMin { get; set; }
+        public int? twentyMin { get; set; }
+        public int? twentyTwoMin { get; set; }
+        public int? twentyFourMin { get; set; }
+        public int? twentySixMin { get; set; }
+        public int? twentyEightMin { get; set; }
+        public int? thirtyrMin { get; set; }
     }
 
     public class CreepsPerMinDeltasViewModel

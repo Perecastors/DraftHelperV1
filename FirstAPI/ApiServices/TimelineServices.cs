@@ -71,7 +71,7 @@ namespace FirstAPI.ApiServices
                                     Math.Floor((decimal)x.timestamp / 1000) <= endTimingMark * 60
                                     ).ToList();
 
-            if(beginTimingMark >= 20)
+            if(beginTimingMark >= 20 && endTimingMark==0)
             {
                 lframes = frames.Where(x => Math.Floor((decimal)x.timestamp / 1000) > (beginTimingMark * 60)).ToList();
             }
@@ -103,5 +103,84 @@ namespace FirstAPI.ApiServices
             }
             return nbDeath;
         }
+
+        public int? GetNbWardPutBetweenTimingMark(List<Frame> frames,int participantId,int beginTimingMark,int endTimingMark)
+        {
+            int? nbWardPut = null;
+            List<List<Event>> levents = GetListFrameByTimingMark(frames, beginTimingMark, endTimingMark).Select(x => x.events).ToList();
+            if (levents != null && levents.Count() > 0)
+            {
+                if (nbWardPut == null)
+                {
+                    nbWardPut = 0;
+                }
+
+                foreach (var events in levents)
+                {
+                    var count = events.Where(x => x.type.ToLower() == "ward_placed" && x.wardType.ToLower() != "control_ward" && x.creatorId == participantId).Count();
+                    if (count > 0)
+                    {
+
+                        nbWardPut = nbWardPut + count;
+                    }
+                }
+
+            }
+
+            return nbWardPut;
+        }
+
+        public int? GetNbPinkPutBetweenTimingMark(List<Frame> frames, int participantId, int beginTimingMark, int endTimingMark)
+        {
+            int? nbWardPut = null;
+            List<List<Event>> levents = GetListFrameByTimingMark(frames, beginTimingMark, endTimingMark).Select(x => x.events).ToList();
+            if (levents != null && levents.Count() > 0)
+            {
+                if (nbWardPut == null)
+                {
+                    nbWardPut = 0;
+                }
+
+                foreach (var events in levents)
+                {
+                    var count = events.Where(x => x.type.ToLower() == "ward_placed" && x.wardType.ToLower() == "control_ward" && x.creatorId == participantId).Count();
+                    if (count > 0)
+                    {
+
+                        nbWardPut = nbWardPut + count;
+                    }
+                }
+
+            }
+
+            return nbWardPut;
+        }
+
+        public int? GetNbWardDestroyedBetweenTimingMark(List<Frame> frames, int participantId, int beginTimingMark, int endTimingMark)
+        {
+            int? nbWard = null;
+            List<List<Event>> levents = GetListFrameByTimingMark(frames, beginTimingMark, endTimingMark).Select(x => x.events).ToList();
+            if (levents != null && levents.Count() > 0)
+            {
+                if (nbWard == null)
+                {
+                    nbWard = 0;
+                }
+
+                foreach (var events in levents)
+                {
+                    var count = events.Where(x => x.type.ToLower() == "ward_kill" && x.killerId == participantId).Count();
+                    if (count > 0)
+                    {
+
+                        nbWard = nbWard + count;
+                    }
+                }
+
+            }
+
+            return nbWard;
+        }
+
     }
 }
