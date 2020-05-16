@@ -10,24 +10,6 @@ namespace FirstAPI.Models
     public class PerformancesViewModelBuilder
     {
 
-        private List<Match> GetListMatchByRole(List<Match> matches, Player player)
-        {
-            List<Match> games = new List<Match>();
-            string playerRole = GlobalVar.getRoleById(player.Role);
-            if (playerRole == "SUPPORT")
-            {
-                games = matches.Where(x => x.lane.ToUpper() == "BOTTOM").ToList();
-            }
-            else
-            {
-                games = matches.Where(x => x.lane.ToUpper() == playerRole).ToList();
-            }
-
-            return games;
-        }
-
-
-
         public TimelineViewModel BuildTimelineViewModel(MatchInfos matchInfos, Player player)
         {
             TimelineViewModel tvm = new TimelineViewModel();
@@ -164,7 +146,7 @@ namespace FirstAPI.Models
             SoloQServices sq = new SoloQServices();
             PerformanceServices ps = new PerformanceServices();
 
-            List<Match> games = GetListMatchByRole(matches, player).OrderByDescending(x => x.gameId).ToList();
+            List<Match> games = ps.GetListMatchByRole(matches, player).OrderByDescending(x => x.gameId).ToList();
             List<int> listChampions = games.Select(x => x.championId).Distinct().ToList();
             foreach (var championId in listChampions)
             {

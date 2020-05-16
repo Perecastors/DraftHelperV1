@@ -8,6 +8,23 @@ namespace FirstAPI.ApiServices
 {
     public class PerformanceServices
     {
+
+        public List<Match> GetListMatchByRole(List<Match> matches, Player player)
+        {
+            List<Match> games = new List<Match>();
+            string playerRole = GlobalVar.getRoleById(player.Role);
+            if (playerRole == "SUPPORT")
+            {
+                games = matches.Where(x => x.lane.ToUpper() == "BOTTOM").ToList();
+            }
+            else
+            {
+                games = matches.Where(x => x.lane.ToUpper() == playerRole).ToList();
+            }
+
+            return games;
+        }
+
         public bool DidPlayerWin(MatchInfos matchInfos, Player player)
         {
             int teamId = GetPlayerTeam(matchInfos, player);
@@ -54,6 +71,10 @@ namespace FirstAPI.ApiServices
             int participantId = GetParticipantId(matchInfos, player);
             int teamId = matchInfos.participants.Where(x => x.participantId == participantId).Select(x => x.teamId).FirstOrDefault();
             return teamId;
+        }
+
+        public void GetDraftPositionPick(MatchInfos matchInfos,Player player)
+        {
         }
 
         public Tuple<string,int> GetOpponentNameByOpponentId(MatchInfos matchInfos, Player player)
