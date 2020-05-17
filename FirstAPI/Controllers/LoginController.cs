@@ -12,7 +12,8 @@ namespace FirstAPI.Controllers
     {
         public ActionResult Login()
         {
-            return View();
+            Player player = new Player();
+            return View(player);
         }
         
         [HttpPost]

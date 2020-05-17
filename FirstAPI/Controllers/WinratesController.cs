@@ -17,7 +17,8 @@ namespace FirstAPI.Controllers
         // GET: Winrates
         public ActionResult Winrates()
         {
-            return View();
+            FormWinrateViewModel wrm = new FormWinrateViewModel();
+            return View(wrm);
         }
 
         [HttpPost]
