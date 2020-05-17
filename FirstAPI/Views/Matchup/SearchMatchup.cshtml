@@ -337,11 +337,12 @@
             data: objs,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
-        }).complete(function (data) {
+        }).always(function (data) {
             //$('#searchResults').html(data.responseText);
-            var matchupId = data.responseJSON
-            if (data.responseJSON !== undefined) {
-                var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
+            console.log(data);
+            var matchupId = data
+            if (data !== undefined) {
+                var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data;
                 window.open(url, "_self");
             }
         })
@@ -443,7 +444,7 @@
                 data: objs,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
-            }).complete(function (data) {
+            }).always(function (data) {
                 $("#searchResults").show();
                 $(".loaderC").hide();
                 $('#searchResults').html(data.responseText);
@@ -475,7 +476,8 @@
                 data: { championId: bestAnswers },
                 //contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
-            }).complete(function (data) {
+            }).done(function (data) {
+                console.log("data");
                 $("#searchResults").show();
                 $(".loaderC").hide();
                 $('#searchResults').html(data.responseText);

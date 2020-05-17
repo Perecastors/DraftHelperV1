@@ -14,6 +14,7 @@ namespace FirstAPI.Models
         public Side blueSide { get; set; }
         public Side redSide { get; set; }
         public string role { get; set; }
+        public string nickname { get; set; }
 
         public class Side
         {

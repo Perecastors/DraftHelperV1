@@ -9,73 +9,81 @@ namespace FirstAPI.Models
 {
     public class WinratesViewModelBuilder
     {
-        public WinratesViewModel BuildWinratesViewModel(int nbGames,Player player)
+        public WinratesViewModel BuildWinratesViewModel(int nbGames, Player player)
         {
             SoloQServices sq = new SoloQServices();
-            
+            WinratesViewModel wrm=null;
             var ps = new PerformanceServices();
             var matches = sq.GetSoloQHistories(player.AccountId, nbGames);
-            if (player.Role != 0)
+
+            if (matches != null)
             {
-                matches = ps.GetListMatchByRole(matches, player);
-            }
-            WinratesViewModel wrm = new WinratesViewModel();
-            wrm.blueSide = new WinratesViewModel.Side();
-            wrm.redSide = new WinratesViewModel.Side();
-            wrm.totalGames = nbGames;
-            wrm.role = GlobalVar.getRoleById(player.Role);
-
-            foreach (var match in matches)
-            {
-                
-                var matchInfos = sq.GetMatchInfo(match.gameId.ToString());
-                //savoir dans quel side il était et si il a win
-                var team = ps.GetPlayerTeam(matchInfos, player);
-                var isWin = matchInfos.teams.Where(x => x.teamId == team).FirstOrDefault().win;
-                bool isBlueSideWin = false;
-                if (team == 100)
+                if (player.Role != 0)
                 {
-                    if (isWin.ToLower() == "win")
-                    {
-                        wrm.blueSide.totalGames++;
-                        wrm.blueSide.nbWin++;
-                        wrm.totalGamesOnlyMainRole++;
-                        isBlueSideWin = true;
-                    }
-                    else if (isWin.ToLower() == "fail")
-                    {
-                        wrm.blueSide.totalGames++;
-                        wrm.blueSide.nbLoss++;
-                        wrm.totalGamesOnlyMainRole++;
-                    }
-
+                    matches = ps.GetListMatchByRole(matches, player);
                 }
-                else if (team == 200)
+                wrm = new WinratesViewModel();
+                wrm.nickname = player.Nickname;
+                wrm.blueSide = new WinratesViewModel.Side();
+                wrm.redSide = new WinratesViewModel.Side();
+                wrm.totalGames = nbGames;
+                wrm.role = GlobalVar.getRoleById(player.Role);
+
+                foreach (var match in matches)
                 {
-                    if (isWin.ToLower() == "win")
+
+                    var matchInfos = sq.GetMatchInfo(match.gameId.ToString());
+                    //savoir dans quel side il était et si il a win
+                    var team = ps.GetPlayerTeam(matchInfos, player);
+                    var isWin = matchInfos.teams.Where(x => x.teamId == team).FirstOrDefault()?.win;
+                    bool isBlueSideWin = false;
+                    if (team == 100)
                     {
-                        wrm.redSide.totalGames++;
-                        wrm.redSide.nbWin++;
-                        wrm.totalGamesOnlyMainRole++;
+                        if (isWin.ToLower() == "win")
+                        {
+                            wrm.blueSide.totalGames++;
+                            wrm.blueSide.nbWin++;
+                            wrm.totalGamesOnlyMainRole++;
+                            isBlueSideWin = true;
+                        }
+                        else if (isWin.ToLower() == "fail")
+                        {
+                            wrm.blueSide.totalGames++;
+                            wrm.blueSide.nbLoss++;
+                            wrm.totalGamesOnlyMainRole++;
+                        }
+
                     }
-                    else if (isWin.ToLower() == "fail")
+                    else if (team == 200)
                     {
-                        wrm.redSide.totalGames++;
-                        wrm.redSide.nbLoss++;
-                        wrm.totalGamesOnlyMainRole++;
-                        isBlueSideWin = true;
+                        if (isWin.ToLower() == "win")
+                        {
+                            wrm.redSide.totalGames++;
+                            wrm.redSide.nbWin++;
+                            wrm.totalGamesOnlyMainRole++;
+                        }
+                        else if (isWin.ToLower() == "fail")
+                        {
+                            wrm.redSide.totalGames++;
+                            wrm.redSide.nbLoss++;
+                            wrm.totalGamesOnlyMainRole++;
+                            isBlueSideWin = true;
+                        }
+                    }
+                    int participantId = ps.GetParticipantId(matchInfos, player);
+                    if (participantId != 0)
+                    {
+                        CalculateDraftPosition(wrm, matchInfos, participantId, isBlueSideWin);
                     }
                 }
-                int participantId = ps.GetParticipantId(matchInfos, player);
-                CalculateDraftPosition(wrm, matchInfos, participantId,isBlueSideWin);
-
             }
+
             return wrm;
         }
 
-        public void CalculateDraftPosition(WinratesViewModel wrm,MatchInfos match, int participantId,bool isBlueSideWin)
+        public void CalculateDraftPosition(WinratesViewModel wrm, MatchInfos match, int participantId, bool isBlueSideWin)
         {
-            
+
             switch (participantId)
             {
                 case 1:

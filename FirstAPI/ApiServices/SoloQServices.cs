@@ -60,14 +60,21 @@ namespace FirstAPI.ApiServices
             //"https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/@(Model.AccountId)?endIndex=" + nbGames + "&queue=420&api_key=@(ConfigurationManager.AppSettings["ApiRiotKey"])"
 
             string json = "";
-            using (WebClient wc = new WebClient())
+            try
             {
-                wc.Encoding = Encoding.UTF8;
-                var url = ConfigurationManager.AppSettings["UrlMatchlist"] + accountId + "?queue=420&endIndex=" + nbGamesToGet + "&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
-                var stringJson = wc.DownloadString(url);
-                var obj = JObject.Parse(stringJson);
-                json = obj.SelectToken("matches").ToString();
+                using (WebClient wc = new WebClient())
+                {
+                    wc.Encoding = Encoding.UTF8;
+                    var url = ConfigurationManager.AppSettings["UrlMatchlist"] + accountId + "?queue=420&endIndex=" + nbGamesToGet + "&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"];
+                    var stringJson = wc.DownloadString(url);
+                    var obj = JObject.Parse(stringJson);
+                    json = obj.SelectToken("matches").ToString();
+                }
             }
+            catch (Exception e)
+            {
+            }
+            
             var matches = JsonConvert.DeserializeObject<List<Match>>(json);
             return matches;
         }

@@ -14,6 +14,9 @@ namespace FirstAPI.ApiServices
             string srole="";
             switch (role)
             {
+                case 0:
+                    srole = "all roles";
+                    break;
                 case 1:
                     srole="TOP";
                     break;
