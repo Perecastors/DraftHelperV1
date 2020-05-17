@@ -1,4 +1,4 @@
-﻿@model FirstAPI.Models.WinratesViewModel
+﻿@model FirstAPI.Models.FormWinrateViewModel
 
 @{
     ViewBag.Title = "Winrates";
@@ -6,179 +6,28 @@
 
 <br />
 <br />
+<div id="formset">
+    @using (Ajax.BeginForm("Winrates", "Winrates", new AjaxOptions { UpdateTargetId = "winrateResult", LoadingElementId = "loader", InsertionMode = InsertionMode.Replace, HttpMethod = "Post", OnBegin = "function(){ return false; }" }))
+    {
+        @Html.AntiForgeryToken()
+        <span>Nickname:</span>
+        @Html.TextBoxFor(x => x.nickname)
+        <span>Number of games:</span> @Html.TextBoxFor(x => x.nbGames, new { @type = "number" })
+        <input type="submit" value="Get Results"   />
 
-<p>
-    <strong>Total Number of games scanned:</strong> @Model.totalGames
-    <br />
-    <strong>Total Number of games as @Model.role.ToLower() :</strong> @Model.totalGamesOnlyMainRole
-</p>
-<br />
+        <br />
+        <br />
+        <div id="loader" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
 
-<table class="table-bordered table-striped">
-    <thead class="text-center">
-        <tr>
-            <th style="width:150px;text-align:center"></th>
-            <th style="width:125px;text-align:center">Blue Side</th>
-            <th style="width:125px;text-align:center">Red Side</th>
-        </tr>
-    </thead>
-    <tbody class="text-center">
-        <tr>
-            <td style="font-weight:bold">Number of games </td>
-            <td>@Model.blueSide.totalGames</td>
-            <td>@Model.redSide.totalGames</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold">Win </td>
-            <td>@Model.blueSide.nbWin</td>
-            <td>@Model.redSide.nbWin</td>
-        </tr>
-        <tr >
-            <td style="font-weight:bold">Loss </td>
-            <td>@Model.blueSide.nbLoss</td>
-            <td>@Model.redSide.nbLoss</td>
-        </tr>
-        <tr>
-            <td style="font-weight:bold">Winrate </td>
-            <td>@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWin)*100 / (decimal)Model.blueSide.totalGames)) %</td>
-            <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWin)*100 / (decimal)Model.redSide.totalGames)) %</td>
-        </tr>
-    </tbody>
-</table>
-
-<br />
-<div id="pickSideWinrate">
-    <div class="tableSide">
-        <table class="table-bordered table-striped">
-            <thead class="text-center">
-                <tr>
-                    <th style="width:150px;text-align:center">Blue Side</th>
-                    <th style="width:125px;text-align:center">Total games (Total Win)</th>
-                    <th style="width:125px;text-align:center">Winrate</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td>Position Pick 1</td>
-                    <td>@Model.blueSide.nbPick1 (@(Model.blueSide.nbWinPick1))</td>
-                    @if (@Model.blueSide.nbPick1 > 0)
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick1) *100 / (decimal)Model.blueSide.nbPick1)) %</td>
-                    }
-                    else
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick1) *100 / 1)) %</td>
-                    }
-
-                </tr>
-                <tr>
-                    <td>Position Pick 2</td>
-                    <td>@Model.blueSide.nbPick2 (@(Model.blueSide.nbWinPick2))</td>
-                    @if (@Model.blueSide.nbPick2 > 0)
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick2+ Model.blueSide.nbWinPick3) *100 / ((decimal)Model.blueSide.nbPick2)+ Model.blueSide.nbPick3)) %</td>
-                    }
-                    else
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick2+ Model.blueSide.nbWinPick3) *100 / 1)) %</td>
-                    }
-                </tr>
-                <tr>
-                    <td>Position Pick 3</td>
-                    <td>@Model.blueSide.nbPick3 (@(Model.blueSide.nbWinPick3))</td>
-                  
-                </tr>
-                <tr>
-                    <td>Position Pick 4</td>
-                    <td>@Model.blueSide.nbPick4 (@(Model.blueSide.nbWinPick4))</td>
-                    @if (@Model.blueSide.nbPick4 > 0 || Model.blueSide.nbPick5 > 0)
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick4+ Model.blueSide.nbWinPick5) *100 / ((decimal)Model.blueSide.nbPick4+ Model.blueSide.nbPick5))) %</td>
-                    }
-                    else
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.blueSide.nbWinPick4+ Model.blueSide.nbWinPick5) *100 / 1)) %</td>
-                    }
-                </tr>
-                <tr>
-                    <td>Position Pick 5</td>
-                    <td>@Model.blueSide.nbPick5 (@(Model.blueSide.nbWinPick5))</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="tableSide">
-        <table class="table-bordered table-striped">
-            <thead class="text-center">
-                <tr>
-                    <th style="width:150px;text-align:center">Red Side</th>
-                    <th style="width:125px;text-align:center">Total games (Total Win)</th>
-                    <th style="width:125px;text-align:center">Winrate</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td>Position Pick 1</td>
-                    <td>@Model.redSide.nbPick6 (@(Model.redSide.nbWinPick6))</td>
-                    @if (Model.redSide.nbPick6 > 0 || Model.redSide.nbPick7 > 0)
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick6 + Model.redSide.nbWinPick7) *100 / ((decimal)Model.redSide.nbPick6 + Model.redSide.nbPick7))) %</td>
-                    }
-                    else
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick6 + Model.redSide.nbWinPick7) *100 / 1)) %</td>
-                    }
-                </tr>
-                <tr>
-                    <td>Position Pick 2</td>
-                    <td>@Model.redSide.nbPick7 (@(Model.redSide.nbWinPick7))</td>
-                </tr>
-                <tr>
-                    <td>Position Pick 3</td>
-                    <td>@Model.redSide.nbPick8 (@(Model.redSide.nbWinPick8)) </td>
-                    @if (@Model.redSide.nbPick8 > 0 || Model.redSide.nbPick9 > 0)
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick8+Model.redSide.nbWinPick9) *100 / ((decimal)Model.redSide.nbPick8+ Model.redSide.nbPick9))) %</td>
-                    }
-                    else
-                    {
-                        <td rowspan="2">@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick8 + Model.redSide.nbWinPick9) *100 / 1)) %</td>
-                    }
-                </tr>
-                <tr>
-                    <td>Position Pick 4</td>
-                    <td>@Model.redSide.nbPick9 (@(Model.redSide.nbWinPick9))</td>
-                    @if (@Model.redSide.nbPick9 > 0)
-                    {
-                        
-                    }
-                    else
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick9) *100 / 1)) %</td>
-                    }
-                </tr>
-                <tr>
-                    <td>Position Pick 5</td>
-                    <td>@Model.redSide.nbPick10 (@(Model.redSide.nbWinPick10))</td>
-                    @if (@Model.redSide.nbPick10 > 0)
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick10) *100 / (decimal)Model.redSide.nbPick10)) %</td>
-                    }
-                    else
-                    {
-                        <td>@(String.Format("{0:0.##}",((decimal)Model.redSide.nbWinPick10) *100 / 1)) %</td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<style>
-   #pickSideWinrate{
-       display:flex;
-   }
-
-    .tableSide {
-        margin: 10px 10px;
     }
-</style>
+</div>
+
+<div id="winrateResult">tata</div>
+<script type="text/javascript">
+    function SubmitForm() {
+        console.log("submit");
+        return false;
+    }
+</script>

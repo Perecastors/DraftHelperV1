@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -42,5 +43,13 @@ namespace FirstAPI.Models
             public int nbWinPick10 { get; set; }
         }
 
+    }
+
+    public class FormWinrateViewModel
+    {
+        [Required]
+        public string nickname { get; set; }
+        [Required]
+        public int nbGames { get; set; }
     }
 }

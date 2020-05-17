@@ -15,6 +15,45 @@ namespace FirstAPI.ApiServices
 {
     public class SoloQServices
     {
+        public Player getPlayerAccount(string name)
+        {
+            //https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/perecastors?api_key=RGAPI-3198e533-71d3-4f2f-9dac-74bbd6459e73
+            string json="";
+            Account account = null;
+            Player player = null;
+            try
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    var url = ConfigurationManager.AppSettings["UrlAccount"] + name + "?&api_key=" + ConfigurationManager.AppSettings["ApiRiotKey"]; ;
+                    var stringJson = wc.DownloadString(url);
+                    var obj = JObject.Parse(stringJson);
+                    json = obj.ToString();
+                    account = JsonConvert.DeserializeObject<Account>(json);
+                }
+            }
+            catch (Exception)
+            {
+            }
+            
+            if(account != null)
+            {
+                player = ConvertAccountToPlayer(account);
+            }
+            return player;
+        }
+
+        private Player ConvertAccountToPlayer(Account account)
+        {
+            Player player = new Player();
+            player.PlayerId = Guid.NewGuid();
+            player.Nickname = account.name;
+            player.AccountId = account.accountId;
+            player.Role = 0;
+
+            return player;
+        }
+
         public List<Match> GetSoloQHistories(string accountId, int nbGamesToGet)
         {
             // omW_BRFWmEMp-FxJWq6Cd9wim2Ldlaqx8AFdeL5B0OFRhg => accountId de perecastors

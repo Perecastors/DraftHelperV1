@@ -227,6 +227,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiServices\Account.cs" />
     <Compile Include="ApiServices\GlobalVar.cs" />
     <Compile Include="ApiServices\PerformanceServices.cs" />
     <Compile Include="ApiServices\Runes.cs" />
@@ -521,6 +522,7 @@
     <Content Include="Views\Performances\PerformanceStatAdc.cshtml" />
     <Content Include="Views\Performances\PerformanceStatSupport.cshtml" />
     <Content Include="Views\Winrates\Winrates.cshtml" />
+    <Content Include="Views\Winrates\WinratesResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

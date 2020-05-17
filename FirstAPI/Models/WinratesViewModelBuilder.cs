@@ -9,14 +9,16 @@ namespace FirstAPI.Models
 {
     public class WinratesViewModelBuilder
     {
-        public WinratesViewModel BuildWinratesViewModel(int nbGames,Guid playerId)
+        public WinratesViewModel BuildWinratesViewModel(int nbGames,Player player)
         {
             SoloQServices sq = new SoloQServices();
-            var dal = new DAL();
-            var player = dal.getPlayerById(playerId);
+            
             var ps = new PerformanceServices();
             var matches = sq.GetSoloQHistories(player.AccountId, nbGames);
-            matches = ps.GetListMatchByRole(matches, player);
+            if (player.Role != 0)
+            {
+                matches = ps.GetListMatchByRole(matches, player);
+            }
             WinratesViewModel wrm = new WinratesViewModel();
             wrm.blueSide = new WinratesViewModel.Side();
             wrm.redSide = new WinratesViewModel.Side();
