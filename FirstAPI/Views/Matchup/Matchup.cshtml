@@ -382,7 +382,7 @@
             data: objs,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
-        }).complete(function (data) {
+        }).always(function (data) {
             alert("matchup saved");
             window.open('@(Url.Action("SearchMatchup",null, new { controller = "Matchup" ,playerId=ViewBag.playerId }, Request.Url.Scheme))', "_self")
         });

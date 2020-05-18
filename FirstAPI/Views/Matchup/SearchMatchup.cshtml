@@ -280,9 +280,8 @@
                 url: '@(Url.Action("DeleteMatchup",null, new { controller = "Matchup" }, Request.Url.Scheme))',
                 data: JSON.stringify({ matchupId: matchupId, matchupResponseId: matchupResponseId }),
                 contentType: 'application/json; charset=utf-8',
-                success: function (e) { window.location.reload() },
                 dataType: 'json'
-            });
+            }).always(function (e) { window.location.reload() })
         }
     }
 
@@ -382,7 +381,7 @@
         var arrayAnswers = $(".automaticAnswers");
         for (var i = 0; i < arrayAnswers.length; i++) {
             var answer = new Object();
-            console.log()
+            
             answer.ChampionId = arrayAnswers[i].id;
             objA.Answers.push(answer);
         }
@@ -395,8 +394,9 @@
             data: objs,
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
-        }).complete(function (data) {
+        }).always(function (data) {
             //$('#searchResults').html(data.responseText);
+            console.log(data);
             var matchupId = data.responseJSON
             if (data.responseJSON !== undefined) {
                 var url = '@(Url.Action("CustomMatchup", null, new { controller = "Matchup", playerId= ViewBag.PlayerId }, Request.Url.Scheme))?matchupId=' + data.responseJSON;
@@ -466,7 +466,7 @@
         $(".loaderC").show();
         //recup value des dropdown
         var bestAnswers = $("#BestAnswers").val();
-        
+
         console.log(bestAnswers);
         //Creation object to post
         setTimeout(function () {
@@ -476,7 +476,7 @@
                 data: { championId: bestAnswers },
                 //contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
-            }).done(function (data) {
+            }).always(function (data) {
                 console.log("data");
                 $("#searchResults").show();
                 $(".loaderC").hide();

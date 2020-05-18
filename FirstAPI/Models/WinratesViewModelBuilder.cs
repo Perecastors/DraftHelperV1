@@ -14,7 +14,7 @@ namespace FirstAPI.Models
             SoloQServices sq = new SoloQServices();
             WinratesViewModel wrm=null;
             var ps = new PerformanceServices();
-            var matches = sq.GetSoloQHistories(player.AccountId, nbGames);
+            var matches = sq.GetSoloQHistories(player.AccountId, nbGames).OrderByDescending(x => x.timestamp).ToList();
 
             if (matches != null)
             {
